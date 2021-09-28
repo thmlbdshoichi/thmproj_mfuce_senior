@@ -1,0 +1,11 @@
+{
+  "name": "thmproj_mfuce_senior",
+  "template": "Nuxt.js",
+  "modules": [],
+  "renderingMode": "spa",
+  "deployTarget": "server",
+  "isConfigured": {
+    "client": false,
+    "server": false
+  }
+}
