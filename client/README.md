@@ -1,3 +1,5 @@
-# Nuxt.js starter template
+# สิ่งที่ แอคชั่น - น้ำ ควรจะทำ
 
-[MEVN-CLI](https://github.com/madlabsinc/mevn-cli)
+##### 0. ตรวจสอบว่าได้ตั้งชื่อไฟล์ .vue ใน Components, Pages, Layout บลาๆ เหมาะสมแล้วและงานผสมรวมกันลงตัวเรียบร้อย
+##### 1. ทำการโอนย้ายไฟล์ .vue ที่เกี่ยวข้องลงไปในแต่ละโฟลเดอร์ให้ถูกต้อง
+##### 2. Push ไฟล์ขึ้น github repository 
