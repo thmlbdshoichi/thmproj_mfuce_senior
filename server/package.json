@@ -4,8 +4,8 @@
   "description": "Express.js template",
   "main": "server.js",
   "scripts": {
-    "dev": "node server.js",
-    "serve": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "serve": "node server.js",
     "format": "prettier server.js **/*.js --write"
   },
   "license": "ISC",

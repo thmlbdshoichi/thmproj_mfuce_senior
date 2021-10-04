@@ -23,7 +23,7 @@ app.use(express.static(__dirname + '/views/'));
 app.use('/api', require('./routes/api'));
 
 // Listening to port
-app.listen(port);
-console.log(`Listening On http://localhost:${port}/api`);
+app.listen(port, () => console.log(`Initialize Server on PORT: ${port},
+Use: http://localhost:${port} to access Backend Part`));
 
 module.exports = app;
