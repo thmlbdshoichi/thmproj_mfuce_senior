@@ -1,19 +1,20 @@
 // Importing required modules
 const cors = require('cors');
 const express = require('express');
-
+// Importing middlewares
+const logger = require('./middleware/logger');
 // parse env variables
 require('dotenv').config();
 
 // Configuring port
 const port = process.env.PORT || 9000;
-
 const app = express();
 
 // Configure middlewares
 app.use(cors());
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: false }));
+app.use(logger);
 app.set('view engine', 'html');
 
 // Static folder
