@@ -8,9 +8,11 @@ const userSchema = mongoose.Schema(
         name: { type: String, required: true },
         role: { type: String, default: 'Observer', required: true },
         resDiv: [{ type: Number }],
-        tel: { type: Number },
+        tel: { type: String },
     },
     {
         timestamps: true,
     }
 );
+
+module.exports = mongoose.model('Users', userSchema);

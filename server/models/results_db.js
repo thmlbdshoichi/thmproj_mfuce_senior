@@ -13,3 +13,5 @@ const resultSchema = mongoose.Schema(
         strict: false,
     }
 );
+
+module.exports = mongoose.model('Results', resultSchema);
