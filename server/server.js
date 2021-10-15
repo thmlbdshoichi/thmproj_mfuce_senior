@@ -33,6 +33,8 @@ app.use(express.static(__dirname + '/views/'));
 
 // Defining route middleware
 app.use('/api/users', require('./routes/api/users_route'));
+app.use('/api/divs', require('./routes/api/divs_route'));
+app.use('/api/questions', require('./routes/api/questions_route'))
 
 // Listening to port
 app.listen(port, () => console.log(`Initialize Server on PORT: ${port},

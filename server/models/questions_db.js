@@ -3,14 +3,15 @@ const mongoose = require('mongoose');
 const questionSchema = mongoose.Schema(
     {
         _id: { type: mongoose.Schema.Types.ObjectId },
-        qID: { type: Number, required: true },
+        qSequence: { type: Number, required: true },
+        qName: { type: String, required: true },
         divTag: { type: Number, required: true },
-        divName: { type: String, required: true },
-        tel: { type: Number },
     },
     {
         timestamps: true,
     }
 );
 
-module.exports = mongoose.model('Question', questionSchema);
+questionSchema.index({ qSequence: 1,divTag: 1 }, { unique: true });
+
+module.exports = mongoose.model('Questions', questionSchema);
