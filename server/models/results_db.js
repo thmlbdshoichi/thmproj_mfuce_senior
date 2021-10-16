@@ -5,7 +5,7 @@ const resultSchema = mongoose.Schema(
         _id: { type: mongoose.Schema.Types.ObjectId },
         divTag: { type: Number, required: true },
         divName: { type: String, required: true },
-        evaluate_score = [ { type: Number } ], 
+        evaluate_score : [{type: Number}], 
         comment: { type: String },
     },
     {
@@ -14,4 +14,4 @@ const resultSchema = mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('Results', resultSchema);
+module.exports = mongoose.model('EvaluationResults', resultSchema);

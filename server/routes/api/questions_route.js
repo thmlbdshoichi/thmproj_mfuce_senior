@@ -12,8 +12,8 @@ router.get('/', (req, res, next) => {
 router.get('/:divTag', (req, res, next) => {
     const divTag = req.params.divTag;
     Questions.find({ divTag : divTag }).sort({qId: 1}).exec()
-    .then(data => {data ? res.status(200).json(data) : res.status(400).json({message: `Question from division ${divId} not found.`,errorDetails: data})})
-    .catch(err => {res.status(500).json({message: `An error occurred while retrieving Question of Division ${divId}.`,errorDetails: err})});
+    .then(data => {data ? res.status(200).json(data) : res.status(400).json({message: `Question from division ${divTag} not found.`,errorDetails: data})})
+    .catch(err => {res.status(500).json({message: `An error occurred while retrieving Question of Division ${divTag}.`,errorDetails: err})});
 });
 
 router.get('/:divTag/:qSequence', (req, res, next) => {
