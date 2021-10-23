@@ -16,6 +16,10 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Kanit&display=swap"
+      },
     ]
   },
 
@@ -70,7 +74,7 @@ export default {
           error: '#b71c1c',
           gold: "#bc8e5d",
           red: '#881518',
-          green:"#01796f",
+          green: "#01796f",
         },
       }
     }
@@ -90,5 +94,5 @@ export default {
   build: {
   }
 
-  
+
 }
