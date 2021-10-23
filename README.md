@@ -8,4 +8,5 @@ Web application platform for service evaluation of the divisions in MFU
 ###### ต่อจากนี้ไปเราจะรัน Client-side Rendering (NUXT.js Server), Server-side Rendering (Node.js / MongoDB)
 ###### ด้วยคำสั่ง mevn serve แล้วเลือก client (Nuxt.js) + server (Node.js API)
 ###### ดูคำสั่ง "mevn-cli" เพิ่มเติมได้ที่ https://mevn.madlabs.xyz/guide/commands.html
-###### ไม่ต้องกังวลเรื่อง Packages dependencies เพราะทุกครั้งที่จะรันเซิฟเวอร์จะมีการเช็คก่อนตลอด
+
+###### cd เข้า clients - server รันคำสั่ง npm install เพื่อลง Package Dependencies
