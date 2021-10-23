@@ -86,12 +86,12 @@ export default {
       items: [
         { title: "Account", icon: "mdi-folder", to: "/Account" },
         { title: "Division", icon: "mdi-star", to: "/Division" },
-        { title: "Create Quesion", icon: "mdi-account-multiple", to: "/Create_quesion" },
+        { title: "Question", icon: "mdi-account-multiple", to: "/Question" },
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: "Service Evaluation",
+      title: "Service Evaluation Control Panel",
     };
   },
 };

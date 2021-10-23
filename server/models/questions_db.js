@@ -5,7 +5,7 @@ const questionSchema = mongoose.Schema(
         _id: { type: mongoose.Schema.Types.ObjectId },
         qSequence: { type: Number, required: true },
         qName: { type: String, required: true },
-        divTag: { type: Number, required: true },
+        divTag: { type: String, required: true },
     },
     {
         timestamps: true,

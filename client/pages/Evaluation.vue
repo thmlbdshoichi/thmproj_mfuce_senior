@@ -19,9 +19,7 @@
             <div  align="center" >
               <v-btn depressed color="#FF4500" class="worst" > WORST </v-btn>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <v-btn depressed color="#FFA500" class="moderate"> MODERATE </v-btn>
-
               <br /><br />
-
               <v-btn depressed color="#00FF7F" class="good"> GOOD </v-btn>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <v-btn depressed color="#008000" class="best"> BEST </v-btn>
             </div>

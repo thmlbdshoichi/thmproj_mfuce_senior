@@ -83,7 +83,7 @@ export default {
     prefetch: true,
     preconnect: true,
     preload: true,
-    download: true
+    download: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
