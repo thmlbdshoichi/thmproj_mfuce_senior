@@ -4,13 +4,17 @@
     <br/><br/>
     <v-card>
       <v-card-title>
-        รายชื่อหน่วยงาน &nbsp;&nbsp;&nbsp;&nbsp;
-        <v-spacer></v-spacer>
+        <v-col cols="12" sm="3" md="3">
+        รายชื่อหน่วยงาน
+        </v-col>
+        <v-col cols="12" sm="6" md="6">
             <v-text-field v-model="search" append-icon="mdi-magnify" label="ค้นหา" single-line hide-details></v-text-field>
-        <v-spacer></v-spacer>
-        <v-card-actions>
-          <create_button :divisions="divisions" :fetchItems="fetchItems"/>
-        </v-card-actions>
+        </v-col>
+        <v-col cols="12" sm="3" md="3">
+          <v-card-actions>
+            <CreateDivision_Button :divisions="divisions" :fetchItems="fetchItems"/>
+          </v-card-actions>
+        </v-col>
       </v-card-title>
       <v-data-table :headers="headers" :items="divisions" :search="search">
         <template v-slot:top>
@@ -77,13 +81,11 @@
 </template>
 
 <script>
-import create_button from "../components/CreateDivision";
+import CreateDivision_Button from "../components/CreateDivision";
 import axios from 'axios';
 export default {
   layout: "admin",
-  components: {
-    create_button,
-  },
+  components: { CreateDivision_Button },
   data: () => ({
     divisions: [],
     dialog: false,

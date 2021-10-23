@@ -3,19 +3,37 @@
     <v-row></v-row>
     <br/><br/>
     <v-card>
+    <v-card-title>
+        <v-col cols="12" sm="6" md="6" lg="4">
+          เลือกหน่วยงานที่ต้องการ
+          <v-select 
+          v-model="divTagIndex" 
+          @input="fetchItems()"
+          :items="divisionLists" 
+          item-text="divName" 
+          item-value="divTag" 
+          prepend-icon="mdi-magnify" 
+          single-line hide-details></v-select>
+        </v-col>
+
+    </v-card-title>
+    </v-card>
+    <br/>
+    <v-card>
       <v-card-title>
-        เลือกหน่วยงานที่ต้องการ
-      </v-card-title>
-      <v-card-title>
-          รายชื่อคำถาม &nbsp;&nbsp;&nbsp;&nbsp;
-          <v-spacer></v-spacer>
+        <v-col cols="12" sm="3" md="3">
+          รายชื่อคำถาม
+        </v-col>
+        <v-col cols="12" sm="6" md="6">
           <v-text-field v-model="search" append-icon="mdi-magnify" label="ค้นหา" single-line hide-details></v-text-field>
-          <v-spacer></v-spacer>
+        </v-col>
+        <v-col cols="12" sm="3" md="3">
           <v-card-actions>
-            <create_button :divisionLists="divisionLists" :fetchItems="fetchItems"/>
+            <CreateQuestion_Button :divTagIndex="divTagIndex" :specificQuestion="specificQuestion" :divisionLists="divisionLists" :fetchItems="fetchItems"/>
           </v-card-actions>
+        </v-col>
       </v-card-title>
-      <v-data-table :headers="headers" :items="allQuestion" :search="search">
+      <v-data-table :headers="headers" :items="specificQuestion" :search="search">
         <template v-slot:top>
           <v-toolbar flat>
             <v-dialog v-model="dialog" max-width="500px">
@@ -30,37 +48,20 @@
                         <v-col cols="12" sm="12" md="12">
                           <v-text-field
                             v-model="editedItem.qSequence"
-                            prepend-icon="mdi-chart-pie"
+                            prepend-icon="mdi-numeric"
                             label="ลำดับคำถาม"
                             type="number"
-                            :rules="[v => !!v || 'กรุณาเลือกลำดับคำถาม']"
+                            :rules="[v => (!(specificQuestion.some(e => e.qSequence == v)) || (v == editedqSequence)) || 'ลำดับคำถามซ้ำ', v => !!v || 'ไม่สามารถเว้นว่างลำดับคำถามได้', v => (v && v > 0) || 'ลำดับต้องเป็นจำนวนนับเท่านั้น']"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12" md="12">
                           <v-text-field
                             v-model="editedItem.qName"
-                            prepend-icon="mdi-chart-pie"
+                            prepend-icon="mdi-forum"
                             label="คำถาม"
                             type="text"
                             :rules="[v => !!v || 'คำถามไม่สามารถเว้นว่างได้']"
                           ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="12" md="12">
-                          <v-text-field readonly required
-                          v-model="editedItem.divTag" 
-                          prepend-icon="mdi-chart-pie"
-                          label="รหัสหน่วยงานที่รับผิดชอบ"
-                          :rules="[v => (v && v.length > 0) || 'โปรดระบุหน่วยงานที่รับผิดชอบ อย่างน้อย 1 หน่วยงาน']" 
-                          ></v-text-field>
-                          <v-select required
-                          v-model="editedItem.divTag"
-                          prepend-icon="mdi-chart-pie"
-                          :items="divisionLists"
-                          item-text="divName"
-                          item-value="divTag"
-                          label="ระบุหน่วยงาน"
-                          :rules="[v => (v && v.length > 0) || 'โปรดระบุหน่วยงาน']"
-                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-form>
@@ -90,7 +91,7 @@
           <v-icon @click="deleteItem(item)" small color="error darken-2">mdi-delete</v-icon>
         </template>
         <template v-slot:no-data>
-          <v-btn color="primary" @click="fetchItems()">Reset</v-btn>
+          <v-btn color="primary" @click="fetchItems()" dark disabled>Reset</v-btn>
         </template>
       </v-data-table>
     </v-card>
@@ -98,13 +99,11 @@
 </template>
 
 <script>
-import create_button from "../components/CreateQuestion";
+import CreateQuestion_Button from "../components/CreateQuestion";
 import axios from 'axios';
 export default {
   layout: "admin",
-  components: {
-    create_button,
-  },
+  components: { CreateQuestion_Button },
   data: () => ({
     allQuestion: [],
     specificQuestion: [],
@@ -120,12 +119,12 @@ export default {
       { text: "แก้ไข/ลบ", value: "actions", sortable: false },
     ],
     editedIndex: -1,
-    divTagIndex: "",
+    editedqSequence: -1,
+    divTagIndex: "0",
     editedItem: {
       qSequence: "",
       qName: "",
       divTag: "",
-      
     },
     defaultItem: {
       qSequence: "",
@@ -135,7 +134,7 @@ export default {
   }),
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "เพิ่มคำถามใหม่" : "แก้ไขคำถาม";
+      return this.editedIndex === -1 ? "เพิ่มคำถามใหม่" : `แก้ไขคำถาม ${this.editedItem.divTag}`;
     },
   },
   watch: {
@@ -148,27 +147,29 @@ export default {
   },
   methods: {
     fetchItems(){
-      const apiURLAllquestion = `http://localhost:9000/api/questions/`;
-      const apiURLSpecificQuestion = `http://localhost:9000/api/questions/C0`
+      const apiURLAllQuestion = `http://localhost:9000/api/questions/`;
+      const apiURLSpecificQuestion = `http://localhost:9000/api/questions/${this.divTagIndex}`
       const apiURLdivs = "http://localhost:9000/api/divs";
-      axios.get(apiURLAllquestion).then(res => {this.allQuestion = res.data}).catch(err => { console.log(err) });
+      axios.get(apiURLAllQuestion).then(res => {this.allQuestion = res.data}).catch(err => { console.log(err) });
       axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data}).catch(err => { console.log(err) });
       axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
     },
     editItem(item) {
-      this.editedIndex = this.allQuestion.indexOf(item);
+      this.editedIndex = this.specificQuestion.indexOf(item);
       this.editedItem = Object.assign({}, item);
+      item ? this.editedqSequence = this.editedItem.qSequence : this.editedqSequence = -1
       this.dialog = true;
     },
 
     deleteItem(item) {
-      this.editedIndex = this.allQuestion.indexOf(item);
+      this.editedIndex = this.specificQuestion.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
 
     deleteItemConfirm() {
-      this.data.splice(this.editedIndex, 1);
+      const apiURLQuestionDelete = `http://localhost:9000/api/questions/${this.specificQuestion[this.editedIndex]['divTag']}/${this.specificQuestion[this.editedIndex]['qSequence']}`;
+      axios.delete(apiURLQuestionDelete).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
       this.closeDelete();
     },
 
@@ -189,12 +190,13 @@ export default {
     },
 
     save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.data[this.editedIndex], this.editedItem);
-      } else {
-        this.desserts.push(this.editedItem);
+      if (this.$refs.formEditQuestion.validate()){
+        const apiURLQuestionUpdate = `http://localhost:9000/api/questions/${this.specificQuestion[this.editedIndex]['divTag']}/${this.specificQuestion[this.editedIndex]['qSequence']}`;
+        axios.patch(apiURLQuestionUpdate, this.editedItem).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
+        this.close();
+      }else{
+        this.$refs.formEditQuestion.validate()
       }
-      this.close();
     },
   },
   async created() {

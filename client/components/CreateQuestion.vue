@@ -2,36 +2,38 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="white--text" color="#5c9dc0" rounded dark v-bind="attrs" v-on="on">เพิ่มคำถาม</v-btn>
+        <v-btn 
+        justify="end" 
+        class="white--text" 
+        color="success" 
+        rounded dark 
+        v-bind="attrs" 
+        v-on="on"
+        :disabled="newQuestion.divTag ? disabled : '' ">เพิ่มคำถาม</v-btn>
       </template>
       <v-card>
         <v-card-text>
           <v-container>
-            <p align="center" justify="space-around" class="text-h5 font-weight-bold mt-3" >เพิ่มคำถามใหม่</p>
+            <p align="center" justify="space-around" class="text-h5 font-weight-bold mt-3" >เพิ่มคำถามใหม่ {{newQuestion.divTag}}</p>
             <v-form class="mt-7" ref="formCreateQuestion" lazy-validation>
               <v-row>
-                <v-col cols="12" sm="4" md="4">
+                <v-col cols="12" sm="12" md="12">
                   <v-text-field 
-                  prepend-icon="mdi-account" 
+                  v-model="newQuestion.qSequence"
+                  prepend-icon="mdi-numeric" 
                   label="ลำดับคำถาม" 
                   type="number"
-                  :rules="[v => !!v || 'กรุณากรอกชื่อผู้ใช้งาน', v => (v && v.length <= 20) || 'ชื่อผู้ใช้งานห้ามเกิน 20 ตัวอักษร', v => /^[A-Za-z0-9]*$/.test(v) || 'ชื่อผู้ใช้งานต้องเป็นภาษาอังกฤษหรือตัวเลขเท่านั้น']"
-                  required></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="8" md="8">
-                  <v-text-field
-                  prepend-icon="mdi-lock"
-                  label="หน่วยงาน"
-                  type="text"
-                  :rules="[v => !!v || 'กรุณากรอกรหัสผ่าน']"
+                  min="1"
+                  :rules="[v => !(specificQuestion.some(e => e.qSequence === v)) || 'ลำดับคำถามซ้ำ', v => !!v || 'ไม่สามารถเว้นว่างลำดับคำถามได้', v => (v && v > 0) || 'ลำดับต้องเป็นจำนวนนับเท่านั้น']"
                   required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="12" md="12">
                   <v-text-field
-                  prepend-icon="mdi-comment-account"
+                  v-model="newQuestion.qName"
+                  prepend-icon="mdi-forum"
                   label="คำถาม"
                   type="text"
-                  :rules="[v => !!v || 'กรุณากรอก ชื่อ-นามสกุล ของผู้ใช้งานบัญชีนี้']"
+                  :rules="[v => !!v || 'ไม่สามารถเว้นว่างคำถามได้']"
                   required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="12" md="12">
@@ -39,7 +41,7 @@
                     <v-spacer></v-spacer>
                     <v-btn color="error darken-1" text @click="close">ยกเลิก</v-btn>.
                     <v-btn color="warning darken-1" text @click="reset">ล้างข้อมูล</v-btn>
-                    <v-btn color="success darken-1" text @click="handleSubmitForm">สร้างบัญชีใหม่</v-btn>
+                    <v-btn color="success darken-1" text @click="handleSubmitForm">สร้างคำถามใหม่</v-btn>
                   </v-card-actions>
                 </v-col>
               </v-row>
@@ -56,6 +58,7 @@ import axios from 'axios';
 export default {
   data: () => ({
     dialog: false,
+    disabled: false,
     newQuestion: {
       qSequence: "",
       qName: "",
@@ -68,19 +71,25 @@ export default {
     },
   }),
   props: {
-      divisionLists: Array,
-      fetchItems: Function,
+    specificQuestion: Array,
+    divisionLists: Array,
+    divTagIndex: String,
+    fetchItems: Function,
   },
   watch: {
         dialog(val) {
         val || this.close();
         },
+        divTagIndex(newval) {
+          this.emptyQuestion.divTag = newval;
+          this.newQuestion.divTag = newval;
+        }
   },
   methods:{
       handleSubmitForm() {
-        const apiURLquestionCreate = "http://localhost:9000/api/users";
+        const apiURLquestionCreate = "http://localhost:9000/api/questions";
         if (this.$refs.formCreateQuestion.validate()){
-          axios.post(apiURLquestionCreate, this.newUser).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
+          axios.post(apiURLquestionCreate, this.newQuestion).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
           this.close();
         } else {
           this.$refs.formCreateQuestion.validate()

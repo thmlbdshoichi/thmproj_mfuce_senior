@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="white--text" color="#5c9dc0" rounded dark v-bind="attrs" v-on="on">เพิ่มหน่วยงาน</v-btn>
+        <v-btn class="white--text" color="success" rounded dark v-bind="attrs" v-on="on">เพิ่มหน่วยงาน</v-btn>
       </template>
       <v-card>
         <v-card-text>

@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="white--text" color="#5c9dc0" rounded v-bind="attrs" v-on="on">สร้างบัญชีใหม่</v-btn>
+        <v-btn class="white--text" color="success" rounded v-bind="attrs" v-on="on">สร้างบัญชีใหม่</v-btn>
       </template>
       <v-card>
         <v-card-text>

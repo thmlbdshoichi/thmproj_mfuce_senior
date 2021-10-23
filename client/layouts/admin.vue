@@ -84,9 +84,9 @@ export default {
       fixed: false,
       selectedItem: 0,
       items: [
-        { title: "Account", icon: "mdi-folder", to: "/Account" },
-        { title: "Division", icon: "mdi-star", to: "/Division" },
-        { title: "Question", icon: "mdi-account-multiple", to: "/Question" },
+        { title: "Account", icon: "mdi-folder", to: "/ListAccount" },
+        { title: "Division", icon: "mdi-star", to: "/ListDivision" },
+        { title: "Question", icon: "mdi-account-multiple", to: "/ListQuestion" },
       ],
       miniVariant: false,
       right: true,

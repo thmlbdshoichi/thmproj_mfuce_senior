@@ -4,13 +4,17 @@
     <br/><br/>
     <v-card>
       <v-card-title>
-          บัญชีผู้ใช้งาน &nbsp;&nbsp;&nbsp;&nbsp;
-          <v-spacer></v-spacer>
+        <v-col cols="12" sm="3" md="3">
+          บัญชีผู้ใช้งาน
+        </v-col>
+        <v-col cols="12" sm="6" md="6">
           <v-text-field v-model="search" append-icon="mdi-magnify" label="ค้นหา" single-line hide-details></v-text-field>
-          <v-spacer></v-spacer>
+        </v-col>
+        <v-col cols="12" sm="3" md="3">
           <v-card-actions>
-            <create_button :users="users" :divisionLists="divisionLists" :fetchItems="fetchItems"/>
+            <CreateAccount_Component :users="users" :divisionLists="divisionLists" :fetchItems="fetchItems"/>
           </v-card-actions>
+        </v-col>
       </v-card-title>
       <v-data-table :headers="headers" :items="users" :search="search">
         <template v-slot:top>
@@ -121,12 +125,12 @@
 
 <script>
 // IMPORT
-import create_button from "../components/CreateNewAccount";
+import CreateAccount_Component from "../components/CreateAccount";
 import axios from 'axios';
 // EXPORT
 export default {
   layout: "admin",
-  components: { create_button },
+  components: { CreateAccount_Component },
   data: () => ({
     dialog: false,
     dialogDelete: false,
