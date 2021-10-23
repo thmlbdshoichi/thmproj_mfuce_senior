@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row> </v-row>
-    <br /><br />
+    <br/><br />
     <v-card>
       <v-card-title>
         List of Account &nbsp;&nbsp;&nbsp;&nbsp;
@@ -122,7 +122,7 @@ export default {
         { text: "First Name", value: "first_name" },
         { text: "Last Name", value: "last_name" },
         { text: "Authorized Level", value: "email" },
-        { text: "Division", value: "gendern" },
+        { text: "Division", value: "gender" },
         { text: "Phone", value: "phone" },
         { text: "Actions", value: "actions", sortable: false },
       ],

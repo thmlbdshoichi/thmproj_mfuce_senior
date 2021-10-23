@@ -157,6 +157,11 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Acme&display=swap");
+
+#app {
+  font-family: 'Kanit', sans-serif;
+}
+
 .tbtitle {
   font-family: "Acme", sans-serif;
   font-size: 25px;

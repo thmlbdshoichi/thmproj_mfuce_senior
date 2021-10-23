@@ -36,6 +36,7 @@ app.use('/api/users', require('./routes/api/users_route'));
 app.use('/api/divs', require('./routes/api/divs_route'));
 app.use('/api/questions', require('./routes/api/questions_route'))
 app.use('/api/evalresults', require('./routes/api/results_route'))
+app.use('/api/evalstats', require('./routes/api/evalstats_route'))
 // Listening to port
 app.listen(port, () => console.log(`Initialize Server on PORT: ${port},
 Use: http://localhost:${port} to access`));

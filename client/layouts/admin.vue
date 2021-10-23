@@ -86,11 +86,7 @@ export default {
       items: [
         { title: "Account", icon: "mdi-folder", to: "/Account" },
         { title: "Division", icon: "mdi-star", to: "/Division" },
-        {
-          title: "Create Quesion",
-          icon: "mdi-account-multiple",
-          to: "/Create_quesion",
-        },
+        { title: "Create Quesion", icon: "mdi-account-multiple", to: "/Create_quesion" },
       ],
       miniVariant: false,
       right: true,
@@ -102,6 +98,10 @@ export default {
 </script>
 
 <style scoped>
+
+#app {
+  font-family: 'Kanit', sans-serif;
+}
 
 .icon{
   color:#BC8E5D;
