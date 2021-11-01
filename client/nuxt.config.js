@@ -6,6 +6,40 @@ export default {
     host: process.env.FRONTEND_HOST,
     port: process.env.FRONTEND_PORT,
   },
+  auth: {
+    redirect: {
+      login: '/Login',
+      logout: '/',
+      callback: '/Login',
+      home: '/'
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'jwtToken.accessToken',
+          maxAge: 60 * 10,
+          global: true,
+          type: 'Bearer'
+        },
+        refreshToken: {
+          property: 'jwtToken.refreshToken',
+          data: 'refreshToken',
+          maxAge: 60 * 60 * 24 * 7,
+        },
+        user: {
+          property: 'user',
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/api/users/auth/login', method: 'post'},
+          refresh: { url: '/api/users/auth/refresh-token', method: 'post' },
+          logout: false,
+          user: { url: '/api/users/auth/profile', method: 'get' },
+        }
+      }
+    }
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - myvuetify',
@@ -44,6 +78,7 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/google-fonts',
+    '@nuxtjs/router',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -54,7 +89,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: `http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}`
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

@@ -34,16 +34,16 @@
                 <v-layout align-center justify-center>
                   <v-flex xs12 sm8 md4>
                     <v-card class="elevation-12 box-login">
-                      <v-col cols="12" align="center" justify="center">
-                        <v-image align="center" justify="center">
+                      <v-col cols="12" sm="12" md="12" align="center" justify="center">
+                        <v-img align="center" justify="center">
                           <img
                             src="@/assets/image/logo.png"
                             class="logomfu"
                             align="center"
                           />
-                        </v-image>
+                        </v-img>
                       </v-col>
-                      <v-col cols="12" align="center" justify="center">
+                      <v-col cols="12" sm="12" md="12" align="center" justify="center">
                         <v-toolbar-title class="tbtitle" align="center" justify="space-around"
                           >Login
                         </v-toolbar-title>
@@ -52,49 +52,47 @@
                         </v-toolbar-title>
                       </v-col>
                       <v-card-text>
-                        <v-form>
-                          <v-text-field
-                            prepend-icon="mdi-account"
-                            color="gold"
-                            name="login"
-                            label="Login"
-                            type="text"
-                          ></v-text-field>
-                          <v-text-field
-                            id="password"
-                            prepend-icon="mdi-lock"
-                            color="gold"
-                            name="password"
-                            label="Password"
-                            type="password"
-                          ></v-text-field>
+                        <v-form ref="formLoginuser" lazy-validation>
+                          <v-row>
+                            <v-col cols="12" sm="12" md="12">
+                              <v-text-field
+                              v-model="login.username"
+                              prepend-icon="mdi-account"
+                              color="gold"
+                              label="ชื่อผู้ใช้"
+                              type="text"
+                              :rules="[v => !!v || 'กรุณากรอกชื่อผู้ใช้งาน', v => /^[A-Za-z0-9]*$/.test(v) || 'ชื่อผู้ใช้งานต้องเป็นภาษาอังกฤษหรือตัวเลขเท่านั้น']"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="12" md="12">
+                              <v-text-field
+                              v-model="login.password"
+                              prepend-icon="mdi-lock"
+                              color="gold"
+                              label="รหัสผ่าน"
+                              type="password"
+                              :type="showpwd ? 'text' : 'password'"
+                              :rules="[v => !!v || 'กรุณากรอกรหัสผ่าน']"
+                              :append-icon="showpwd ? 'mdi-eye' : 'mdi-eye-off'"
+                              @click:append="showpwd = !showpwd"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
                         </v-form>
                       </v-card-text>
                       <v-card-actions>
-                        <v-col align="center" justify="center">
-                          <v-btn
-                            color="error"
-                            outlined
-                            rounded
-                            nuxt
-                            to="/ListAccount"
-                            align="center"
-                            justify="space-around"
-                            >Login admin</v-btn
-                          >
-                        </v-col>
-                        <v-col align="center" justify="center">
-                          <v-btn
-                            color="error"
-                            outlined
-                            rounded
-                            nuxt
-                            to="/Dashboard"
-                            align="center"
-                            justify="space-around"
-                            >Login to observer</v-btn
-                          >
-                        </v-col>
+                        <v-row>
+                          <v-col align="center" justify="center">
+                            <v-btn
+                              color="warning" outlined rounded nuxt to="/ListAccount">BYPASS ADMIN</v-btn>
+                          </v-col>
+                          <v-col align="center" justify="center">
+                            <v-btn color="blue darken-1" outlined rounded @click="userLogin">เข้าสู่ระบบ</v-btn>
+                          </v-col>
+                          <v-col align="center" justify="center">
+                            <v-btn color="error" outlined rounded nuxt to="/Dashboard">BYPASS OBSERVER</v-btn>
+                          </v-col>
+                        </v-row>
                       </v-card-actions>
                     </v-card>
                   </v-flex>
@@ -131,14 +129,25 @@
 import bikeImg from "../assets/image/bg.png";
 export default {
   layout: "login",
-  name: "Login",
   props: {
     source: String
   },
-  data() {
-    return {
-      image: bikeImg
-    };
+  data: () => ({
+      showpwd: false,
+      image: bikeImg,
+      login: {
+        username: "",
+        password: "",
+      },
+  }),
+  methods: {
+    userLogin() {
+      if (this.$refs.formLoginuser.validate()){
+        this.$auth.loginWith('local', { data: {username: this.login.username, password: this.login.password} })
+        .then(res => res.data.success ? this.$router.replace({name:ListAccount}) : console.log(res))
+        .catch(err => {console.log(err)})
+      }
+    },
   }
 };
 </script>
@@ -257,7 +266,5 @@ export default {
   width: 3px;
   background-color: rgb(188, 142, 93);
   display: block;
-}
-.v-btn {
 }
 </style>

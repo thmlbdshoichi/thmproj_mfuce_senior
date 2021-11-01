@@ -28,19 +28,18 @@
 
         <!--body-->
         <v-main class="bg">
-          <v-content>
             <v-container fluid fill-height>
               <v-row align="center" justify="center">
                 <div>
                   <v-col cols="12" align="center" justify="center">
-                    <v-image align="center" justify="center">
+                    <v-img align="center" justify="center">
                       <img
                         src="@/assets/image/logo.png"
                         href="https://www.mfu.ac.th/mfu-landing-page.html"
                         class="logomfu"
                         align="center"
                       />
-                    </v-image>
+                    </v-img>
                   </v-col>
                   <v-col>
                     <v-toolbar-title align="center" class="tbtitle"
@@ -79,7 +78,6 @@
                 </div>
               </v-row>
             </v-container>
-          </v-content>
         </v-main>
 
         <v-footer dark padless class="ftcl">

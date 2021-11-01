@@ -38,7 +38,7 @@
 
       <v-menu bottom left>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn class="ma-2" outlined color="#BC8E5D" nuxt to="/">
+          <v-btn class="ma-2" outlined color="#BC8E5D" @click="userLogout">
             <v-icon left> mdi-login </v-icon>
             <h4>LOGOUT</h4>
           </v-btn>
@@ -77,8 +77,7 @@ import Evaluation from "../components/Evaluation";
 import Dashboard from "../components/Dashboard";**/
 
 export default {
-  data() {
-    return {
+  data: () => ({
       clipped: false,
       drawer: false,
       fixed: false,
@@ -91,9 +90,16 @@ export default {
       right: true,
       rightDrawer: false,
       title: "Service Evaluation",
-    };
-  },
-};
+    }),
+  methods: {
+    async userLogout() {
+      await this.$auth.logout()
+      await this.$axios.setHeader('Authorization', false);
+      this.$router.replace({name: 'index'});
+    },
+  }
+}
+
 </script>
 
 <style scoped>

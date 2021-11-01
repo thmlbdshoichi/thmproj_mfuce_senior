@@ -72,7 +72,7 @@ export default {
     handleSubmitForm() {
       const apiURLdivsCreate = "http://localhost:9000/api/divs";
       if (this.$refs.formCreatedivision.validate()){
-        axios.post(apiURLdivsCreate, this.newDiv).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
+        this.$axios.post(apiURLdivsCreate, this.newDiv).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
         this.close();
       } else {
         this.$refs.formCreatedivision.validate()

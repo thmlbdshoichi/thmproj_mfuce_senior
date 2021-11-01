@@ -100,7 +100,6 @@
 
 <script>
 import CreateQuestion_Button from "../components/CreateQuestion";
-import axios from 'axios';
 export default {
   layout: "observer",
   components: { CreateQuestion_Button },
@@ -150,9 +149,9 @@ export default {
       const apiURLAllQuestion = `http://localhost:9000/api/questions/`;
       const apiURLSpecificQuestion = `http://localhost:9000/api/questions/${this.divTagIndex}`
       const apiURLdivs = "http://localhost:9000/api/divs";
-      axios.get(apiURLAllQuestion).then(res => {this.allQuestion = res.data}).catch(err => { console.log(err) });
-      axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data}).catch(err => { console.log(err) });
-      axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
+      this.$axios.get(apiURLAllQuestion).then(res => {this.allQuestion = res.data}).catch(err => { console.log(err) });
+      this.$axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data}).catch(err => { console.log(err) });
+      this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
     },
     editItem(item) {
       this.editedIndex = this.specificQuestion.indexOf(item);
@@ -169,7 +168,7 @@ export default {
 
     deleteItemConfirm() {
       const apiURLQuestionDelete = `http://localhost:9000/api/questions/${this.specificQuestion[this.editedIndex]['divTag']}/${this.specificQuestion[this.editedIndex]['qSequence']}`;
-      axios.delete(apiURLQuestionDelete).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
+      this.$axios.delete(apiURLQuestionDelete).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
       this.closeDelete();
     },
 
@@ -192,7 +191,7 @@ export default {
     save() {
       if (this.$refs.formEditQuestion.validate()){
         const apiURLQuestionUpdate = `http://localhost:9000/api/questions/${this.specificQuestion[this.editedIndex]['divTag']}/${this.specificQuestion[this.editedIndex]['qSequence']}`;
-        axios.patch(apiURLQuestionUpdate, this.editedItem).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
+        this.$axios.patch(apiURLQuestionUpdate, this.editedItem).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
         this.close();
       }else{
         this.$refs.formEditQuestion.validate()

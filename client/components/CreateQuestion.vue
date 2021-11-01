@@ -53,7 +53,6 @@
   </v-row>
 </template>
 <script>
-import axios from 'axios';
 
 export default {
   data: () => ({
@@ -89,7 +88,7 @@ export default {
       handleSubmitForm() {
         const apiURLquestionCreate = "http://localhost:9000/api/questions";
         if (this.$refs.formCreateQuestion.validate()){
-          axios.post(apiURLquestionCreate, this.newQuestion).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
+          this.$axios.post(apiURLquestionCreate, this.newQuestion).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
           this.close();
         } else {
           this.$refs.formCreateQuestion.validate()

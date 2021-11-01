@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Questions = require('../../models/questions_db') //Schema  
+const Questions = require('../../models/questions_db'); //Schema  
+const {userAuth, roleAuth, serializeUser} = require('../../middlewares/authorized');
 
 router.get('/', (req, res, next) => {
     Questions.find().sort({divTag: 1, qId: 1}).exec()
@@ -24,7 +25,7 @@ router.get('/:divTag/:qSequence', (req, res, next) => {
     .catch(err => {res.status(500).json({message: 'An error occurred while finding Question.',errorDetails: err})});
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', userAuth, roleAuth(['Observer','Admin']), (req, res, next) => {
 
     const question = new Questions({
         _id: new mongoose.Types.ObjectId(),
@@ -38,7 +39,7 @@ router.post('/', (req, res, next) => {
     .catch(err => {res.status(500).json({message: 'An error occurred while creating Question.',errorDetails: err})});
 });
 
-router.patch('/:divTag/:qSequence', (req, res, next) => {
+router.patch('/:divTag/:qSequence', userAuth, roleAuth(['Observer','Admin']), (req, res, next) => {
     const divTag = req.params.divTag;
     const qSequence = req.params.qSequence; // Problem with wroung update
     Questions.findOneAndUpdate({divTag: divTag, qSequence: qSequence}, { $set: req.body }, { new: true }).exec()
@@ -46,7 +47,7 @@ router.patch('/:divTag/:qSequence', (req, res, next) => {
     .catch(err => res.status(500).json({message: 'An error occurred while updating Question.',errorDetails: err}));
 });
 
-router.delete('/:divTag/:qSequence', (req, res, next) => {
+router.delete('/:divTag/:qSequence', userAuth, roleAuth(['Observer','Admin']), (req, res, next) => {
     const divTag = req.params.divTag;
     const qSequence = req.params.qSequence;
     Questions.findOneAndDelete({divTag: divTag, qSequence: qSequence}).exec()

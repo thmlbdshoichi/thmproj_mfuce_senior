@@ -41,8 +41,10 @@
                           v-model="editedItem.password" 
                           prepend-icon="mdi-lock"
                           label="รหัสผ่าน" 
-                          type="password"
+                          :type="showpwd ? 'text' : 'password'"
                           :rules="[v => !!v || 'กรุณากรอกรหัสผ่าน']"
+                          :append-icon="showpwd ? 'mdi-eye' : 'mdi-eye-off'"
+                          @click:append="showpwd = !showpwd"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12" md="12">
@@ -126,12 +128,14 @@
 <script>
 // IMPORT
 import CreateAccount_Component from "../components/CreateAccount";
-import axios from 'axios';
+import bcrypt from 'bcryptjs';
+
 // EXPORT
 export default {
   layout: "admin",
   components: { CreateAccount_Component },
   data: () => ({
+    showpwd: false,
     dialog: false,
     dialogDelete: false,
     users: [],
@@ -183,11 +187,12 @@ export default {
   },
 
   methods: {
-    fetchItems() {
+    async fetchItems() {
+      await this.$axios.setHeader('Authorization', this.$auth.strategy.token.get());
       const apiURLusers = "http://localhost:9000/api/users";
       const apiURLdivs = "http://localhost:9000/api/divs";
-      axios.get(apiURLusers).then(res => {this.users = res.data}).catch(err => { console.log(err) });
-      axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
+      await this.$axios.get(apiURLusers).then(res => {this.users = res.data}).catch(err => { console.log(err) });
+      await this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
     },
 
     editItem(item) {
@@ -204,7 +209,7 @@ export default {
 
     deleteItemConfirm() {
       const apiURLusersDelete = `http://localhost:9000/api/users/${this.editedItem._id}`;
-      axios.delete(apiURLusersDelete).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
+      this.$axios.delete(apiURLusersDelete).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
       this.closeDelete();
     },
 
@@ -226,8 +231,9 @@ export default {
 
     save() {
       if (this.$refs.formEdituser.validate()){
+          this.editedItem['password'] = bcrypt.hashSync(this.editedItem['password'], 1);
           const apiURLusersUpdate = `http://localhost:9000/api/users/${this.editedItem._id}`;
-          axios.patch(apiURLusersUpdate, this.editedItem).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
+          this.$axios.patch(apiURLusersUpdate, this.editedItem).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
           this.close();
         }else{
           this.$refs.formEdituser.validate()

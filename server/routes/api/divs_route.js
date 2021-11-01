@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Divs = require('../../models/divs_db') //Schema  
+const {userAuth, roleAuth, serializeUser} = require('../../middlewares/authorized');
 
 router.get('/', (req, res, next) => {
     Divs.find().sort({divTag: 1}).exec()
@@ -16,7 +17,7 @@ router.get('/:divId', (req, res, next) => {
     .catch(err => {res.status(500).json({message: 'An error occurred while finding Division.',errorDetails: err})});
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', userAuth, roleAuth(['Admin']), (req, res, next) => {
 
     const divs = new Divs({
         _id: new mongoose.Types.ObjectId(),
@@ -29,14 +30,14 @@ router.post('/', (req, res, next) => {
     .catch(err => {res.status(500).json({message: 'An error occurred while creating Division.',errorDetails: err})});
 });
 
-router.patch('/:divId', (req, res, next) => {
+router.patch('/:divId', userAuth, roleAuth(['Admin']), (req, res, next) => {
     const divId = req.params.divId;
     Divs.findOneAndUpdate({divTag : divId}, { $set: req.body }, { new: true }).exec()
     .then(data => data ? res.status(200).json(data) : res.status(400).json({message: `Can't Update, ${divId} doesn't exist`, errorDetails: data}))
     .catch(err => res.status(500).json({message: 'An error occurred while updating Division.',errorDetails: err}));
 });
 
-router.delete('/:divId', (req, res, next) => {
+router.delete('/:divId', userAuth, roleAuth(['Admin']), (req, res, next) => {
     const divId = req.params.divId;
     Divs.findOneAndRemove({divTag : divId}).exec()
     .then(data => data ? res.status(200).json({message: 'Division has been successfully deleted',deletedDiv: {divTag: data.divTag,divName: data.divName }}) : res.status(400).json({message: `Can't delete, ${divId} doesn't exist`, errorDetails: data}))

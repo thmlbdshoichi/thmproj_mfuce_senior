@@ -25,8 +25,10 @@
                   v-model="newUser.password"
                   prepend-icon="mdi-lock"
                   label="รหัสผ่าน"
-                  type="password"
+                  :type="showpwd ? 'text' : 'password'"
                   :rules="[v => !!v || 'กรุณากรอกรหัสผ่าน']"
+                  :append-icon="showpwd ? 'mdi-eye' : 'mdi-eye-off'"
+                  @click:append="showpwd = !showpwd"
                   required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="12" md="12">
@@ -92,10 +94,9 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   data: () => ({
+    showpwd: false, 
     dialog: false,
     user_roleList: ['Observer', 'Admin'],
     newUser: {
@@ -129,7 +130,7 @@ export default {
       handleSubmitForm() {
         const apiURLusersCreate = "http://localhost:9000/api/users";
         if (this.$refs.formCreateuser.validate()){
-          axios.post(apiURLusersCreate, this.newUser).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
+          this.$axios.post(apiURLusersCreate, this.newUser).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
           this.close();
         } else {
           this.$refs.formCreateuser.validate()
