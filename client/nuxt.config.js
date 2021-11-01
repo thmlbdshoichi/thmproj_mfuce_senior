@@ -42,8 +42,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - myvuetify',
-    title: 'myvuetify',
+    titleTemplate: '%s',
+    title: 'ระบบประเมินหน่วยงานมหาวิทยาลัยแม่ฟ้าหลวง',
     htmlAttrs: {
       lang: 'en'
     },
