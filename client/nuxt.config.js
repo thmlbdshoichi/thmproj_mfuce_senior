@@ -1,6 +1,11 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from 'vuetify/es5/util/colors';
+require('dotenv').config({path: '../.env'});
 
 export default {
+  server:{
+    host: process.env.FRONTEND_HOST,
+    port: process.env.FRONTEND_PORT,
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - myvuetify',
@@ -45,6 +50,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -82,7 +88,7 @@ export default {
 
   googleFonts: {
     families: {
-      'Kanit+Sans': true,
+      'Kanit': true,
     },
     prefetch: true,
     preconnect: true,

@@ -54,13 +54,26 @@
                     <v-btn
                       color="error"
                       nuxt
-                      to="/login"
+                      to="/Evaluation"
                       align="center"
                       justify="space-around"
                       block
                       elevation="5"
                       x-large
-                      >Login
+                      >ประเมินหน่วยงาน
+                    </v-btn>
+                  </v-col>
+                  <v-col align="center" justify="center">
+                    <v-btn
+                      color="error"
+                      nuxt
+                      to="/Login"
+                      align="center"
+                      justify="space-around"
+                      block
+                      elevation="5"
+                      x-large
+                      >ลงชื่อเข้าใช้
                     </v-btn>
                   </v-col>
                 </div>

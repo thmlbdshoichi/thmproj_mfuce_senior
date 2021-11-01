@@ -95,18 +95,6 @@
                             >Login to observer</v-btn
                           >
                         </v-col>
-                        <v-col align="center" justify="center">
-                          <v-btn
-                            color="error"
-                            outlined
-                            rounded
-                            nuxt
-                            to="/Evaluation"
-                            align="center"
-                            justify="space-around"
-                            >Login to User</v-btn
-                          >
-                        </v-col>
                       </v-card-actions>
                     </v-card>
                   </v-flex>

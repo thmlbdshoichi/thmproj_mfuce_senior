@@ -7,10 +7,15 @@ const mongoose = require('mongoose');
 const logger = require('./middleware/logger');
 
 // parse env variables
-require('dotenv').config();
+require('dotenv').config({path: '../.env'});
 
-// Configuring port
-const port = process.env.PORT || 9000;
+// Configuring dotenv variable
+const BACKEND_HOST = process.env.BACKEND_HOST;
+const BACKEND_PORT = process.env.BACKEND_PORT;
+const DB_HOST = process.env.DB_HOST;
+const DB_PORT = process.env.DB_PORT;
+const DB_NAME = process.env.DB_NAME;
+
 const app = express();
 
 // Configure middlewares
@@ -21,8 +26,8 @@ app.use(logger);
 app.set('view engine', 'html');
 
 // Database Connection
-mongoose.connect('mongodb://localhost:27017/WPESMFU_DB')
-.then(result => {console.log('Database has successfully connected')})
+mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`)
+.then(result => {console.log(`Database ${DB_NAME} has successfully connected`)})
 .catch(error => {
     console.log(`An Error Occured ${error}`); 
     handleError(error);
@@ -38,7 +43,8 @@ app.use('/api/questions', require('./routes/api/questions_route'))
 app.use('/api/evalresults', require('./routes/api/results_route'))
 app.use('/api/evalstats', require('./routes/api/evalstats_route'))
 // Listening to port
-app.listen(port, () => console.log(`Initialize Server on PORT: ${port},
-Use: http://localhost:${port} to access`));
+app.listen(BACKEND_PORT, () => console.log(`
+Initialize Server on PORT: ${BACKEND_PORT},
+Use: http://localhost:${BACKEND_PORT} to access`));
 
 module.exports = app;
