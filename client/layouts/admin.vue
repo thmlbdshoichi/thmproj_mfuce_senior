@@ -84,9 +84,8 @@ export default {
       fixed: false,
       selectedItem: 0,
       items: [
-        { title: "Account", icon: "mdi-folder", to: "/ListAccount" },
-        { title: "Division", icon: "mdi-star", to: "/ListDivision" },
-        { title: "Question", icon: "mdi-account-multiple", to: "/ListQuestion" },
+        { title: "จัดการบัญชีผู้ใช้", icon: "mdi-folder-account", to: "/ListAccount" },
+        { title: "จัดการหน่วยงาน", icon: "mdi-chart-pie", to: "/ListDivision" },
       ],
       miniVariant: false,
       right: true,

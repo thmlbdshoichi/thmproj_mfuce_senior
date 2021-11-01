@@ -84,7 +84,8 @@ export default {
       fixed: false,
       selectedItem: 0,
       items: [
-        { title: "Dashboard", icon: "mdi-view-dashboard", to: "/Dashboard" },
+        { title: "ดูข้อมูลสถิติ", icon: "mdi-view-dashboard", to: "/Dashboard" },
+        { title: "จัดการคำถาม", icon: "mdi-tooltip-edit", to: "/ListQuestion" },
       ],
       miniVariant: false,
       right: true,

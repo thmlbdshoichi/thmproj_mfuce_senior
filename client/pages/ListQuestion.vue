@@ -102,7 +102,7 @@
 import CreateQuestion_Button from "../components/CreateQuestion";
 import axios from 'axios';
 export default {
-  layout: "admin",
+  layout: "observer",
   components: { CreateQuestion_Button },
   data: () => ({
     allQuestion: [],
