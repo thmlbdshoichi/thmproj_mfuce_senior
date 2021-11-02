@@ -50,7 +50,7 @@
 </template>
 
 <script>
-const url = "/data.json";
+const url = "api/divs";
 
 export default {
   data() {

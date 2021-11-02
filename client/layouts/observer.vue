@@ -30,8 +30,8 @@
       </v-avatar>
       &nbsp;&nbsp;&nbsp;
       <v-toolbar-title class="navbar" justify="center" align="center">
-        <h6>6131501016</h6>
-        <h6>Natthida Patlee</h6>
+        <h6>{{userDetails.username}}</h6>
+        <h6>{{userDetails.name}}</h6>
       </v-toolbar-title>
 
       &nbsp;&nbsp;&nbsp;&nbsp;
@@ -78,6 +78,7 @@ import Dashboard from "../components/Dashboard";**/
 
 export default {
   data: () => ({
+      userDetails: false,
       clipped: false,
       drawer: false,
       fixed: false,
@@ -97,7 +98,10 @@ export default {
       await this.$axios.setHeader('Authorization', false);
       this.$router.replace({name: 'index'});
     },
-  }
+  },
+  mounted(){
+      this.userDetails = this.$auth.user;
+  },
 }
 
 </script>

@@ -231,7 +231,9 @@ export default {
 
     save() {
       if (this.$refs.formEdituser.validate()){
-          this.editedItem['password'] = bcrypt.hashSync(this.editedItem['password'], 1);
+          if (this.editedItem['password'] != this.users[this.editedIndex]['password']){
+            this.editedItem['password'] = bcrypt.hashSync(this.editedItem['password'], 1);
+          }
           const apiURLusersUpdate = `http://localhost:9000/api/users/${this.editedItem._id}`;
           this.$axios.patch(apiURLusersUpdate, this.editedItem).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
           this.close();

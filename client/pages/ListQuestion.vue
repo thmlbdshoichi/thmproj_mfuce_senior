@@ -9,7 +9,7 @@
           <v-select 
           v-model="divTagIndex" 
           @input="fetchItems()"
-          :items="divisionLists" 
+          :items="userResDiv" 
           item-text="divName" 
           item-value="divTag" 
           prepend-icon="mdi-magnify" 
@@ -104,6 +104,9 @@ export default {
   layout: "observer",
   components: { CreateQuestion_Button },
   data: () => ({
+    userDetails: false,
+    xxx: "TEST VARIABLE",
+    userResDiv: [],
     allQuestion: [],
     specificQuestion: [],
     divisionLists: [],
@@ -145,13 +148,15 @@ export default {
     },
   },
   methods: {
-    fetchItems(){
+    async fetchItems(){
       const apiURLAllQuestion = `http://localhost:9000/api/questions/`;
       const apiURLSpecificQuestion = `http://localhost:9000/api/questions/${this.divTagIndex}`
       const apiURLdivs = "http://localhost:9000/api/divs";
-      this.$axios.get(apiURLAllQuestion).then(res => {this.allQuestion = res.data}).catch(err => { console.log(err) });
-      this.$axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data}).catch(err => { console.log(err) });
-      this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
+      await this.$axios.get(apiURLAllQuestion).then(res => {this.allQuestion = res.data}).catch(err => { console.log(err) });
+      await this.$axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data}).catch(err => { console.log(err) });
+      await this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
+      this.userDetails = this.$auth.user;
+      this.userResDiv = this.divisionLists.filter((div) => this.userDetails.resDiv.includes(div.divTag));
     },
     editItem(item) {
       this.editedIndex = this.specificQuestion.indexOf(item);
@@ -201,6 +206,7 @@ export default {
   async created() {
     await this.fetchItems();
   },
+
 };
 </script>
 
