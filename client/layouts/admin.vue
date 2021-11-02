@@ -31,13 +31,13 @@
       &nbsp;&nbsp;&nbsp;
       <v-toolbar-title class="navbar" justify="center" align="center">
         <h6>{{userDetails.username}}</h6>
-        <h6>{{userDetails.name}}</h6>
+        <h6>{{userDetails.name}} | ({{userDetails.role}})</h6>
       </v-toolbar-title>
 
       &nbsp;&nbsp;&nbsp;&nbsp;
 
       <v-menu bottom left>
-        <template v-slot:activator="{ on, attrs }">
+        <template v-slot:activator="{}">
           <v-btn class="ma-2" outlined color="#BC8E5D" @click="userLogout"><v-icon left> mdi-login </v-icon><h4>LOGOUT</h4></v-btn>
         </template>
 
@@ -67,12 +67,6 @@
 </template>
 
 <script>
-/**import Account_table from "../components/Account_table";
-import Division from "../components/Division";
-import CreateEvaluation from "../components/CreateEvaluation";
-import Evaluation from "../components/Evaluation";
-import Dashboard from "../components/Dashboard";**/
-
 export default {
    data: () => ({
       userDetails: {
@@ -82,9 +76,9 @@ export default {
       resDiv: []
       },
       defaultUser: {
-      username: "Unidentified",
-      name: "Unidentified",
-      role: "",
+      username: "UNKNOWN",
+      name: "UNKNOWN",
+      role: "Guest",
       resDiv: []
       },
       clipped: false,
@@ -100,16 +94,18 @@ export default {
       rightDrawer: false,
       title: "Service Evaluation Control Panel",
   }),
+  middleware: ['auth-admin'],
   methods: {
     async userLogout() {
       await this.$auth.logout()
-      await this.$axios.setHeader('Authorization', false);
+      await this.$axios.setToken(false);
       this.$router.replace({name: 'index'});
     },
   },
   mounted(){
     if(this.$auth.loggedIn){
       this.userDetails = this.$auth.user;
+      this.$axios.setToken(this.$auth.strategy.token.get());
     }else{
       this.userDetails = this.defaultUser;
     }

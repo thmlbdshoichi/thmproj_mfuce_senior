@@ -120,6 +120,7 @@ export default {
       users: Array,
       divisionLists: Array,
       fetchItems: Function,
+      createAlert: Function,
   },
   watch: {
         dialog(val) {
@@ -130,7 +131,9 @@ export default {
       handleSubmitForm() {
         const apiURLusersCreate = "http://localhost:9000/api/users";
         if (this.$refs.formCreateuser.validate()){
-          this.$axios.post(apiURLusersCreate, this.newUser).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
+          this.$axios.post(apiURLusersCreate, this.newUser)
+          .then(res => {this.fetchItems(); this.createAlert(`สร้างบัญชีผู้ใช้งานใหม่สำเร็จ`, "success")})
+          .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการสร้างบัญชีผู้ใช้งานใหม่ - ${err}`, "error")});
           this.close();
         } else {
           this.$refs.formCreateuser.validate()

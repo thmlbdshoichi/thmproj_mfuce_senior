@@ -11,13 +11,14 @@ export default {
       login: '/Login',
       logout: '/',
       callback: '/Login',
-      home: '/'
+      home: false,
     },
     strategies: {
       local: {
+        scheme: 'refresh',
         token: {
           property: 'jwtToken.accessToken',
-          maxAge: 60 * 10,
+          maxAge: 60 * 30,
           global: true,
           type: 'Bearer'
         },
@@ -33,8 +34,8 @@ export default {
         endpoints: {
           login: { url: '/api/users/auth/login', method: 'post'},
           refresh: { url: '/api/users/auth/refresh-token', method: 'post' },
-          logout: false,
           user: { url: '/api/users/auth/profile', method: 'get' },
+          logout: false,
         }
       }
     }
@@ -86,6 +87,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
+    ['@nuxtjs/dotenv', { path: '../' }],
+
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

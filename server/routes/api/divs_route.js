@@ -17,7 +17,7 @@ router.get('/:divId', (req, res, next) => {
     .catch(err => {res.status(500).json({message: 'An error occurred while finding Division.',errorDetails: err})});
 });
 
-router.post('/', userAuth, roleAuth(['Admin']), (req, res, next) => {
+router.post('/', userAuth, roleAuth(['Admin']), async (req, res, next) => {
 
     const divs = new Divs({
         _id: new mongoose.Types.ObjectId(),
@@ -25,7 +25,7 @@ router.post('/', userAuth, roleAuth(['Admin']), (req, res, next) => {
         divName: req.body.divName,
     });
 
-    divs.save()
+    await divs.save()
     .then(data => {res.status(201).json({message: 'Division has been successfully created',createdUser: divs})})
     .catch(err => {res.status(500).json({message: 'An error occurred while creating Division.',errorDetails: err})});
 });

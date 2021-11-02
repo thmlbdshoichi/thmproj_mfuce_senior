@@ -57,8 +57,8 @@ router.post('/auth/login', (req, res, next) => {
                 accessToken: `Bearer ${accessToken}`,
                 refreshToken: `Bearer ${refreshToken}`,
             };
-            const rtAge = 7*24*60*60;
-            res.cookie('jwt', {jwt_access: jwtToken.accessToken, jwt_refresh: jwtToken.refreshToken}, { httpOnly: true, maxAge: rtAge * 1000 })
+            //const rtAge = 7*24*60*60;
+            //res.cookie('jwt', {accessToken: jwtToken.accessToken, refreshToken: jwtToken.refreshToken}, { httpOnly: true, maxAge: rtAge * 1000 })
             res.status(200).json({jwtToken, message: 'User has been successfully authenticated'});
             res.send()
         }else{
@@ -77,13 +77,13 @@ router.post('/auth/refresh-token', async (req, res, next) => {
         const payload = await verifyRefreshToken(raw_refreshToken);
         const newAccessToken = await generatedAccessToken(payload);
         const newRefreshToken = await generatedRefreshToken(payload);
-        const newjwtToken = {
+        const jwtToken = {
             accessToken: `Bearer ${newAccessToken}`,
             refreshToken: `Bearer ${newRefreshToken}`,
         }
-        const rtAge = 7*24*60*60;
-        res.cookie('jwt', {jwt_access: newjwtToken.accessToken, jwt_refresh: newjwtToken.refreshToken}, { httpOnly: true, maxAge: rtAge * 1000 })
-        res.status(200).json({newjwtToken, message: 'User has been successfully refresh for authentication.'})
+        //const rtAge = 7*24*60*60;
+        //res.cookie('jwt', {accessToken: jwtToken.accessToken, refreshToken: jwtToken.refreshToken}, { httpOnly: true, maxAge: rtAge * 1000 })
+        res.status(200).json({jwtToken, message: 'User has been successfully refresh for authentication.'})
     } catch(err){
         next(err);
     }

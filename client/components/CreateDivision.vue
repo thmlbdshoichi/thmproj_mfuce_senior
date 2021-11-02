@@ -62,6 +62,7 @@ export default {
   props: {
     divisions: Array,
     fetchItems: Function,
+    createAlert: Function,
   },
   watch: {
     dialog(val) {
@@ -72,7 +73,9 @@ export default {
     handleSubmitForm() {
       const apiURLdivsCreate = "http://localhost:9000/api/divs";
       if (this.$refs.formCreatedivision.validate()){
-        this.$axios.post(apiURLdivsCreate, this.newDiv).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
+        this.$axios.post(apiURLdivsCreate, this.newDiv)
+        .then(res => {this.fetchItems(); this.createAlert(`สร้างหน่วยงานใหม่สำเร็จ`, "success")})
+        .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการสร้างหน่วยงานใหม่ - ${err}`, "error")});
         this.close();
       } else {
         this.$refs.formCreatedivision.validate()

@@ -31,13 +31,13 @@
       &nbsp;&nbsp;&nbsp;
       <v-toolbar-title class="navbar" justify="center" align="center">
         <h6>{{userDetails.username}}</h6>
-        <h6>{{userDetails.name}}</h6>
+        <h6>{{userDetails.name}} | ({{userDetails.role}})</h6>
       </v-toolbar-title>
 
       &nbsp;&nbsp;&nbsp;&nbsp;
 
       <v-menu bottom left>
-        <template v-slot:activator="{ on, attrs }">
+        <template v-slot:activator="{}"> 
           <v-btn class="ma-2" outlined color="#BC8E5D" @click="userLogout">
             <v-icon left> mdi-login </v-icon>
             <h4>LOGOUT</h4>
@@ -79,15 +79,15 @@ import Dashboard from "../components/Dashboard";**/
 export default {
   data: () => ({
       userDetails: {
-      username: "abc",
-      name: "abc",
+      username: "",
+      name: "",
       role: "",
       resDiv: []
       },
       defaultUser: {
-      username: "Unidentified",
-      name: "Unidentified",
-      role: "",
+      username: "UNKNOWN",
+      name: "UNKNOWN",
+      role: "Guest",
       resDiv: []
       },
       clipped: false,
@@ -103,6 +103,7 @@ export default {
       rightDrawer: false,
       title: "Service Evaluation",
     }),
+  middleware: ['auth'],
   methods: {
     async userLogout() {
       await this.$auth.logout()

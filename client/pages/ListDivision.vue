@@ -2,6 +2,7 @@
   <v-container>
     <v-row> </v-row>
     <br/><br/>
+    <v-alert :type="alertbox.type" transition="fade-transition" :value="alertbox.alert" dismissible>{{alertbox.msg}}</v-alert>
     <v-card>
       <v-card-title>
         <v-col cols="12" sm="3" md="3">
@@ -12,7 +13,7 @@
         </v-col>
         <v-col cols="12" sm="3" md="3">
           <v-card-actions>
-            <CreateDivision_Button :divisions="divisions" :fetchItems="fetchItems"/>
+            <CreateDivision_Button :divisions="divisions" :fetchItems="fetchItems" :createAlert="createAlert"/>
           </v-card-actions>
         </v-col>
       </v-card-title>
@@ -87,6 +88,11 @@ export default {
   layout: "admin",
   components: { CreateDivision_Button },
   data: () => ({
+    alertbox: {
+      alert: false,
+      msg: "",
+      type: "info",
+    },
     divisions: [],
     dialog: false,
     dialogDelete: false,
@@ -121,9 +127,20 @@ export default {
     },
   },
   methods: {
-    fetchItems() {
+    createAlert(msg, type, delay=5000){
+      this.alertbox.msg = msg;
+      this.alertbox.type = type;
+      this.alertbox.alert = true;
+      setInterval(() => {
+        this.alertbox.alert = false
+        this.alertbox.msg = "";
+      }, delay)
+    },
+    async fetchItems() {
+      await this.$axios.setToken(this.$auth.strategy.token.get());
       const apiURLdivs = "http://localhost:9000/api/divs";
-      axios.get(apiURLdivs).then(res => {this.divisions = res.data}).catch(err => { console.log(err) }); 
+      this.$axios.get(apiURLdivs).then(res => {this.divisions = res.data})
+      .catch(err => { this.createAlert(`เกิดข้อผิดพลาดขึ้นในการดึงข้อมูลหน่วยงาน - ${err}`, "error") }); 
     },
     editItem(item) {
       this.editedIndex = this.divisions.indexOf(item);
@@ -139,7 +156,9 @@ export default {
 
     deleteItemConfirm() {
       const apiURLdivsDelete = `http://localhost:9000/api/divs/${this.divisions[this.editedIndex]['divTag']}`;
-      axios.delete(apiURLdivsDelete).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
+      this.$axios.delete(apiURLdivsDelete)
+      .then(res => {this.fetchItems() ; this.createAlert(`ลบหน่วยงานสำเร็จ`, "success")})
+      .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการลบหน่วยงาน - ${err}`, "error")})
       this.closeDelete();
     },
 
@@ -162,7 +181,9 @@ export default {
     save() {
       if (this.$refs.formEditdivision.validate()){
         const apiURLdivsUpdate = `http://localhost:9000/api/divs/${this.divisions[this.editedIndex]['divTag']}`;
-        axios.patch(apiURLdivsUpdate, this.editedItem).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
+        this.$axios.patch(apiURLdivsUpdate, this.editedItem)
+        .then(res => {this.fetchItems(); this.createAlert(`แก้ไขข้อมูลหน่วยงานสำเร็จ`, "success")})
+        .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการแก้ไขข้อมูลหน่วยงาน - ${err}`, "error")})
         this.close();
       }else{
         this.$refs.formEditdivision.validate()

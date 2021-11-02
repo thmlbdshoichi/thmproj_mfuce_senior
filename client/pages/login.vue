@@ -29,7 +29,7 @@
         <!--body-->
         <div>
           <v-app id="inspire">
-            <v-content>
+            <v-main>
               <v-container fluid fill-height>
                 <v-layout align-center justify-center>
                   <v-flex xs12 sm8 md4>
@@ -70,7 +70,6 @@
                               prepend-icon="mdi-lock"
                               color="gold"
                               label="รหัสผ่าน"
-                              type="password"
                               :type="showpwd ? 'text' : 'password'"
                               :rules="[v => !!v || 'กรุณากรอกรหัสผ่าน']"
                               :append-icon="showpwd ? 'mdi-eye' : 'mdi-eye-off'"
@@ -98,7 +97,7 @@
                   </v-flex>
                 </v-layout>
               </v-container>
-            </v-content>
+            </v-main>
           </v-app>
         </div>
 
@@ -144,8 +143,9 @@ export default {
     userLogin() {
       if (this.$refs.formLoginuser.validate()){
         this.$auth.loginWith('local', { data: {username: this.login.username, password: this.login.password} })
-        .then(res => res.data.success ? this.$router.replace({name:ListAccount}) : console.log(res))
+        .then(res => res.data.success ? this.$router.replace({name: 'ListAccount'}) : console.log('TEST XXX'))
         .catch(err => {console.log(err)})
+
       }
     },
   }

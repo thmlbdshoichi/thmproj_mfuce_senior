@@ -11,7 +11,7 @@ const generatedAccessToken = (user) => {
             resDiv: user.resDiv,
         };
         const secret = process.env.ACCESS_TOKEN_SECRET;
-        const options = { expiresIn: "10m" };
+        const options = { expiresIn: "30m" };
         const jwt_access_token = jwt.sign(payload, secret, options, (err, token) => {
             if(err) return reject(err)
             resolve(token)

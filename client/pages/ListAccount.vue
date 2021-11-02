@@ -2,6 +2,7 @@
   <v-container>
     <v-row></v-row>
     <br/><br/>
+    <v-alert :type="alertbox.type" transition="fade-transition" :value="alertbox.alert" dismissible>{{alertbox.msg}}</v-alert>
     <v-card>
       <v-card-title>
         <v-col cols="12" sm="3" md="3">
@@ -12,7 +13,7 @@
         </v-col>
         <v-col cols="12" sm="3" md="3">
           <v-card-actions>
-            <CreateAccount_Component :users="users" :divisionLists="divisionLists" :fetchItems="fetchItems"/>
+            <CreateAccount_Component :users="users" :divisionLists="divisionLists" :fetchItems="fetchItems" :createAlert="createAlert"/>
           </v-card-actions>
         </v-col>
       </v-card-title>
@@ -135,6 +136,11 @@ export default {
   layout: "admin",
   components: { CreateAccount_Component },
   data: () => ({
+    alertbox: {
+      alert: false,
+      msg: "",
+      type: "info",
+    },
     showpwd: false,
     dialog: false,
     dialogDelete: false,
@@ -187,11 +193,21 @@ export default {
   },
 
   methods: {
+    createAlert(msg, type, delay=5000){
+      this.alertbox.msg = msg;
+      this.alertbox.type = type;
+      this.alertbox.alert = true;
+      setInterval(() => {
+        this.alertbox.alert = false
+        this.alertbox.msg = "";
+      }, delay)
+    },
     async fetchItems() {
-      await this.$axios.setHeader('Authorization', this.$auth.strategy.token.get());
+      await this.$axios.setToken(this.$auth.strategy.token.get())
       const apiURLusers = "http://localhost:9000/api/users";
       const apiURLdivs = "http://localhost:9000/api/divs";
-      await this.$axios.get(apiURLusers).then(res => {this.users = res.data}).catch(err => { console.log(err) });
+      await this.$axios.get(apiURLusers).then(res => {this.users = res.data})
+      .catch(err => { this.createAlert(`เกิดข้อผิดพลาดขึ้นในการดึงข้อมูลบัญชีผู้ใช้งาน - ${err}`, "error") });
       await this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
     },
 
@@ -209,7 +225,8 @@ export default {
 
     deleteItemConfirm() {
       const apiURLusersDelete = `http://localhost:9000/api/users/${this.editedItem._id}`;
-      this.$axios.delete(apiURLusersDelete).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
+      this.$axios.delete(apiURLusersDelete).then(res => {this.fetchItems(); this.createAlert(`ลบบัญชีผู้ใช้งานสำเร็จ`, "success")})
+      .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการลบบัญชีผู้ใช้งาน - ${err}`, "error")})
       this.closeDelete();
     },
 
@@ -235,7 +252,9 @@ export default {
             this.editedItem['password'] = bcrypt.hashSync(this.editedItem['password'], 1);
           }
           const apiURLusersUpdate = `http://localhost:9000/api/users/${this.editedItem._id}`;
-          this.$axios.patch(apiURLusersUpdate, this.editedItem).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
+          this.$axios.patch(apiURLusersUpdate, this.editedItem)
+          .then(res => {this.fetchItems(); this.createAlert(`แก้ไขบัญชีผู้ใช้งานสำเร็จ`, "success")})
+          .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการแก้ไขบัญชีผู้ใช้ - ${err}`, "error")})
           this.close();
         }else{
           this.$refs.formEdituser.validate()
