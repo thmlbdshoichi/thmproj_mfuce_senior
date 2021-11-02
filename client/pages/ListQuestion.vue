@@ -104,8 +104,18 @@ export default {
   layout: "observer",
   components: { CreateQuestion_Button },
   data: () => ({
-    userDetails: false,
-    xxx: "TEST VARIABLE",
+    userDetails: {
+      username: "",
+      name: "",
+      role: "",
+      resDiv: []
+    },
+    defaultUser: {
+      username: "",
+      name: "",
+      role: "",
+      resDiv: []
+    },
     userResDiv: [],
     allQuestion: [],
     specificQuestion: [],
@@ -155,8 +165,10 @@ export default {
       await this.$axios.get(apiURLAllQuestion).then(res => {this.allQuestion = res.data}).catch(err => { console.log(err) });
       await this.$axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data}).catch(err => { console.log(err) });
       await this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
-      this.userDetails = this.$auth.user;
-      this.userResDiv = this.divisionLists.filter((div) => this.userDetails.resDiv.includes(div.divTag));
+      if(this.$auth.loggedIn){
+        this.userDetails = this.$auth.user;
+        this.userResDiv = this.divisionLists.filter((div) => this.userDetails.resDiv.includes(div.divTag));
+      }
     },
     editItem(item) {
       this.editedIndex = this.specificQuestion.indexOf(item);

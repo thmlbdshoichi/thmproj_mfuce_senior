@@ -78,7 +78,18 @@ import Dashboard from "../components/Dashboard";**/
 
 export default {
   data: () => ({
-      userDetails: false,
+      userDetails: {
+      username: "abc",
+      name: "abc",
+      role: "",
+      resDiv: []
+      },
+      defaultUser: {
+      username: "Unidentified",
+      name: "Unidentified",
+      role: "",
+      resDiv: []
+      },
       clipped: false,
       drawer: false,
       fixed: false,
@@ -100,7 +111,11 @@ export default {
     },
   },
   mounted(){
+    if(this.$auth.loggedIn){
       this.userDetails = this.$auth.user;
+    }else{
+      this.userDetails = this.defaultUser;
+    }
   },
 }
 
