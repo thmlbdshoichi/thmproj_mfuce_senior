@@ -114,6 +114,37 @@
     </v-card>
     <br>
 
+
+    <div>
+      <v-row>
+        <!--  กล่อง1 --> 
+          <v-col cols="12" sm="6" md="6" lg="6"  align="center" justify="center">
+            <v-card height="130" color="#1F618D">  
+              <v-card-text class="box1">
+                <h1>วันนี้</h1>
+                <br>
+                  <h1>350</h1>
+                  <h3>ตอบแบบสอบถามแล้ววันนี้</h3>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        
+        <!--กล่อง2--> 
+          <v-col cols="12" sm="6" md="6" lg="6"  align="center" justify="center" >
+            <v-card height="130" color="">
+              <v-card-text class="box2">
+                <h1>ทั้งหมด</h1>
+                <br>
+                <h1>1250</h1>
+                <h3>ตอบแบบสอบถามทั้งหมด</h3>
+              </v-card-text>
+            </v-card>
+          </v-col>
+      </v-row>
+    </div>
+    <br>
+    
+    <!-- graph -->
     <v-card>
       <v-card-text>
         <v-row>
@@ -292,3 +323,17 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+.box1 > h1 ,
+.box1 > h3 {
+  color: #FDFEFE;
+}
+.box2 > h1 {
+  color: #bc8e5d;
+}
+.box2 > h3{
+  color: #bc8e5d;
+}
+</style>
