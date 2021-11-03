@@ -2,6 +2,7 @@
   <v-container>
     <v-row></v-row>
     <br/><br/>
+    <v-alert :type="alertbox.type" transition="fade-transition" :value="alertbox.alert" dismissible>{{alertbox.msg}}</v-alert>
     <v-card>
     <v-card-title>
         <v-col cols="12" sm="6" md="6" lg="4">
@@ -29,7 +30,10 @@
         </v-col>
         <v-col cols="12" sm="3" md="3">
           <v-card-actions>
-            <CreateQuestion_Button :divTagIndex="divTagIndex" :specificQuestion="specificQuestion" :divisionLists="divisionLists" :fetchItems="fetchItems"/>
+            <CreateQuestion_Button 
+            :createAlert="createAlert" :divTagIndex="divTagIndex" 
+            :specificQuestion="specificQuestion" :divisionLists="divisionLists" 
+            :fetchItems="fetchItems"/>
           </v-card-actions>
         </v-col>
       </v-card-title>
@@ -101,9 +105,14 @@
 <script>
 import CreateQuestion_Button from "../components/CreateQuestion";
 export default {
-  layout: "observer",
+  layout: "user",
   components: { CreateQuestion_Button },
   data: () => ({
+    alertbox: {
+      alert: false,
+      msg: "",
+      type: "info",
+    },
     userDetails: {
       username: "",
       name: "",
@@ -117,7 +126,7 @@ export default {
       resDiv: []
     },
     userResDiv: [],
-    allQuestion: [],
+    //allQuestion: [],
     specificQuestion: [],
     divisionLists: [],
     dialog: false,
@@ -132,7 +141,7 @@ export default {
     ],
     editedIndex: -1,
     editedqSequence: -1,
-    divTagIndex: "0",
+    divTagIndex: "",
     editedItem: {
       qSequence: "",
       qName: "",
@@ -158,12 +167,23 @@ export default {
     },
   },
   methods: {
+    createAlert(msg, type, delay=5000){
+      this.alertbox.msg = msg;
+      this.alertbox.type = type;
+      this.alertbox.alert = true;
+      setInterval(() => {
+        this.alertbox.alert = false
+        this.alertbox.msg = "";
+      }, delay)
+    },
     async fetchItems(){
-      const apiURLAllQuestion = `${process.env.AXIOS_BASEURL}/api/questions/`;
+      //const apiURLAllQuestion = `${process.env.AXIOS_BASEURL}/api/questions/`;
       const apiURLSpecificQuestion = `${process.env.AXIOS_BASEURL}/api/questions/${this.divTagIndex}`
       const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
-      await this.$axios.get(apiURLAllQuestion).then(res => {this.allQuestion = res.data}).catch(err => { console.log(err) });
-      await this.$axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data}).catch(err => { console.log(err) });
+      /*await this.$axios.get(apiURLAllQuestion).then(res => {this.allQuestion = res.data})
+      .catch(err => { this.createAlert(`เกิดข้อผิดพลาดขึ้นในการดึงข้อมูลคำถามทั้งหมด - ${err}`, "error") });*/
+      await this.$axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data})
+      .catch(err => {this.createAlert(`โปรดเลือกหน่วยงานที่ท่านรับผิดชอบเพื่อแสดงรายการคำถาม`, "info", 60000) });
       await this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
       if(this.$auth.loggedIn){
         this.userDetails = this.$auth.user;
@@ -185,7 +205,9 @@ export default {
 
     deleteItemConfirm() {
       const apiURLQuestionDelete = `${process.env.AXIOS_BASEURL}/api/questions/${this.specificQuestion[this.editedIndex]['divTag']}/${this.specificQuestion[this.editedIndex]['qSequence']}`;
-      this.$axios.delete(apiURLQuestionDelete).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
+      this.$axios.delete(apiURLQuestionDelete)
+      .then(res => {this.fetchItems(); this.createAlert(`ลบคำถามสำเร็จ`, "success")})
+      .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการลบคำถาม - ${err}`, "error")})
       this.closeDelete();
     },
 
@@ -208,7 +230,9 @@ export default {
     save() {
       if (this.$refs.formEditQuestion.validate()){
         const apiURLQuestionUpdate = `${process.env.AXIOS_BASEURL}/api/questions/${this.specificQuestion[this.editedIndex]['divTag']}/${this.specificQuestion[this.editedIndex]['qSequence']}`;
-        this.$axios.patch(apiURLQuestionUpdate, this.editedItem).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
+        this.$axios.patch(apiURLQuestionUpdate, this.editedItem)
+        .then(res => {this.fetchItems(); this.createAlert(`แก้ไขคำถามสำเร็จ`, "success")})
+        .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการแก้ไขบัญชีผู้ใช้ - ${err}`, "error")})
         this.close();
       }else{
         this.$refs.formEditQuestion.validate()

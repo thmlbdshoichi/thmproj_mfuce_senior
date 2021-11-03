@@ -64,7 +64,7 @@
 <script>
 
 export default {
-  layout: "observer",
+  layout: "user",
   components: {
   },
   data: () => ({

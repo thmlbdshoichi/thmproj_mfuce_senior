@@ -107,33 +107,13 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-row>
-                        <v-col align="center" justify="center">
-                          <v-btn
-                            color="warning"
-                            outlined
-                            rounded
-                            nuxt
-                            to="/ListAccount"
-                            >BYPASS ADMIN</v-btn
-                          >
-                        </v-col>
-                        <v-col align="center" justify="center">
+                        <v-col cols="12" sm="12" md="12" align="center" justify="center">
                           <v-btn
                             color="blue darken-1"
                             outlined
                             rounded
                             @click="userLogin"
                             >เข้าสู่ระบบ</v-btn
-                          >
-                        </v-col>
-                        <v-col align="center" justify="center">
-                          <v-btn
-                            color="error"
-                            outlined
-                            rounded
-                            nuxt
-                            to="/Dashboard"
-                            >BYPASS OBSERVER</v-btn
                           >
                         </v-col>
                       </v-row>
@@ -144,6 +124,21 @@
             </v-container>
           </v-main>
         </v-app>
+      </div>
+      <div class="text-center">
+        <v-snackbar v-model="snackbar" :timeout="10000">
+          {{snacktext}}
+          <template v-slot:action="{ attrs }">
+            <v-btn
+              color="blue"
+              text
+              v-bind="attrs"
+              @click="snackbar = false; snacktext = ''"
+            >
+              ปิด
+            </v-btn>
+          </template>
+        </v-snackbar>
       </div>
 
       <v-footer dark padless class="ftcl">
@@ -180,6 +175,8 @@ export default {
     source: String
   },
   data: () => ({
+    snackbar: false,
+    snacktext: '',
     showpwd: false,
     image: bikeImg,
     login: {
@@ -190,21 +187,22 @@ export default {
   methods: {
     userLogin() {
       if (this.$refs.formLoginuser.validate()) {
-        this.$auth
-          .loginWith('local', {
-            data: {
-              username: this.login.username,
-              password: this.login.password
-            }
-          })
-          .then(res =>
-            res.data.success
-              ? this.$router.replace({ name: 'ListAccount' })
-              : console.log('TEST XXX')
-          )
-          .catch(err => {
-            console.log(err)
-          })
+        this.$auth.loginWith('local', { data: {username: this.login.username, password: this.login.password}})
+        .then(res => {
+          //this.$axios.setToken('')
+          if(this.$auth.user.role === "Admin"){
+            this.$router.replace({name: 'ListAccount'});
+          } 
+          else if(this.$auth.user.role === "Observer"){
+            this.$router.replace({name: 'Dashboard'});
+          } else {
+            this.$router.replace({name: 'login'});
+          }
+        })
+        .catch(err => {
+          this.snackbar = true;
+          this.snacktext = 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง';
+        })
       }
     }
   }

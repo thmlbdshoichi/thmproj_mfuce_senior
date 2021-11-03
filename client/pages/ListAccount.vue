@@ -133,7 +133,7 @@ import bcrypt from 'bcryptjs';
 
 // EXPORT
 export default {
-  layout: "admin",
+  layout: "user",
   components: { CreateAccount_Component },
   data: () => ({
     alertbox: {
@@ -203,7 +203,6 @@ export default {
       }, delay)
     },
     async fetchItems() {
-      await this.$axios.setToken(this.$auth.strategy.token.get())
       const apiURLusers = `${process.env.AXIOS_BASEURL}/api/users`;
       const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
       await this.$axios.get(apiURLusers).then(res => {this.users = res.data})

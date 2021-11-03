@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const moment = require('moment');
 const EvalResults = require('../../models/results_db') //Schema 
+const { userAuth, roleAuth } = require('../../middlewares/authorized');
 
 router.get('/', (req, res, next) => {
     EvalResults.find().sort({divTag: 1}).exec()
@@ -44,14 +45,14 @@ router.post('/', (req, res, next) => {
     .catch(err => {res.status(500).json({message: 'An error occurred while saving result.',errorDetails: err})});
 });
 
-router.delete('/:divTag', (req, res, next) => {
+router.delete('/:divTag', userAuth, roleAuth(['Observer','Admin']), (req, res, next) => {
     const divTag = req.params.divTag;
     EvalResults.deleteMany({divTag: divTag}).exec()
     .then(data => data ? res.status(200).json({message: `Evaluation Result of Division ${divTag} has been successfully deleted`,deletedResult: data}) : res.status(400).json({message: `Can't delete result of Division ${divTag} is already empty`, errorDetails: data}))
     .catch(err => res.status(500).json({message: `An error occurred while resetting result from Division ${divTag}.`,errorDetails: err}));
 })
 
-router.delete('/:divTag/:resultId', (req, res, next) => {
+router.delete('/:divTag/:resultId', userAuth, roleAuth(['Observer','Admin']), (req, res, next) => {
     const divTag = req.params.divTag;
     const resultId = req.params.resultId;
     EvalResults.findOneAndDelete({divTag: divTag, _id: resultId}).exec()

@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Questions = require('../../models/questions_db'); //Schema  
-const {userAuth, roleAuth, serializeUser} = require('../../middlewares/authorized');
+const { userAuth, roleAuth } = require('../../middlewares/authorized');
 
-router.get('/', (req, res, next) => {
+router.get('/', userAuth, roleAuth(['Admin']), (req, res, next) => {
     Questions.find().sort({divTag: 1, qId: 1}).exec()
     .then(data => {data ? res.status(200).json(data) : res.status(400).json({message: `Data not found.`, errorDetails: data})})
     .catch(err => {res.status(500).json({message: 'An error occurred while retrieving All Questions.',errorDetails: err})});
