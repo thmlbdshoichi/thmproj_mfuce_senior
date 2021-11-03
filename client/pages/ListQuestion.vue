@@ -107,6 +107,7 @@ import CreateQuestion_Button from "../components/CreateQuestion";
 export default {
   layout: "user",
   components: { CreateQuestion_Button },
+  middleware: ['auth'],
   data: () => ({
     alertbox: {
       alert: false,

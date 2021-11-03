@@ -65,6 +65,7 @@
 
 export default {
   layout: "user",
+  middleware: ['auth'],
   components: {
   },
   data: () => ({
