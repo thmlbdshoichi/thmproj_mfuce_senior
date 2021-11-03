@@ -83,7 +83,6 @@
 
 <script>
 import CreateDivision_Button from "../components/CreateDivision";
-import axios from 'axios';
 export default {
   layout: "admin",
   components: { CreateDivision_Button },
@@ -138,7 +137,7 @@ export default {
     },
     async fetchItems() {
       await this.$axios.setToken(this.$auth.strategy.token.get());
-      const apiURLdivs = "http://localhost:9000/api/divs";
+      const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
       this.$axios.get(apiURLdivs).then(res => {this.divisions = res.data})
       .catch(err => { this.createAlert(`เกิดข้อผิดพลาดขึ้นในการดึงข้อมูลหน่วยงาน - ${err}`, "error") }); 
     },
@@ -155,7 +154,7 @@ export default {
     },
 
     deleteItemConfirm() {
-      const apiURLdivsDelete = `http://localhost:9000/api/divs/${this.divisions[this.editedIndex]['divTag']}`;
+      const apiURLdivsDelete = `${process.env.AXIOS_BASEURL}/api/divs/${this.divisions[this.editedIndex]['divTag']}`;
       this.$axios.delete(apiURLdivsDelete)
       .then(res => {this.fetchItems() ; this.createAlert(`ลบหน่วยงานสำเร็จ`, "success")})
       .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการลบหน่วยงาน - ${err}`, "error")})
@@ -180,7 +179,7 @@ export default {
 
     save() {
       if (this.$refs.formEditdivision.validate()){
-        const apiURLdivsUpdate = `http://localhost:9000/api/divs/${this.divisions[this.editedIndex]['divTag']}`;
+        const apiURLdivsUpdate = `${process.env.AXIOS_BASEURL}/api/divs/${this.divisions[this.editedIndex]['divTag']}`;
         this.$axios.patch(apiURLdivsUpdate, this.editedItem)
         .then(res => {this.fetchItems(); this.createAlert(`แก้ไขข้อมูลหน่วยงานสำเร็จ`, "success")})
         .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการแก้ไขข้อมูลหน่วยงาน - ${err}`, "error")})

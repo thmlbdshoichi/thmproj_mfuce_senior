@@ -86,7 +86,7 @@ export default {
   },
   methods:{
       handleSubmitForm() {
-        const apiURLquestionCreate = "http://localhost:9000/api/questions";
+        const apiURLquestionCreate = `${process.env.AXIOS_BASEURL}/api/questions`;
         if (this.$refs.formCreateQuestion.validate()){
           this.$axios.post(apiURLquestionCreate, this.newQuestion).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
           this.close();

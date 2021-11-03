@@ -93,7 +93,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: `http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}`
+    baseURL: `${process.env.AXIOS_BASEURL}`
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

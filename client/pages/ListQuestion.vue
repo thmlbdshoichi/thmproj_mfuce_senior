@@ -159,9 +159,9 @@ export default {
   },
   methods: {
     async fetchItems(){
-      const apiURLAllQuestion = `http://localhost:9000/api/questions/`;
-      const apiURLSpecificQuestion = `http://localhost:9000/api/questions/${this.divTagIndex}`
-      const apiURLdivs = "http://localhost:9000/api/divs";
+      const apiURLAllQuestion = `${process.env.AXIOS_BASEURL}/api/questions/`;
+      const apiURLSpecificQuestion = `${process.env.AXIOS_BASEURL}/api/questions/${this.divTagIndex}`
+      const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
       await this.$axios.get(apiURLAllQuestion).then(res => {this.allQuestion = res.data}).catch(err => { console.log(err) });
       await this.$axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data}).catch(err => { console.log(err) });
       await this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
@@ -184,7 +184,7 @@ export default {
     },
 
     deleteItemConfirm() {
-      const apiURLQuestionDelete = `http://localhost:9000/api/questions/${this.specificQuestion[this.editedIndex]['divTag']}/${this.specificQuestion[this.editedIndex]['qSequence']}`;
+      const apiURLQuestionDelete = `${process.env.AXIOS_BASEURL}/api/questions/${this.specificQuestion[this.editedIndex]['divTag']}/${this.specificQuestion[this.editedIndex]['qSequence']}`;
       this.$axios.delete(apiURLQuestionDelete).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
       this.closeDelete();
     },
@@ -207,7 +207,7 @@ export default {
 
     save() {
       if (this.$refs.formEditQuestion.validate()){
-        const apiURLQuestionUpdate = `http://localhost:9000/api/questions/${this.specificQuestion[this.editedIndex]['divTag']}/${this.specificQuestion[this.editedIndex]['qSequence']}`;
+        const apiURLQuestionUpdate = `${process.env.AXIOS_BASEURL}/api/questions/${this.specificQuestion[this.editedIndex]['divTag']}/${this.specificQuestion[this.editedIndex]['qSequence']}`;
         this.$axios.patch(apiURLQuestionUpdate, this.editedItem).then(res => {this.fetchItems()}).catch(err => {console.log(err)})
         this.close();
       }else{

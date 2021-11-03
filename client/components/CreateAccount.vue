@@ -129,7 +129,7 @@ export default {
     },
   methods:{
       handleSubmitForm() {
-        const apiURLusersCreate = "http://localhost:9000/api/users";
+        const apiURLusersCreate = `${process.env.AXIOS_BASEURL}/api/users`;
         if (this.$refs.formCreateuser.validate()){
           this.$axios.post(apiURLusersCreate, this.newUser)
           .then(res => {this.fetchItems(); this.createAlert(`สร้างบัญชีผู้ใช้งานใหม่สำเร็จ`, "success")})

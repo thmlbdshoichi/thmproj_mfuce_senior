@@ -71,7 +71,7 @@ export default {
   },
   methods:{
     handleSubmitForm() {
-      const apiURLdivsCreate = "http://localhost:9000/api/divs";
+      const apiURLdivsCreate = `${process.env.AXIOS_BASEURL}/api/divs`;
       if (this.$refs.formCreatedivision.validate()){
         this.$axios.post(apiURLdivsCreate, this.newDiv)
         .then(res => {this.fetchItems(); this.createAlert(`สร้างหน่วยงานใหม่สำเร็จ`, "success")})

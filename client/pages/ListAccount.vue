@@ -204,8 +204,8 @@ export default {
     },
     async fetchItems() {
       await this.$axios.setToken(this.$auth.strategy.token.get())
-      const apiURLusers = "http://localhost:9000/api/users";
-      const apiURLdivs = "http://localhost:9000/api/divs";
+      const apiURLusers = `${process.env.AXIOS_BASEURL}/api/users`;
+      const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
       await this.$axios.get(apiURLusers).then(res => {this.users = res.data})
       .catch(err => { this.createAlert(`เกิดข้อผิดพลาดขึ้นในการดึงข้อมูลบัญชีผู้ใช้งาน - ${err}`, "error") });
       await this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
@@ -224,7 +224,7 @@ export default {
     },
 
     deleteItemConfirm() {
-      const apiURLusersDelete = `http://localhost:9000/api/users/${this.editedItem._id}`;
+      const apiURLusersDelete = `${process.env.AXIOS_BASEURL}/api/users/${this.editedItem._id}`;
       this.$axios.delete(apiURLusersDelete).then(res => {this.fetchItems(); this.createAlert(`ลบบัญชีผู้ใช้งานสำเร็จ`, "success")})
       .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการลบบัญชีผู้ใช้งาน - ${err}`, "error")})
       this.closeDelete();
@@ -251,7 +251,7 @@ export default {
           if (this.editedItem['password'] != this.users[this.editedIndex]['password']){
             this.editedItem['password'] = bcrypt.hashSync(this.editedItem['password'], 1);
           }
-          const apiURLusersUpdate = `http://localhost:9000/api/users/${this.editedItem._id}`;
+          const apiURLusersUpdate = `${process.env.AXIOS_BASEURL}/api/users/${this.editedItem._id}`;
           this.$axios.patch(apiURLusersUpdate, this.editedItem)
           .then(res => {this.fetchItems(); this.createAlert(`แก้ไขบัญชีผู้ใช้งานสำเร็จ`, "success")})
           .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการแก้ไขบัญชีผู้ใช้ - ${err}`, "error")})
