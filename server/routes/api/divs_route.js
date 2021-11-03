@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Divs = require('../../models/divs_db') //Schema  
-const {userAuth, roleAuth, serializeUser} = require('../../middlewares/authorized');
+const {userAuth, roleAuth} = require('../../middlewares/authorized');
 
 router.get('/', (req, res, next) => {
     Divs.find().sort({divTag: 1}).exec()

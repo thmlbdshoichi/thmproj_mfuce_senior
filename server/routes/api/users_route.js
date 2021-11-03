@@ -64,7 +64,7 @@ router.post('/auth/login', (req, res, next) => {
         }else{
             res.status(401).json({message: `Credential is invalid`, errorDetails: {username: auth_user.username, password: auth_user.password, checkPass: checkPass}})}
         })
-    .catch(err => {res.status(500).json({message: 'An error occured while authenticating user and password.',errorDetails: err})})
+    .catch(err => {res.status(401).json({message: 'Username is invalid or an error occured while authenticating username and password.',errorDetails: err})})
 });
 
 router.post('/auth/refresh-token', async (req, res, next) => {

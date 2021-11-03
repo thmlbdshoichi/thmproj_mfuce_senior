@@ -70,11 +70,6 @@
 </template>
 
 <script>
-/**import Account_table from "../components/Account_table";
-import Division from "../components/Division";
-import CreateEvaluation from "../components/CreateEvaluation";
-import Evaluation from "../components/Evaluation";
-import Dashboard from "../components/Dashboard";**/
 
 export default {
   data: () => ({
@@ -101,19 +96,26 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: "Service Evaluation",
+      title: "Service Evaluation Control Panel (Observer)",
     }),
-  middleware: ['auth'],
+  //middleware: ['auth'],
   methods: {
     async userLogout() {
       await this.$auth.logout()
-      await this.$axios.setHeader('Authorization', false);
+      await this.$axios.setToken(false);
       this.$router.replace({name: 'index'});
     },
   },
   mounted(){
     if(this.$auth.loggedIn){
       this.userDetails = this.$auth.user;
+      if(this.$auth.user.role === "Admin"){
+        const adminMenu = [
+          { title: "จัดการหน่วยงาน", icon: "mdi-chart-pie", to: "/ListDivision" },
+          { title: "จัดการบัญชีผู้ใช้", icon: "mdi-folder-account", to: "/ListAccount" },
+        ]
+        this.items.push(...adminMenu)
+      }
     }else{
       this.userDetails = this.defaultUser;
     }

@@ -84,8 +84,9 @@
 <script>
 import CreateDivision_Button from "../components/CreateDivision";
 export default {
-  layout: "admin",
+  layout: "user",
   components: { CreateDivision_Button },
+  middleware: ['auth-admin'],
   data: () => ({
     alertbox: {
       alert: false,
@@ -136,7 +137,6 @@ export default {
       }, delay)
     },
     async fetchItems() {
-      await this.$axios.setToken(this.$auth.strategy.token.get());
       const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
       this.$axios.get(apiURLdivs).then(res => {this.divisions = res.data})
       .catch(err => { this.createAlert(`เกิดข้อผิดพลาดขึ้นในการดึงข้อมูลหน่วยงาน - ${err}`, "error") }); 

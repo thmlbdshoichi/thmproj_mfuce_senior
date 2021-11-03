@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const moment = require('moment');
 const EvalResults = require('../../models/results_db') //Schema 
+const {userAuth, roleAuth} = require('../../middlewares/authorized');
 
 // HALT SHOULD BE DONE IN FRONT-END INSTEAD?
 router.get('/', (req, res, next) => {

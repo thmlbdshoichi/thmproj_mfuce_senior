@@ -74,6 +74,7 @@ export default {
     divisionLists: Array,
     divTagIndex: String,
     fetchItems: Function,
+    createAlert: Function,
   },
   watch: {
         dialog(val) {
@@ -88,7 +89,9 @@ export default {
       handleSubmitForm() {
         const apiURLquestionCreate = `${process.env.AXIOS_BASEURL}/api/questions`;
         if (this.$refs.formCreateQuestion.validate()){
-          this.$axios.post(apiURLquestionCreate, this.newQuestion).then(res => {this.fetchItems()}).catch(err => {console.log(err)});
+          this.$axios.post(apiURLquestionCreate, this.newQuestion)
+          .then(res => {this.fetchItems(); this.createAlert(`เพิ่มคำถามสำเร็จ`, "success")})
+          .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการเพิ่มคำถาม - ${err}`, "error")});
           this.close();
         } else {
           this.$refs.formCreateQuestion.validate()

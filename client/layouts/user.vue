@@ -13,13 +13,13 @@
             <v-icon class="icon">{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title  class="tt" v-text="item.title" />
+            <v-list-item-title class="tt" v-text="item.title" />
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar  clipped-left fixed app>
+    <v-app-bar   clipped-left fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
 
@@ -37,12 +37,15 @@
       &nbsp;&nbsp;&nbsp;&nbsp;
 
       <v-menu bottom left>
-        <template v-slot:activator="{}">
-          <v-btn class="ma-2" outlined color="#BC8E5D" @click="userLogout"><v-icon left> mdi-login </v-icon><h4>LOGOUT</h4></v-btn>
+        <template v-slot:activator="{}"> 
+          <v-btn class="ma-2" outlined color="#BC8E5D" @click="userLogout">
+            <v-icon left> mdi-login </v-icon>
+            <h4>LOGOUT</h4>
+          </v-btn>
         </template>
 
         <v-list nav dense>
-          <v-list-item-group v-model="selectedItem" >
+          <v-list-item-group v-model="selectedItem" color="primary">
             <v-list-item v-for="(item, i) in items" :key="i" :to="item.to">
               <v-list-item-icon>
                 <v-icon v-text="item.icon"></v-icon>
@@ -56,19 +59,20 @@
 
     <v-main>
       <v-container>
-        <Nuxt />
+        <Nuxt/>
       </v-container>
     </v-main>
 
-    <v-footer  :absolute="!fixed" app>
+    <v-footer :absolute="!fixed" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+
 export default {
-   data: () => ({
+  data: () => ({
       userDetails: {
       username: "",
       name: "",
@@ -86,15 +90,15 @@ export default {
       fixed: false,
       selectedItem: 0,
       items: [
-        { title: "จัดการบัญชีผู้ใช้", icon: "mdi-folder-account", to: "/ListAccount" },
-        { title: "จัดการหน่วยงาน", icon: "mdi-chart-pie", to: "/ListDivision" },
+        { title: "ดูข้อมูลสถิติ", icon: "mdi-view-dashboard", to: "/Dashboard" },
+        { title: "จัดการคำถาม", icon: "mdi-tooltip-edit", to: "/ListQuestion" },
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
       title: "Service Evaluation Control Panel",
-  }),
-  middleware: ['auth-admin'],
+    }),
+  middleware: ['auth'],
   methods: {
     async userLogout() {
       await this.$auth.logout()
@@ -105,12 +109,19 @@ export default {
   mounted(){
     if(this.$auth.loggedIn){
       this.userDetails = this.$auth.user;
-      this.$axios.setToken(this.$auth.strategy.token.get());
+      if(this.$auth.user.role === "Admin"){
+        const adminMenu = [
+          { title: "จัดการหน่วยงาน", icon: "mdi-domain", to: "/ListDivision" },
+          { title: "จัดการบัญชีผู้ใช้", icon: "mdi-folder-account", to: "/ListAccount" },
+        ]
+        this.items.push(...adminMenu)
+      }
     }else{
       this.userDetails = this.defaultUser;
     }
-  }
-};
+  },
+}
+
 </script>
 
 <style scoped>
@@ -123,19 +134,22 @@ export default {
   color:#BC8E5D;
 }
 
+.v-application {
+  background-color: #cacaca;
+}
+
+.v-appbar {
+  background-color: #cacaca;
+}
+
 .tt {
   color:#000000;
   font-weight : bold ;
 }
 
-.v-application {
-  background-color: #cacaca;
-}
-
 
 
 </style>
-
 
 
 
