@@ -135,6 +135,7 @@ import bcrypt from 'bcryptjs';
 export default {
   layout: "user",
   components: { CreateAccount_Component },
+  middleware: ['auth-admin'],
   data: () => ({
     alertbox: {
       alert: false,

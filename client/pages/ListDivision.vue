@@ -86,6 +86,7 @@ import CreateDivision_Button from "../components/CreateDivision";
 export default {
   layout: "user",
   components: { CreateDivision_Button },
+  middleware: ['auth-admin'],
   data: () => ({
     alertbox: {
       alert: false,
