@@ -40,18 +40,20 @@
                       outlined
                       dense
                     ></v-combobox>
-                    <v-btn @click.prevent="startQuiz()">Start Evaluation</v-btn>
+                    <v-btn @click.prevent="startQuiz()"> Start Evaluation </v-btn>
                   </v-col>
                 </v-row>
               </v-container>
             </div>
+
             <v-card-text>
-              <div class="question">
+              <v-card>
+              <div v-for="i in 5" v-if="question" class="question" >
                 <v-row align="center">
                   <h2 class="subheading--text ">Question:</h2>
                   
                 </v-row>
-              </div>
+
               <br> 
               <div align="center">
                 <v-btn
@@ -97,7 +99,9 @@
                 >
                   BEST
                 </v-btn>
+                </div>
               </div>
+              </v-card>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -135,11 +139,13 @@ export default {
           'Division02',
           'Division03',
         ],
+        question: false,
       }
     },
   methods: {
     startQuiz () {
-      this.$store.dispatch('beginQuiz', this.Division)
+     // this.$store.dispatch('beginQuiz', this.Division)
+     this.question=true;
     }
   }
 }
