@@ -30,11 +30,46 @@
           prepend-icon="mdi-magnify" 
           single-line hide-details></v-select>
         </v-col>
+      </v-card-title>
+    </v-card>
+    <br>
 
+
+    <div>
+      <v-row>
+        <!--  กล่อง1 --> 
+          <v-col cols="12" sm="6" md="6" lg="6"  align="center" justify="center">
+            <v-card height="130" color="#1F618D">  
+              <v-card-text class="box1">
+                <h1>วันนี้</h1>
+                <br>
+                  <h1>350</h1>
+                  <h3>ตอบแบบสอบถามแล้ววันนี้</h3>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        
+        <!--กล่อง2--> 
+          <v-col cols="12" sm="6" md="6" lg="6"  align="center" justify="center" >
+            <v-card height="130" color="">
+              <v-card-text class="box2">
+                <h1>ทั้งหมด</h1>
+                <br>
+                <h1>1250</h1>
+                <h3>ตอบแบบสอบถามทั้งหมด</h3>
+              </v-card-text>
+            </v-card>
+          </v-col>
+      </v-row>
+    </div>
+    <br>
+
+    <v-card>
+    <v-card-title>
         <!--เลือกระยะเวลาที่ต้องการดู --> 
          <!-- v-if="selected" --> 
-        <v-col cols="12" sm="6" md="6" lg="6" v-if="select2" >
-              <v-icon medium color="#bc8e5d"> mdi-numeric-3-circle </v-icon>
+        <v-col cols="12" sm="6" md="6" lg="6" >
+              <v-icon medium color="#bc8e5d"> mdi-clock-time-three-outline </v-icon>
             เลือกระยะเวลาที่ต้องการดู
             <v-row>
             <v-col cols="12" sm="6" md="6" lg="6" >
@@ -112,42 +147,11 @@
       </v-card-title>
     </v-card>
     <br>
-
-
-    <div>
-      <v-row>
-        <!--  กล่อง1 --> 
-          <v-col cols="12" sm="6" md="6" lg="6"  align="center" justify="center">
-            <v-card height="130" color="#1F618D">  
-              <v-card-text class="box1">
-                <h1>วันนี้</h1>
-                <br>
-                  <h1>350</h1>
-                  <h3>ตอบแบบสอบถามแล้ววันนี้</h3>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        
-        <!--กล่อง2--> 
-          <v-col cols="12" sm="6" md="6" lg="6"  align="center" justify="center" >
-            <v-card height="130" color="">
-              <v-card-text class="box2">
-                <h1>ทั้งหมด</h1>
-                <br>
-                <h1>1250</h1>
-                <h3>ตอบแบบสอบถามทั้งหมด</h3>
-              </v-card-text>
-            </v-card>
-          </v-col>
-      </v-row>
-    </div>
-    <br>
     
     <!-- graph -->
     <v-card>
       <v-card-text>
-        <v-row>
-          <v-col md="6">
+          <v-col md="12">
             <v-card v-if="overview">
               <bar-chart
                 :barchartdata="barchartdata"
@@ -161,35 +165,30 @@
               />
             </v-card>-->
           </v-col>
-
-          <v-col md="6">
-            <!--<v-card>
-              <bar-chart
-                :barchartdata="barchartdata"
-                :barchartoptions="barchartoptions"
-              />
-            </v-card>-->
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col md="12">
-            <v-card v-if="loaded">
-              <line-chart
-                :linechartdata="jsonchartdata"
-                :lineoptions="barchartoptions"
-              />
-            </v-card>
-            <v-card v-if="loaded">
-              <line-chart
-                :linechartdata="jsonchartdata"
-                :lineoptions="barchartoptions"
-              />
-            </v-card>
-          </v-col>
-        </v-row>
+  
+          <!-- graph by quesions-->
+          <template>
+            <v-item-group>
+              <v-container>
+                 <h2> กราฟแสดงแต่ล่ะคำถาม </h2>
+                <br>
+                <v-row>
+                  <v-col cols="12" sm="12" md="12" lg="6" v-for="(quesion, index) in quesions" :key="index" >
+                    <v-card class="g-quesion d-flex align-center" >
+                      <v-card-text>
+                        <bar-chart 
+                          :barchartdata="barchartdata"
+                          :barchartoptions="barchartoptions"
+                        />
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-item-group>
+          </template>
       </v-card-text>
-    </v-card>
+    </v-card>  
   </div>
 </template>
 
@@ -256,10 +255,10 @@ export default {
         ],
       },
     },
+    quesions: ["Quesion 1", "Quesion 2", "Quesion 3", "Quesion 4", "Quesion 5"],
     overview: true,
     loaded: false,
     select1: false,
-    select2: false,
     apichartdata: {
       labels: [],
       datasets: [],
@@ -307,6 +306,7 @@ export default {
       if(this.$auth.loggedIn){
         this.userDetails = this.$auth.user;
         this.userResDiv = this.divisionLists.filter((div) => this.userDetails.resDiv.includes(div.divTag));
+        this.loaded = true;
       }
     },
     // ABOVE IS BACK-END FETCH USER - PLEASE ADD OTHER FUNCTION BELOW !
@@ -345,5 +345,10 @@ export default {
 }
 .box2 > h3{
   color: #bc8e5d;
+}
+.g-quesion{
+  height: auto;
+  padding: 20px;
+  align-items: center;
 }
 </style>
