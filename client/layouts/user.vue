@@ -19,41 +19,26 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar   clipped-left fixed app>
+    <v-app-bar clipped-left fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
-
-      <v-spacer />
-
-      <v-avatar>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+     <v-avatar class="ml-auto">
         <img src="/user.png" alt="John" />
       </v-avatar>
-      &nbsp;&nbsp;&nbsp;
-      <v-toolbar-title class="navbar" justify="center" align="center">
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <v-toolbar-title class="text-center">
         <h6>{{userDetails.username}}</h6>
         <h6>{{userDetails.name}} | ({{userDetails.role}})</h6>
       </v-toolbar-title>
-
       &nbsp;&nbsp;&nbsp;&nbsp;
-
-      <v-menu bottom left>
+      <v-menu>
         <template v-slot:activator="{}"> 
           <v-btn class="ma-2" outlined color="#BC8E5D" @click="userLogout">
-            <v-icon left> mdi-login </v-icon>
+            <v-icon left> mdi-logout </v-icon>
             <h4>LOGOUT</h4>
           </v-btn>
         </template>
-
-        <v-list nav dense>
-          <v-list-item-group v-model="selectedItem" color="primary">
-            <v-list-item v-for="(item, i) in items" :key="i" :to="item.to">
-              <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
       </v-menu>
     </v-app-bar>
 
@@ -64,7 +49,7 @@
     </v-main>
 
     <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span>&copy; {{ new Date().getFullYear() }} T. Boongoen , N. Iam-on, N. Patlee, P. Jairat, A. Moonbung, K. Sinauksonsub - All Rights Reserved</span>
     </v-footer>
   </v-app>
 </template>
@@ -96,29 +81,34 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: "Service Evaluation Control Panel",
+      title: "แผงควบคุมระบบประเมินหน่วยงาน",
     }),
   middleware: ['auth'],
   methods: {
     async userLogout() {
       await this.$auth.logout()
-      await this.$axios.setToken(false);
-      this.$router.replace({name: 'index'});
+      .then(() => this.$axios.setToken(false))
+      .then(() => this.$router.push({name: 'index'}))
     },
-  },
-  mounted(){
-    if(this.$auth.loggedIn){
-      this.userDetails = this.$auth.user;
-      if(this.$auth.user.role === "Admin"){
-        const adminMenu = [
-          { title: "จัดการหน่วยงาน", icon: "mdi-domain", to: "/ListDivision" },
-          { title: "จัดการบัญชีผู้ใช้", icon: "mdi-folder-account", to: "/ListAccount" },
-        ]
-        this.items.push(...adminMenu)
+    async fetchUser(){
+      if(this.$auth.loggedIn){
+        this.userDetails = this.$auth.user;
+        if(this.$auth.user.role === "Admin"){
+          const adminMenu = [
+            { title: "จัดการหน่วยงาน", icon: "mdi-domain", to: "/ListDivision" },
+            { title: "จัดการบัญชีผู้ใช้", icon: "mdi-folder-account", to: "/ListAccount" },
+          ]
+          await this.items.push(...adminMenu)
+        }
       }
-    }else{
-      this.userDetails = this.defaultUser;
+      else
+      {
+        this.userDetails = this.defaultUser;
+      }
     }
+  },
+  created(){
+    this.fetchUser();
   },
 }
 

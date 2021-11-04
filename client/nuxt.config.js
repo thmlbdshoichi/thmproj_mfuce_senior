@@ -79,7 +79,6 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/google-fonts',
-    '@nuxtjs/router',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -128,11 +127,8 @@ export default {
 
   googleFonts: {
     families: {
-      'Kanit': true,
+      Kanit: true,
     },
-    prefetch: true,
-    preconnect: true,
-    preload: true,
     download: true,
   },
 
