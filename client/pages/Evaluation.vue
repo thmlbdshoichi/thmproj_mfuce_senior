@@ -48,12 +48,11 @@
             <v-card-text>
               <div class="question">
                 <v-row align="center">
-                  <h3>Question:</h3>
-                  <v-col cols="8">
-                    <v-text-field label="xxxxxxxxxxxxxxxx" solo></v-text-field>
-                  </v-col>
+                  <h2 class="subheading--text ">Question:</h2>
+                  
                 </v-row>
               </div>
+              <br> 
               <div align="center">
                 <v-btn
                   color="#F9957F"
@@ -64,7 +63,7 @@
                   class="worst"
                 >
                   WORST </v-btn
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                >
 
                 <v-btn
                   color="#F7D7C2"
@@ -87,7 +86,7 @@
                   class="good"
                 >
                   GOOD </v-btn
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                >
                 <v-btn
                   color="#ABCFD1"
                   depressed
@@ -133,14 +132,16 @@ export default {
         select: ['Division'],
         items: [
           'Division01',
-          'Division01',
-          'Division01',
+          'Division02',
+          'Division03',
         ],
       }
     },
-  data: () => ({
-    first: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-  }),
+  methods: {
+    startQuiz () {
+      this.$store.dispatch('beginQuiz', this.Division)
+    }
+  }
 }
 </script>
 
