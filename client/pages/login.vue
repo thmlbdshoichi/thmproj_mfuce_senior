@@ -113,7 +113,7 @@
                             outlined
                             rounded
                             @click="userLogin"
-                            >เข้าสู่ระบบ</v-btn
+                            ><v-icon left>mdi-login</v-icon>เข้าสู่ระบบ</v-btn
                           >
                         </v-col>
                       </v-row>
@@ -184,6 +184,7 @@ export default {
       password: ''
     }
   }),
+  middleware: ['auth'],
   methods: {
     userLogin() {
       if (this.$refs.formLoginuser.validate()) {
@@ -191,12 +192,12 @@ export default {
         .then(res => {
           //this.$axios.setToken('')
           if(this.$auth.user.role === "Admin"){
-            this.$router.replace({name: 'ListAccount'});
+            this.$router.push({name: 'ListAccount'});
           } 
           else if(this.$auth.user.role === "Observer"){
-            this.$router.replace({name: 'Dashboard'});
+            this.$router.push({name: 'Dashboard'});
           } else {
-            this.$router.replace({name: 'login'});
+            
           }
         })
         .catch(err => {
