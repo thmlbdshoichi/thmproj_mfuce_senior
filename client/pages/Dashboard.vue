@@ -10,8 +10,8 @@
           @change="changeSelect1" 
           v-model="divTagIndex" 
           @input="fetchItems()"
-          :items="items" 
-          item-text="divName" 
+          :items="userResDiv" 
+          :item-text="item => item.divTag +' - '+ item.divName"
           item-value="divTag" 
           prepend-icon="mdi-magnify" 
           single-line hide-details></v-select>
@@ -23,11 +23,10 @@
           เลือกคำถามที่ต้องการ
           <v-select 
           @change="changeSelect2" 
-          v-model="divTagIndex" 
           @input="fetchItems()"
-          :items="items" 
-          item-text="divName" 
-          item-value="divTag" 
+          :items="specificQuestion" 
+          :item-text="item => item.qSequence +' - '+ item.qName"
+          item-value="qSequence" 
           prepend-icon="mdi-magnify" 
           single-line hide-details></v-select>
         </v-col>
@@ -271,12 +270,55 @@ export default {
     }, // script of date
     stdate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     eddate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      menu1: false,
-      menu2: false,
-      modal: false,
+    menu1: false,
+    menu2: false,
+    modal: false,
+    //Backend - Fetch data variable do not touch or add anything below here!!
+    alertbox: {
+      alert: false,
+      msg: "",
+      type: "info",
+    },
+    divTagIndex: "",
+    divisionLists: [],
+    specificQuestion: [],
+    userDetails: {
+      username: "",
+      name: "",
+      role: "",
+      resDiv: []
+      },
+    userResDiv: [],
   }),
-  
+  computed:{
+
+  },
+  watch:{
+
+  },
   methods: {
+    // BELOW IS BACK-END FETCH USER - RELATED FIELD DO NOT ADD ANY FUNCTION!!
+    async fetchItems(){
+      const apiURLSpecificQuestion = `${process.env.AXIOS_BASEURL}/api/questions/${this.divTagIndex}`
+      const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
+      await this.$axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data})
+      .catch(err => {this.createAlert(`โปรดเลือกหน่วยงานที่ท่านรับผิดชอบเพื่อแสดงรายการคำถาม`, "info", 60000) });
+      await this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
+      if(this.$auth.loggedIn){
+        this.userDetails = this.$auth.user;
+        this.userResDiv = this.divisionLists.filter((div) => this.userDetails.resDiv.includes(div.divTag));
+      }
+    },
+    // ABOVE IS BACK-END FETCH USER - PLEASE ADD OTHER FUNCTION BELOW !
+    createAlert(msg, type, delay=5000){
+      this.alertbox.msg = msg;
+      this.alertbox.type = type;
+      this.alertbox.alert = true;
+      setInterval(() => {
+        this.alertbox.alert = false
+        this.alertbox.msg = "";
+      }, delay)
+    },
     changeSelect1(selectObj) {
         this.select1 = true;
         this.loaded = true;
@@ -285,38 +327,6 @@ export default {
      changeSelect2(selectObj) {
         this.select2 = true;
      },
-    async fetchItems(){
-      const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
-      this.$axios.get(apiURLdivs).then(res => {this.divisions = res.data})
-    },
-  },
-  async mounted() {
-    /*this.loaded = false;
-    try {
-      const res = await this.$axios.get(url);
-      const results = res.data;
-      let tmplabels = [], tmpdata = [];
-      results.forEach(function (x) {
-        tmplabels.push(x.id);
-        tmpdata.push(parseFloat(x.salary));
-      });
-
-      let tempData = {
-        labels: tmplabels,
-        datasets: [
-          {
-            label: "Salary by ID",
-            data: tmpdata,
-            borderColor: "rgb(75, 192, 192)",
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
-          },
-        ],
-      };
-      this.jsonchartdata = tempData;
-      this.loaded = true;
-    } catch (e) {
-      console.error(e);
-    }*/
   },
   async created() {
     await this.fetchItems();
