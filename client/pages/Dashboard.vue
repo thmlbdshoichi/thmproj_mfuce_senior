@@ -151,26 +151,31 @@
     <!-- graph -->
     <v-card>
       <v-card-text>
-          <v-col md="12">
-            <v-card v-if="overview">
-              <bar-chart
-                :barchartdata="barchartdata"
-                :barchartoptions="barchartoptions"
-              />
-            </v-card>
+        <v-col md="12" v-if="overview">
+          <v-card-title> 
+              กราฟแสดงโดยรวม
+          </v-card-title>
+          <v-card >
+            <bar-chart
+              :barchartdata="barchartdata"
+              :barchartoptions="barchartoptions"
+            />
+          </v-card>
             <!--<v-card>
               <line-chart
                 :linechartdata="chartdata"
                 :linechartoptions="options"
               />
-            </v-card>-->
+          </v-card>-->
           </v-col>
   
-          <!-- graph by quesions-->
+          <!-- graph by each quesions-->
           <template>
-            <v-item-group>
+            <v-item-group v-if="anyquesion">
               <v-container>
-                 <h2> กราฟแสดงแต่ล่ะคำถาม </h2>
+                <v-card-title> 
+                    กราฟแสดงคำถามทั้งหมด
+                </v-card-title>
                 <br>
                 <v-row>
                   <v-col cols="12" sm="12" md="12" lg="6" v-for="(quesion, index) in quesions" :key="index" >
@@ -187,6 +192,25 @@
               </v-container>
             </v-item-group>
           </template>
+
+          <!-- graph with one quesion-->
+          <v-col md="12" v-if="onequesion"> 
+            <v-card-title> 
+              กราฟแสดงของคำถามนั้น
+            </v-card-title>
+            <v-card >
+              <bar-chart
+                :barchartdata="barchartdata"
+                :barchartoptions="barchartoptions"
+              />
+            </v-card>
+            <!--<v-card>
+              <line-chart
+                :linechartdata="chartdata"
+                :linechartoptions="options"
+              />
+            </v-card>-->
+          </v-col>
       </v-card-text>
     </v-card>  
   </div>
@@ -257,8 +281,11 @@ export default {
     },
     quesions: ["Quesion 1", "Quesion 2", "Quesion 3", "Quesion 4", "Quesion 5"],
     overview: true,
+    onequesion:false,
+    anyquesion: false,
     loaded: false,
     select1: false,
+    
     apichartdata: {
       labels: [],
       datasets: [],
@@ -306,7 +333,7 @@ export default {
       if(this.$auth.loggedIn){
         this.userDetails = this.$auth.user;
         this.userResDiv = this.divisionLists.filter((div) => this.userDetails.resDiv.includes(div.divTag));
-        this.loaded = true;
+        
       }
     },
     // ABOVE IS BACK-END FETCH USER - PLEASE ADD OTHER FUNCTION BELOW !
@@ -321,11 +348,13 @@ export default {
     },
     changeSelect1(selectObj) {
         this.select1 = true;
-        this.loaded = true;
         this.overview = false;
+        this.anyquesion = true;
      },
      changeSelect2(selectObj) {
         this.select2 = true;
+        this.anyquesion = false;
+        this.onequesion = true;
      },
   },
   async created() {
@@ -348,7 +377,7 @@ export default {
 }
 .g-quesion{
   height: auto;
-  padding: 20px;
+  padding: 10px;
   align-items: center;
 }
 </style>
