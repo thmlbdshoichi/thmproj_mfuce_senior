@@ -24,7 +24,7 @@
                   label="ลำดับคำถาม" 
                   type="number"
                   min="1"
-                  :rules="[v => !(specificQuestion.some(e => e.qSequence === v)) || 'ลำดับคำถามซ้ำ', v => !!v || 'ไม่สามารถเว้นว่างลำดับคำถามได้', v => (v && v > 0) || 'ลำดับต้องเป็นจำนวนนับเท่านั้น']"
+                  :rules="[v => !(specificQuestion.some(e => e.qSequence == v)) || 'ลำดับคำถามซ้ำ', v => !!v || 'ไม่สามารถเว้นว่างลำดับคำถามได้', v => (v && v > 0) || 'ลำดับต้องเป็นจำนวนนับเท่านั้น']"
                   required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="12" md="12">

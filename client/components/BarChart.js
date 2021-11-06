@@ -1,18 +1,14 @@
-import { Bar } from 'vue-chartjs'
-
+import { Bar, mixins } from 'vue-chartjs'
 export default {
   extends: Bar,
-  props: {
-    barchartdata: {
-      type: Object,
-      default: null
+  mixins: [mixins.reactiveProp],
+  props: ['chartData', 'options'],
+  /*watch: {
+    chartData(){
+      this.renderChart(this.chartData, this.options);
     },
-    barchartoptions: {
-      type: Object,
-      default: null
-    }
-  },
+  },*/
   mounted () {
-    this.renderChart(this.barchartdata, this.barchartoptions)
+    this.renderChart(this.chartData, this.options);
   }
 }

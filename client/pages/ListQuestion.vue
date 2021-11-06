@@ -99,6 +99,60 @@
         </template>
       </v-data-table>
     </v-card>
+    <br>
+    <v-card>
+      <v-row class="mt-1">
+          <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
+            <h3>
+              <v-icon medium color="primary">mdi-information</v-icon>
+              โปรดทราบว่าการแก้ไข "คำถาม" หรือ "ลำดับของคำถาม" จะมีผลต่อคำถามที่ปรากฎในแบบประเมินและในกราฟสถิติ จึงขอแนะนำให้ลบข้อมูลสถิติการประเมินก่อนทุกครั้งก่อนการแก้ไข
+            </h3>
+          </v-col>
+          <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
+            <v-dialog
+            v-model="dialogClearResults"
+            persistent
+            max-width="600px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn v-bind="attrs" v-on="on" color="error">
+                  <v-icon left>mdi-delete-empty</v-icon>ล้างข้อมูลสถิติการประเมินของหน่วยงานนี้
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="text-h5">โปรดพิมพ์ข้อความต่อไปนี้เพื่อยืนยันการลบ</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-form ref="formClearEvalResults" lazy-validation>
+                      <v-row class="text-center">
+                        <v-col cols="12" sm="12" md="12" lg="12">
+                          <h2>"{{selectedDiv}}"</h2>
+                        </v-col>
+                        <v-col cols="12" sm="12" md="12" lg="12">
+                          <v-text-field
+                            v-model="confirmKeyword"
+                            prepend-icon="mdi-delete-sweep"
+                            label="ป้อนข้อความ"
+                            type="text"
+                            :rules="[v => !!v || 'ขออภัยกรุณาเลือกหน่วยงานเพื่อล้างสถิติการประเมิน', v => (v===selectedDiv) || 'จำเป็นต้องกรอกข้อความให้ตรงทุกตัวอักษร หากท่านต้องการล้างสถิติการประเมิน']"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-form>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="closeClear">ยกเลิก</v-btn>
+                  <v-btn color="yellow darken-4" text @click="confirmClearResults">ยืนยันการล้างสถิติ</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
+        </v-row>
+    </v-card>
   </v-container>
 </template>
 
@@ -131,6 +185,7 @@ export default {
     specificQuestion: [],
     divisionLists: [],
     dialog: false,
+    dialogClearResults: false,
     dialogDelete: false,
     search: "",
     headers: [
@@ -153,11 +208,20 @@ export default {
       qName: "",
       divTag: "",
     },
+    confirmKeyword: "",
   }),
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "เพิ่มคำถามใหม่" : `แก้ไขคำถาม ${this.editedItem.divTag}`;
     },
+    selectedDiv() {
+      if(this.divTagIndex){
+        return this.userResDiv.filter((div) => div.divTag == this.divTagIndex)[0].divName;
+      } else {
+        return "";
+      }
+      
+    }
   },
   watch: {
     dialog(val) {
@@ -166,6 +230,9 @@ export default {
     dialogDelete(val) {
       val || this.closeDelete();
     },
+    dialogClearResults(val) {
+      val || this.closeClear();
+    }
   },
   methods: {
     createAlert(msg, type, delay=5000){
@@ -228,6 +295,11 @@ export default {
       });
     },
 
+    closeClear(){
+      this.dialogClearResults = false;
+      this.confirmKeyword = '';
+    },
+
     save() {
       if (this.$refs.formEditQuestion.validate()){
         const apiURLQuestionUpdate = `${process.env.AXIOS_BASEURL}/api/questions/${this.specificQuestion[this.editedIndex]['divTag']}/${this.specificQuestion[this.editedIndex]['qSequence']}`;
@@ -239,6 +311,18 @@ export default {
         this.$refs.formEditQuestion.validate()
       }
     },
+
+    confirmClearResults() {
+      if(this.divTagIndex && this.$refs.formClearEvalResults.validate()){
+        let apiURLevalResultClear = `${process.env.AXIOS_BASEURL}/api/evalresults/${this.divTagIndex}`
+        this.$axios.delete(apiURLevalResultClear)
+        .then(res => {this.fetchItems(); this.createAlert(`ทำการสถิติทั้งหมดของหน่วยงาน ${this.selectedDiv} เรียบร้อยแล้ว`, "warning")})
+        .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการล้างสถิติของหน่วยงาน ${this.selectedDiv} - ${err}`, "error")})
+        this.closeClear();
+      } else {
+        this.$refs.formClearEvalResults.validate()
+      }
+    }
   },
   async created() {
     await this.fetchItems();
