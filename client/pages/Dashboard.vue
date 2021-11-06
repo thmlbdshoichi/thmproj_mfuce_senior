@@ -39,7 +39,7 @@
       <v-row>
         <!--  กล่อง1 --> 
           <v-col cols="12" sm="6" md="6" lg="6"  align="center" justify="center">
-            <v-card height="130" color="#FFFFFF">  
+            <v-card color="#FFFFFF">  
               <v-card-text class="box1">
                 <h1>ทั้งหมด</h1>
                 <br>
@@ -51,7 +51,7 @@
         
         <!--กล่อง2--> 
           <v-col cols="12" sm="6" md="6" lg="6" align="center" justify="center" >
-            <v-card height="130" color="#bc8e5d">
+            <v-card color="#bc8e5d">
               <v-card-text class="box2">
                 <h1>ทั้งหมด</h1>
                 <br>
@@ -104,6 +104,7 @@
                     color="#bc8e5d"
                   >
                     <v-spacer></v-spacer>
+                    <v-btn text color="#bc8e5d" @click="clearStartDate">ล้างข้อมูล</v-btn>
                     <v-btn text color="#bc8e5d" @click="menu1 = false">ปิด</v-btn>
                   </v-time-picker>
                 </v-card>
@@ -142,6 +143,7 @@
                     color="#bc8e5d"
                   >
                     <v-spacer></v-spacer>
+                    <v-btn text color="#bc8e5d" @click="clearEndDate">ล้างข้อมูล</v-btn>
                     <v-btn text color="#bc8e5d" @click="menu2 = false">ปิด</v-btn>
                   </v-time-picker>
                 </v-card>
@@ -156,6 +158,17 @@
         </v-col>
       </v-card-title>
     </v-card>
+    <br>
+      <v-card :color="satisfyStats.color" v-if="satisfyStats.show">  
+        <v-col cols="12" sm="12" md="12" lg="12"  align="center" justify="center">
+        <v-card-text class="box2">
+          <h1>ผู้มาใช้บริการรู้สึก "{{satisfyStats.text}}"</h1>
+          <v-icon color="#FFFFFF" class="mt-3 mb-3" x-large>{{satisfyStats.icon}}</v-icon>
+            <h2>คะแนนความพึงพอใจเฉลี่ย {{this.satisfyStats.score}}</h2>
+        </v-card-text>
+        </v-col>
+      </v-card>
+    
     <br>
     <v-alert :type="alertbox.type" transition="fade-transition" :value="alertbox.alert" dismissible>{{alertbox.msg}}</v-alert>
     <!-- graph -->
@@ -176,10 +189,10 @@
                 />
               </v-card>
               <v-row class="mt-1">
-                <v-col class="text-right" cols="12" sm="12" md="12" lg="12">
+                <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
                   <h3>
                     <v-icon medium color="primary">mdi-information</v-icon>
-                    คะแนน: 0-1 ไม่พึงพอใจ(แย่), 1-2 ค่อนข้างพึงพอใจ(ปานกลาง), 2-3 พึงพอใจ(ดี), 3-4 พึงพอใจมาก(ดีมาก)
+                    คะแนน: 1.00-1.99 ไม่พึงพอใจ(แย่), 2.00-2.99 เฉยๆ(ปานกลาง), 3.00-3.50 พึงพอใจ(ดี), 3.51-4.00 พึงพอใจมาก(ดีมาก)
                   </h3>
                 </v-col>
               </v-row>
@@ -207,13 +220,44 @@
                     </v-card-text>
                   </v-card>
                   <v-row class="mt-1">
-                    <v-col class="text-right" cols="12" sm="12" md="12" lg="12">
+                    <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
                       <h3>
                         <v-icon medium color="primary">mdi-information</v-icon>
-                        คะแนน: 0-1 ไม่พึงพอใจ(แย่), 1-2 ค่อนข้างพึงพอใจ(ปานกลาง), 2-3 พึงพอใจ(ดี), 3-4 พึงพอใจมาก(ดีมาก)
+                        คะแนน: 1.00-1.99 ไม่พึงพอใจ(แย่), 2.00-2.99 เฉยๆ(ปานกลาง), 3.00-3.50 พึงพอใจ(ดี), 3.51-4.00 พึงพอใจมาก(ดีมาก)
                       </h3>
                     </v-col>
                   </v-row>
+                </v-col>
+                <v-col cols="1" sm="1" md="1" lg="1"></v-col>
+              </v-row>
+              <v-row class="mb-5">
+                <v-col cols="1" sm="1" md="1" lg="1"></v-col>
+                <v-col cols="10" sm="10" md="10" lg="10">
+                  <v-card block class="mx-auto mt-10">
+                    <v-toolbar class="text-center" color="info" dark>
+                      <v-icon medium color="#FFFFFF">mdi-information</v-icon>
+                      <h3 class="ml-2 mr-2">ข้อเสนอแนะ (Comments)</h3>
+                    </v-toolbar>
+                    <v-list style="max-height: 500px" class="overflow-y-auto">
+                      <template v-for="(comment, index) in resultsDivComments">
+                        <v-divider
+                          :key="index"
+                        ></v-divider>
+                        <v-list-item
+                          :key="comment"
+                        >
+                          <v-list-item-avatar>
+                            <v-img src="/comments.png" alt='students'></v-img>
+                          </v-list-item-avatar>
+
+                          <v-list-item-content>
+                            <v-list-item-title v-html="comment"></v-list-item-title>
+                            
+                          </v-list-item-content>
+                        </v-list-item>
+                      </template>
+                    </v-list>
+                  </v-card>
                 </v-col>
                 <v-col cols="1" sm="1" md="1" lg="1"></v-col>
               </v-row>
@@ -236,7 +280,7 @@
                 />
               </v-card>
               <v-row class="mt-1">
-                <v-col class="text-right" cols="12" sm="12" md="12" lg="12">
+                <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
                   <h3>
                     <v-icon medium color="primary">mdi-information</v-icon>
                     คำอธิบาย: Y-axis จำนวนคนที่โหวตให้กับคำถามนี้, X-axis ระดับความพึงพอใจ (แย่, ปานกลาง, ดี, ดีมาก)
@@ -367,7 +411,7 @@ export default {
     },
     barchartoptions: {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       scales: {
         yAxes: [
           {
@@ -391,7 +435,7 @@ export default {
               autoSkip: false,
               minRotation: 0,
               maxRotation: 90,
-              fontSize: 10,
+              fontSize: 12,
             },
             gridLines: {
               display: false,
@@ -402,7 +446,7 @@ export default {
     },
     barchartoptions2: {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       scales: {
         yAxes: [
           {
@@ -426,7 +470,7 @@ export default {
               autoSkip: false,
               minRotation: 0,
               maxRotation: 90,
-              fontSize: 10,
+              fontSize: 12,
             },
             gridLines: {
               display: false,
@@ -441,8 +485,6 @@ export default {
     loaded: false,
     select1: false,
     // script of date
-    //stdate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-    //enddate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     startDateTime: {
       date: "",
       time: ""
@@ -466,7 +508,15 @@ export default {
     divisionLists: [],
     specificQuestion: [],
     resDivResults: [],
-    specificResultsLength: "",
+    specificResultsLength: 0,
+    resultsDivComments: [],
+    satisfyStats: {
+      icon: "mdi-emoticon-sad",
+      score: "",
+      text: "",
+      color: "",
+      show: false,
+    },
   }),
   computed:{
     startDateTimeSelected(){
@@ -494,6 +544,39 @@ export default {
         this.searchButtonloader = null
         this.fetchAllResultsByTime()
       },
+    'satisfyStats.score'(){
+      if(this.satisfyStats.score >= 3.5){
+        this.satisfyStats.icon = 'mdi-emoticon-excited';
+        this.satisfyStats.text = 'พึงพอใจมาก'
+        this.satisfyStats.color = 'green darken-1'
+        this.satisfyStats.show = true;
+      } 
+      else if(this.satisfyStats.score >= 3){
+        this.satisfyStats.icon = 'mdi-emoticon-happy';
+        this.satisfyStats.text = 'พึงพอใจ'
+        this.satisfyStats.color = 'blue darken-1'
+        this.satisfyStats.show = true;
+      }
+      else if(this.satisfyStats.score >= 2){
+        this.satisfyStats.icon = 'mdi-emoticon-neutral';
+        this.satisfyStats.text = 'เฉยๆ'
+        this.satisfyStats.color = 'yellow darken-3'
+        this.satisfyStats.show = true;
+      }
+      else if(this.satisfyStats.score >= 1){
+        this.satisfyStats.icon = 'mdi-emoticon-sad';
+        this.satisfyStats.text = 'ไม่พึงพอใจ'
+        this.satisfyStats.color = 'red'
+        this.satisfyStats.show = true;
+      } else {
+        this.satisfyStats.icon = '';
+        this.satisfyStats.text = ''
+        this.satisfyStats.color = ''
+        this.satisfyStats.show = false;
+      }
+    }
+    
+    
   },
   methods: {
     // BELOW IS BACK-END FETCH USER - RELATED FIELD DO NOT ADD ANY FUNCTION!!
@@ -509,6 +592,15 @@ export default {
       
     },
     async fetchQuestion(){
+      let apiURLAllresDivResults;
+      if (this.rangeDateTimeSelected){
+        apiURLAllresDivResults = `${process.env.AXIOS_BASEURL}/api/evalresults/resDivResults/${this.rangeDateTimeSelected}`;
+      }
+      else{
+        apiURLAllresDivResults = `${process.env.AXIOS_BASEURL}/api/evalresults/resDivResults`;
+      }
+      await this.$axios.post(apiURLAllresDivResults, {userResDiv: this.userResDiv})
+      .then(res => {this.resDivResults = res.data}).catch(err => { console.log(err) });
       const apiURLSpecificQuestion = `${process.env.AXIOS_BASEURL}/api/questions/${this.divTagIndex}`;
       await this.$axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data}).catch(err => {});
       this.barchartScoreAllQData.labels = [];
@@ -556,7 +648,9 @@ export default {
             dataScoreLength += 1;
           }
         }
-        avgScore = sumScore / dataScoreLength;
+        avgScore = (sumScore / dataScoreLength);
+        avgScore = avgScore.toFixed(2);
+        avgScore = parseFloat(avgScore);
         this.barchartScoreResDivData.datasets[0].data.push(avgScore);
       }
     },
@@ -566,20 +660,33 @@ export default {
       const resDivResults = this.resDivResults;
       let dataScore = resDivResults.filter((div) => div.divTag === divTag);
       if(!dataScore.length == 0){
+        let comments = dataScore.map(data => data.comment);
+        let sumAllavgQuestionScore = 0;
+        let avgAllQuestionScore = 0;
+        this.resultsDivComments = comments
         dataScore = dataScore.map(data => data.evalScore);
         this.specificResultsLength = dataScore.length;
         dataScore = dataScore[0].map((col, i) => dataScore.map(row => row[i])); //Transposing Array from one result to each question
         for (const scoreArray of dataScore){
-        let sumEachQuestionScore = 0;
-        let dataScoreLength = 0;
-        let avgEachQuestionScore = 0;
-        for (const score of scoreArray){
-          sumEachQuestionScore += score
-          dataScoreLength = scoreArray.length;
+          let sumEachQuestionScore = 0;
+          let dataScoreLength = 0;
+          let avgEachQuestionScore = 0;
+          for (const score of scoreArray){
+            sumEachQuestionScore += score
+            dataScoreLength = scoreArray.length;
+          }
+          avgEachQuestionScore = (sumEachQuestionScore / dataScoreLength);
+          avgEachQuestionScore = avgEachQuestionScore.toFixed(2);
+          avgEachQuestionScore = parseFloat(avgEachQuestionScore);
+          sumAllavgQuestionScore += avgEachQuestionScore;
+          this.barchartScoreAllQData.datasets[0].data.push(avgEachQuestionScore);
         }
-        avgEachQuestionScore = sumEachQuestionScore / dataScoreLength
-        this.barchartScoreAllQData.datasets[0].data.push(avgEachQuestionScore);
-      }
+        avgAllQuestionScore = parseFloat((sumAllavgQuestionScore / this.specificQuestion.length).toFixed(2));
+        this.satisfyStats.score = avgAllQuestionScore;
+      } else {
+        this.satisfyStats.score = 0;
+        this.specificResultsLength = 0;
+        this.resultsDivComments = [];
       }
     },
     async statOneQuestionScore(){
@@ -611,8 +718,7 @@ export default {
           }
           else{
 
-          }
-          
+          } 
         }
         let arrayCountScore = [countScore1, countScore2, countScore3,countScore4];
         this.barchartScoreEachQData.datasets[0].data.push(...arrayCountScore);
@@ -620,6 +726,14 @@ export default {
       }
     },
     // ABOVE IS BACK-END FETCH USER - PLEASE ADD OTHER FUNCTION BELOW !
+    clearStartDate(){
+      this.startDateTime.date = '';
+      this.startDateTime.time = '';
+    },
+    clearEndDate(){
+      this.endDateTime.date = '';
+      this.endDateTime.time = '';
+    },
     createAlert(msg, type, delay=5000){
       this.alertbox.msg = msg;
       this.alertbox.type = type;
@@ -655,7 +769,8 @@ export default {
   color: #bc8e5d;
 }
 .box2 > h1,
-.box2 > h3{
+.box2 > h3,
+.box2 > h2{
   color: #FFFFFF;
 }
 .g-quesion{

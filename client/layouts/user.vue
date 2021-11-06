@@ -9,7 +9,7 @@
           router
           exact
         >
-          <v-list-item-action >
+          <v-list-item-action>
             <v-icon class="icon">{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
