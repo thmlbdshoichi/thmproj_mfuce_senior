@@ -247,4 +247,32 @@ export default {
   background-color: rgb(188, 142, 93);
   display: block;
 }
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 1366px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+  .navbar {
+    display: none;
+  }
+  .ftcl {
+    display: none;
+  }
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 1366px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+  .navbar {
+    display: none;
+  }
+  .ftcl {
+    display: none;
+  }
+}
 </style>
