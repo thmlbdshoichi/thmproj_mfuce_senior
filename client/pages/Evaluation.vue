@@ -100,13 +100,13 @@
                         </div>
                         <!-- ข้อเสนอแนะ -->
                         <div v-show=" questionIndex == quiz.questions.length" >
-                          <h2> ข้อเสนอแนะ </h2>
+                          <h2> ข้อเสนอแนะ <v-icon right>mdi-pencil</v-icon> </h2>
                           <br>
                             <template>
                             <v-textarea
                                 solo
                                 name="input-7-4"
-                                label="กรุณาให้ข้อเสนอแนะ"
+                                label="กรุณาให้ข้อเสนอแนะ........"
                               ></v-textarea>
                               <v-row >
                                   <v-col cols="6" sm="6" md="6"> 
