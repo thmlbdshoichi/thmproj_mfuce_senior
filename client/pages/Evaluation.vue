@@ -37,7 +37,7 @@
                           <v-container fluid >
                               <v-col >
                                 <v-select v-model="results.divTag" :items="items" label="เลือกแผนกที่ต้องการประเมิน" outlined></v-select>
-                                <v-btn block large x-large color="#BC8E5D" dark @click.prevent="startQuiz()" class="font-weight-black">
+                                <v-btn block large x-large outlined color="#BC8E5D" dark @click.prevent="startQuiz()" class="font-weight-black">
                                     เริ่มทำการประเมิน
                                 </v-btn>
                               </v-col>
@@ -418,10 +418,10 @@ export default {
   position: absolute;
 }
 .titlehd{
+  font-family: 'Acme', sans-serif;
   font-size: 40px;
-  font-weight: bold;
-  color: #881518;
-  text-shadow: 2px 2px 5px rgb(121, 118, 118);
+  color: #000000;
+  text-shadow: 2px 2px 5px rgb(128, 124, 124);
 }
 
 /* Portrait */
