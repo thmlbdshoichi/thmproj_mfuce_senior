@@ -158,6 +158,23 @@
           </v-dialog>
         </v-row>
       </template>
+      <template>
+        <v-row justify="center">
+          <v-dialog
+            v-model="dialog2"
+            max-width="500"
+            persistent
+          >
+            <v-card>
+              <v-card-title class="text-h5 justify-center">โปรดให้คะแนนความพึงพอใจให้ครบทุกข้อ<v-icon class="ml-2" medium color="error">mdi-clipboard-alert</v-icon></v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="dialog2=false">ปิด</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
+      </template>
       <v-footer dark padless class="ftcl">
         <div class="line"></div>
         <v-card-text>
@@ -191,6 +208,7 @@ export default {
   data: () => ({
     image: bikeImg,
     dialog: false,
+    dialog2: false,
     timerCount: "",
     divUnselected: true,
     divSelected: false,
@@ -252,10 +270,15 @@ export default {
       this.$router.go();
     },
     submit() {
-      const apiURLevalResultCreate = `${process.env.AXIOS_BASEURL}/api/evalresults`;
-      this.$axios.post(apiURLevalResultCreate, this.evalResult)
-      .then(res => {this.dialog = true; this.timerCount = 5;})
-      .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการส่งผลการประเมิน - ${err}`, "error")});
+      if(!this.evalResult.evalScore.includes(undefined)){
+        const apiURLevalResultCreate = `${process.env.AXIOS_BASEURL}/api/evalresults`;
+        this.$axios.post(apiURLevalResultCreate, this.evalResult)
+        .then(res => {this.dialog = true; this.timerCount = 5;})
+        .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการส่งผลการประเมิน - ${err}`, "error")});
+      } else {
+        this.dialog2 = true;
+      }
+      
     },
   },
   created(){
