@@ -31,13 +31,13 @@
               <v-layout align-center justify-center>
                   <!--<v-card> -->
                   <div v-if="start_evlaution" class="streva  " align="center" justify="center">
-                    <h1>SERVICE EVALUATION</h1><br>
+                    <div class="titlehd">SERVICE EVALUATION</div><br>
                     <div class="box-select elevation-12">
                         <div align="center">
                           <v-container fluid >
                               <v-col >
                                 <v-select v-model="results.divTag" :items="items" label="เลือกแผนกที่ต้องการประเมิน" outlined></v-select>
-                                <v-btn block large x-large color="#424242" dark @click.prevent="startQuiz()">
+                                <v-btn block large x-large color="#BC8E5D" dark @click.prevent="startQuiz()" class="font-weight-black">
                                     เริ่มทำการประเมิน
                                 </v-btn>
                               </v-col>
@@ -57,24 +57,24 @@
                               <v-card-text>
                                 <v-row>
                                   <v-col cols="12" sm="6" md="6" lg="6">
-                                      <v-btn  v-model="results.evalScore"  v-on:click="addScore1(), next()" block large x-large color="#F9957F" depressed elevation="7" rounded class="worst">
+                                      <v-btn  v-model="results.evalScore"  v-on:click="addScore1(), next()" block large x-large color="#F9957F" depressed elevation="7" rounded class="worst font-weight-black" >
                                         WORST 
                                       </v-btn>
                                   </v-col>
                                   <v-col cols="12" sm="6" md="6" lg="6">
-                                      <v-btn   v-model="results.evalScore"  v-on:click="addScore2(), next()" block large x-large color="#F7D7C2" depressed elevation="7" rounded class="moderate">
+                                      <v-btn   v-model="results.evalScore"  v-on:click="addScore2(), next()" block large x-large color="#F7D7C2" depressed elevation="7" rounded class="moderate font-weight-black">
                                         MODERATE
                                       </v-btn>
                                   </v-col>
                                 </v-row>
                                 <v-row>
                                   <v-col cols="12" sm="6" md="6" lg="6">
-                                      <v-btn   v-model="results.evalScore"  v-on:click="addScore3(), next()" block large x-large color="#D4E6C4" depressed elevation="7" rounded class="good">
+                                      <v-btn   v-model="results.evalScore"  v-on:click="addScore3(), next()" block large x-large color="#D4E6C4" depressed elevation="7" rounded class="good font-weight-black">
                                         GOOD 
                                       </v-btn >
                                   </v-col>
                                   <v-col cols="12" sm="6" md="6" lg="6">
-                                      <v-btn   v-model="results.evalScore"  v-on:click="addScore4(), next()" block large x-large color="#ABCFD1" depressed elevation="7" rounded class="best" >
+                                      <v-btn   v-model="results.evalScore"  v-on:click="addScore4(), next()" block large x-large color="#ABCFD1" depressed elevation="7" rounded class="best font-weight-black" >
                                         BEST
                                       </v-btn>
                                   </v-col>
@@ -162,7 +162,7 @@
 </template>
 
 <script>
-  import bikeImg from '../assets/image/bg.png'
+  import bikeImg from '../assets/image/eva.png'
   // ทดสอบ (ตัวอย่างข้อมูล)
   let quiz = {
       title: 'My Quiz',
@@ -395,15 +395,19 @@ export default {
 }
 .worst {
   width: 100%;
+  color: #fffdfd;
 }
 .moderate {
   width: 100%;
+  color: #fffdfd;
 }
 .good {
   width: 100%;
+  color: #fffdfd;
 }
 .best {
   width: 100%;
+  color: #fffdfd;
 }
 
 .btn-prev-next {
@@ -412,6 +416,12 @@ export default {
 .streva{
   height: auto;
   position: absolute;
+}
+.titlehd{
+  font-size: 50px;
+  font-weight: bold;
+  color: #881518;
+  text-shadow: 2px 2px 5px rgb(121, 118, 118);
 }
 
 /* Portrait */
