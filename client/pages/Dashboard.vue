@@ -176,7 +176,7 @@
       <v-card-text>
         <v-col md="12" v-if="overview">
           <v-card-title> 
-            <v-icon class="mr-4" medium color="#bc8e5d">mdi-chart-bar</v-icon>สรุปคะแนนความพึงพอใจของแต่ละหน่วยงาน
+            <v-icon class="mr-4" medium color="#bc8e5d">mdi-chart-bar</v-icon>สรุปคะแนนความพึงพอใจของหน่วยงานทั้งหมดที่รับผิดชอบ
           </v-card-title>
           <br>
           <v-row>
@@ -205,7 +205,8 @@
           <v-item-group v-if="anyquesion">
             <v-container>
               <v-card-title>
-                <v-icon class="mr-4" medium color="#bc8e5d">mdi-chart-bar</v-icon>สรุปคะแนนความพึงพอใจของแต่ละคำถาม
+                <v-icon class="mr-4" medium color="#bc8e5d">mdi-chart-bar</v-icon>
+                สรุปคะแนนความพึงพอใจของหน่วยงาน {{divSelected[0].divTag}} - "{{divSelected[0].divName}}"
               </v-card-title>
               <br>
               <v-row>
@@ -267,7 +268,8 @@
         <!-- graph with one quesion-->
         <v-col md="12" v-if="onequesion"> 
           <v-card-title>
-            <v-icon medium color="#bc8e5d">mdi-chart-bar</v-icon> กราฟแสดงคะแนนความพึงพอใจในคำถามที่เลือก {{qSequenceIndex}}
+            <v-icon medium color="#bc8e5d">mdi-chart-bar</v-icon> 
+            กราฟแสดงสถิติความพึงพอใจในคำถามที่ {{qSelected[0].qSequence}} - "{{qSelected[0].qName}}"
           </v-card-title>
           <br>
           <v-row>
@@ -528,6 +530,17 @@ export default {
     rangeDateTimeSelected(){
       return `${this.startDateTime.date}T${this.startDateTime.time}&${this.endDateTime.date}T${this.endDateTime.time}`
     },
+    divSelected(){
+      if(this.divTagIndex){
+        return this.userResDiv.filter(div => div.divTag == this.divTagIndex);
+      }
+        return "";
+    },
+    qSelected(){
+      if(this.qSequenceIndex){
+        return this.specificQuestion.filter(q => q.qSequence == this.qSequenceIndex);
+      }
+    },
     userResDiv(){
       if(this.$auth.loggedIn){
         return this.divisionLists.filter((div) => this.$auth.user.resDiv.includes(div.divTag))
@@ -574,7 +587,7 @@ export default {
         this.satisfyStats.color = ''
         this.satisfyStats.show = false;
       }
-    }
+    },
     
     
   },
@@ -588,8 +601,7 @@ export default {
       .then(res => {this.resDivResults = res.data}).catch(err => { console.log(err) });
       await this.barchartScoreResDivData.labels.push(...this.userResDiv.map(div => div.divName));
       await this.statresDivScore();
-      await this.updateCharts();
-      
+      await this.updateCharts();     
     },
     async fetchQuestion(){
       let apiURLAllresDivResults;
