@@ -418,7 +418,7 @@ export default {
   position: absolute;
 }
 .titlehd{
-  font-size: 50px;
+  font-size: 40px;
   font-weight: bold;
   color: #881518;
   text-shadow: 2px 2px 5px rgb(121, 118, 118);
