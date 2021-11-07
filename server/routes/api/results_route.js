@@ -47,14 +47,12 @@ router.post('/resDivResults/:startDate&:endDate', userAuth, roleAuth(['Observer'
 });
 
 router.post('/', (req, res, next) => {
-
     const evalResults = new EvalResults({
         _id: new mongoose.Types.ObjectId(),
         divTag: req.body.divTag,
         evalScore: req.body.evalScore,
         comment: req.body.comment
     });
-
     evalResults.save()
     .then(data => {res.status(201).json({message: 'Evaluation has been successfully saved',evalResult: evalResults})})
     .catch(err => {res.status(500).json({message: 'An error occurred while saving result.',errorDetails: err})});

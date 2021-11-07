@@ -22,7 +22,6 @@
         </center>
       </div>
     </v-app-bar>
-
       <!--body-->
       <div>
         <v-app id="inspire" class="bg-img" :style="{ backgroundImage: `url(${image})` }">
@@ -30,104 +29,107 @@
             <v-container fluid fill-height>
               <v-layout align-center justify-center>
                   <!--<v-card> -->
-                  <div v-if="start_evlaution" class="streva  " align="center" justify="center">
+                  <div v-if="divUnselected" class="streva  " align="center" justify="center">
                     <div class="titlehd">SERVICE EVALUATION</div><br>
                     <div class="box-select elevation-12">
                         <div align="center">
                           <v-container fluid >
                               <v-col >
-                                <v-select v-model="results.divTag" :items="items" label="เลือกแผนกที่ต้องการประเมิน" outlined></v-select>
-                                <v-btn block large x-large outlined color="#BC8E5D" dark @click.prevent="startQuiz()" class="font-weight-black">
-                                    เริ่มทำการประเมิน
-                                </v-btn>
+                                <v-select 
+                                v-model="divTagIndex" 
+                                :items="divisionLists" 
+                                item-text="divName" 
+                                item-value="divTag" 
+                                label="เลือกแผนกที่ต้องการประเมิน" 
+                                outlined></v-select>
+                                <v-btn block large x-large outlined color="#BC8E5D" dark @click.prevent="startQuiz()" class="font-weight-black">เริ่มทำการประเมิน</v-btn>
                               </v-col>
                           </v-container>
                         </div>
                     </div> 
                   </div>
                   <v-flex lg6 md>
-                  <v-card class="elevation-12 box-question" v-if="selected" >
-                      <v-card-text align="center">
-                        <div v-for="(question, index) in quiz.questions" :key="index" >
-                          <div v-show="index === questionIndex" >
-                            <h4>{{ question.qSequence }} of {{ quiz.questions.length }}</h4><br>
-                            <h2><v-icon medium color="#bc8e5d"> mdi-numeric-{{ question.qSequence }}-circle </v-icon>  
-                            {{ question.qName }}</h2>
-                              <br> 
-                              <v-card-text>
-                                <v-row>
-                                  <v-col cols="12" sm="6" md="6" lg="6">
-                                      <v-btn  v-model="results.evalScore"  v-on:click="addScore1(), next()" block large x-large color="#F9957F" depressed elevation="7" rounded class="worst font-weight-black" >
-                                        WORST 
-                                      </v-btn>
-                                  </v-col>
-                                  <v-col cols="12" sm="6" md="6" lg="6">
-                                      <v-btn   v-model="results.evalScore"  v-on:click="addScore2(), next()" block large x-large color="#F7D7C2" depressed elevation="7" rounded class="moderate font-weight-black">
-                                        MODERATE
-                                      </v-btn>
-                                  </v-col>
-                                </v-row>
-                                <v-row>
-                                  <v-col cols="12" sm="6" md="6" lg="6">
-                                      <v-btn   v-model="results.evalScore"  v-on:click="addScore3(), next()" block large x-large color="#D4E6C4" depressed elevation="7" rounded class="good font-weight-black">
-                                        GOOD 
-                                      </v-btn >
-                                  </v-col>
-                                  <v-col cols="12" sm="6" md="6" lg="6">
-                                      <v-btn   v-model="results.evalScore"  v-on:click="addScore4(), next()" block large x-large color="#ABCFD1" depressed elevation="7" rounded class="best font-weight-black" >
-                                        BEST
-                                      </v-btn>
-                                  </v-col>
-                                </v-row>
-                                <v-row >
-                                  <v-col cols="6" sm="6" md="6"> 
-                                    <div class="addressmfu_left">
-                                      <v-btn v-if="questionIndex > 0" v-on:click="prev()"  small class="ma-2 btn-prev" outlined rounded color="#bc8e5d">
-                                          ย้อนกลับ
-                                      </v-btn>
-                                    </div>
-                                  </v-col>
-                                  <v-col cols="6" sm="6" md="6">
-                                    <div class="addressmfu">
-                                      <v-btn v-on:click="next()"  small class="ma-2" outlined rounded color="#bc8e5d">
-                                        ไปต่อ
-                                      </v-btn>
-                                    </div>
-                                  </v-col>
-                                </v-row>
-                            </v-card-text>
-                          </div>
-                        </div>
-                        <!-- ข้อเสนอแนะ -->
-                        <div v-show=" questionIndex == quiz.questions.length" >
-                          <h2> ข้อเสนอแนะ <v-icon right>mdi-pencil</v-icon> </h2>
-                          <br>
-                            <template>
-                            <v-textarea
-                                solo
-                                name="input-7-4"
-                                label="กรุณาให้ข้อเสนอแนะ........"
-                              ></v-textarea>
-                              <v-row >
-                                  <v-col cols="6" sm="6" md="6"> 
-                                    <div class="addressmfu_left">
-                                      <v-btn v-if="questionIndex > 0" v-on:click="prev()"  small class="ma-2 btn-prev" outlined rounded color="#bc8e5d">
-                                          ย้อนกลับ
-                                      </v-btn>
-                                    </div>
-                                  </v-col>
-                                  <v-col cols="6" sm="6" md="6">
-                                    <div class="addressmfu">
-                                     <v-btn rounded color="primary"  dark @click="submit">
-                                        ส่ง
+                  <v-card class="elevation-12 box-question" v-if="divSelected" >
+                    <v-card-text align="center">
+                      <div v-for="(question, index) in specificQuestion" :key="index" >
+                        <div v-show="index === questionIndex" >
+                          <h4>{{ question.qSequence }} of {{ specificQuestion.length }}</h4><br>
+                          <h2><v-icon medium color="#bc8e5d"> mdi-numeric-{{ question.qSequence }}-circle </v-icon>  
+                          {{ question.qName }}</h2>
+                            <br> 
+                            <v-card-text>
+                              <v-row>
+                                <v-col cols="12" sm="6" md="6" lg="6">
+                                    <v-btn v-on:click="updateScore(questionIndex,1)" block large x-large color="#F9957F" depressed elevation="7" rounded class="worst font-weight-black" >
+                                      WORST 
                                     </v-btn>
-                                    </div>
-                                  </v-col>
-                                </v-row>                         
-                            </template>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="6" lg="6">
+                                    <v-btn v-on:click="updateScore(questionIndex,2)" block large x-large color="#F7D7C2" depressed elevation="7" rounded class="moderate font-weight-black">
+                                      MODERATE
+                                    </v-btn>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col cols="12" sm="6" md="6" lg="6">
+                                    <v-btn v-on:click="updateScore(questionIndex,3)" block large x-large color="#D4E6C4" depressed elevation="7" rounded class="good font-weight-black">
+                                      GOOD 
+                                    </v-btn>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="6" lg="6">
+                                    <v-btn v-on:click="updateScore(questionIndex,4)" block large x-large color="#ABCFD1" depressed elevation="7" rounded class="best font-weight-black" >
+                                      BEST
+                                    </v-btn>
+                                </v-col>
+                              </v-row>
+                              <v-row >
+                                <v-col cols="6" sm="6" md="6"> 
+                                  <div class="addressmfu_left">
+                                    <v-btn v-if="questionIndex > 0" v-on:click="prev()"  small class="ma-2 btn-prev" outlined rounded color="#bc8e5d">
+                                        ย้อนกลับ
+                                    </v-btn>
+                                  </div>
+                                </v-col>
+                                <v-col cols="6" sm="6" md="6">
+                                  <div class="addressmfu">
+                                    <v-btn v-on:click="next()" small class="ma-2" outlined rounded color="#bc8e5d">
+                                      ไปต่อ
+                                    </v-btn>
+                                  </div>
+                                </v-col>
+                              </v-row>
+                          </v-card-text>
                         </div>
-                      </v-card-text>
-                    </v-card>
+                      </div>
+                      <!-- ข้อเสนอแนะ -->
+                      <div v-show="questionIndex == specificQuestion.length" >
+                        <h2> ข้อเสนอแนะ <v-icon right>mdi-pencil</v-icon></h2>
+                        <br>
+                        <template>
+                          <v-textarea
+                            v-model="evalResult.comment"
+                            solo
+                            name="input-7-4"
+                            label="ช่วยให้หน่วยงานของเราให้บริการได้ดีขึ้น ด้วยการให้ข้อเสนอแนะที่นี่ :)"
+                          ></v-textarea>
+                          <v-row>
+                            <v-col cols="6" sm="6" md="6"> 
+                              <div class="addressmfu_left">
+                                <v-btn v-if="questionIndex > 0" v-on:click="prev()"  small class="ma-2 btn-prev" outlined rounded color="#bc8e5d">
+                                    ย้อนกลับ
+                                </v-btn>
+                              </div>
+                            </v-col>
+                            <v-col cols="6" sm="6" md="6">
+                              <div class="addressmfu">
+                                <v-btn rounded color="primary" dark @click="submit()">ส่ง</v-btn>
+                              </div>
+                            </v-col>
+                          </v-row>                         
+                        </template>
+                      </div>
+                    </v-card-text>
+                  </v-card>
                   <!--</v-card> -->
                 </v-flex>
               </v-layout>
@@ -135,6 +137,27 @@
           </v-main>
         </v-app>
       </div>
+      <template>
+        <v-row justify="center">
+          <v-dialog
+            v-model="dialog"
+            max-width="500"
+            persistent
+          >
+            <v-card>
+              <v-card-title class="text-h5 justify-center">ขอบคุณสำหรับการประเมินของคุณ<v-icon class="ml-2" medium color="green darken-1">mdi-checkbox-marked</v-icon></v-card-title>
+              <v-card-text class="text-center">
+                เราจะนำผลการประเมินของคุณไปใช้ในการปรับปรุงคุณภาพการให้บริการของเรา
+                จะกลับไปหน้าหลักในอีก.. {{timerCount}} วินาที
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="close()">กลับไปหน้าแรก</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
+      </template>
       <v-footer dark padless class="ftcl">
         <div class="line"></div>
         <v-card-text>
@@ -162,101 +185,81 @@
 </template>
 
 <script>
-  import bikeImg from '../assets/image/eva.png'
-  // ทดสอบ (ตัวอย่างข้อมูล)
-  let quiz = {
-      title: 'My Quiz',
-      questions: [{
-          qSequence: 1,
-          qName: "What is your pet name?",
-          divTag: "C0",
-        },
-        {
-          qSequence: 2,
-          qName: "How old are you?",
-          divTag: "C1",
-        },
-        {
-          qSequence: 3,
-          qName: "Where did you go last year?",
-          divTag: "C2",
-        },
-        {
-          qSequence: 4,
-          qName: "Pad Thai อร่อยไหม?",
-          divTag: "C3",
-        },
-      ]
-    } //
+import bikeImg from '../assets/image/eva.png'
 
 export default {
-  data () {
-      return {
-        image: bikeImg,
-        select: ['Division'],
-        items: [
-          'Division01',
-          'Division02',
-          'Division03',
-        ],
-        start_evlaution: true,
-        selected: false,
-        quiz: quiz,
-        questionIndex: 0,
-        results:[{
-          divTag: "",
-          quesTag: "",
-          evalScore: "",
-         }],
-        nextresultquesTag: 1,
+  data: () => ({
+    image: bikeImg,
+    dialog: false,
+    timerCount: "",
+    divUnselected: true,
+    divSelected: false,
+    divisionLists: [],
+    divTagIndex: "",
+    specificQuestion: [],
+    questionIndex: 0,
+    testscore: "",
+    evalResult: {
+      divTag: "",
+      evalScore: [],
+      comment: "",
+    },
 
+  }),
+  watch: {
+    divTagIndex(){
+      this.evalResult.divTag = this.divTagIndex;
+    },
+    timerCount(val){
+      if (val > 0) {
+        setTimeout(() => {
+            this.timerCount--;
+        }, 1000);
+      } else {
+        this.dialog = false;
+        this.$router.go();
       }
     },
+  },
   methods: {
-    addScore1() {
-      this.results.push({
-        quesTag: this.nextresultquesTag++,
-        evalScore: this.score = 1,
-      })
-      this.score = ''
-    }, 
-    addScore2() {
-      this.results.push({
-        quesTag: this.nextresultquesTag++,
-        evalScore: this.score = 2
-      })
-      this.score = ''
-    }, 
-    addScore3() {
-      this.results.push({
-        quesTag: this.nextresultquesTag++,
-        evalScore: this.score = 3 
-      })
-      this.score = ''
-    }, 
-    addScore4() {
-      this.results.push({
-        quesTag: this.nextresultquesTag++,
-        evalScore: this.score = 4
-      })
-      this.score = ''
-    }, 
-
-    startQuiz () {
-     // this.$store.dispatch('beginQuiz', this.Division)
-     this.selected = true;
-     this.start_evlaution = false;
+    async fetchItems() {
+      const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
+      await this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
     },
-    next (){
+    async fetchQuestions(){
+      const apiURLSpecificQuestion = `${process.env.AXIOS_BASEURL}/api/questions/${this.divTagIndex}`
+      await this.$axios.get(apiURLSpecificQuestion).then(res => {this.specificQuestion = res.data})
+      .catch(err => { console.log(err) });
+    },
+    async startQuiz() {
+      await this.fetchQuestions();
+      this.divSelected = true;
+      this.divUnselected = false;
+      this.evalResult.evalScore = new Array(this.specificQuestion.length);
+    },
+    async updateScore(qidx, score) {
+      await this.evalResult.evalScore.splice(qidx, 1, score);
+      this.next();
+    },
+    next() {
       this.questionIndex ++;
     },
-
-    prev () {
+    prev() {
       this.questionIndex --;
     },
-    submit () {
-     // something ...
+    close(){
+      this.dialog = false;
+      this.$router.go();
     },
+    submit() {
+      const apiURLevalResultCreate = `${process.env.AXIOS_BASEURL}/api/evalresults`;
+      this.$axios.post(apiURLevalResultCreate, this.evalResult)
+      .then(res => {this.dialog = true; this.timerCount = 5;})
+      .catch(err => {this.createAlert(`เกิดข้อผิดพลาดขึ้นในการส่งผลการประเมิน - ${err}`, "error")});
+    },
+  },
+  created(){
+    this.fetchItems();
   }
 }
 </script>

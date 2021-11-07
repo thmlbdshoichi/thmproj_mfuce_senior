@@ -605,7 +605,7 @@ export default {
     },
     async fetchQuestion(){
       let apiURLAllresDivResults;
-      if (this.rangeDateTimeSelected){
+      if (this.startDateTime.date && this.startDateTime.time && this.endDateTime.date && this.endDateTime.time){
         apiURLAllresDivResults = `${process.env.AXIOS_BASEURL}/api/evalresults/resDivResults/${this.rangeDateTimeSelected}`;
       }
       else{
