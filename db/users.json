@@ -93,18 +93,22 @@
   "name": "Alpha Administrator",
   "role": "Admin",
   "resDiv": [
+    "R2",
+    "R4",
     "C0",
     "D1",
     "D2",
+    "D3",
+    "D4",
     "R1",
-    "R2"
+    "R3"
   ],
   "tel": "1066",
   "createdAt": {
     "$date": "2021-11-02T15:31:07.826Z"
   },
   "updatedAt": {
-    "$date": "2021-11-02T15:31:07.826Z"
+    "$date": "2021-11-08T12:34:23.049Z"
   },
   "__v": 0
 },{
@@ -113,20 +117,19 @@
   },
   "username": "ts",
   "password": "$2a$04$rHTJHEa0ggTYD4.GX.DmCeTPtM7tekhwkERwRZlcYflSORapcEvPi",
-  "name": "test Observer",
+  "name": "Alpha Observer",
   "role": "Observer",
   "resDiv": [
+    "C0",
     "D1",
-    "D2",
-    "D3",
-    "D4"
+    "R1"
   ],
   "tel": "1234556",
   "createdAt": {
     "$date": "2021-11-02T15:56:10.002Z"
   },
   "updatedAt": {
-    "$date": "2021-11-02T18:48:12.538Z"
+    "$date": "2021-11-08T12:42:56.651Z"
   },
   "__v": 0
 }]

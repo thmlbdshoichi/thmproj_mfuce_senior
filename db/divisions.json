@@ -115,30 +115,4 @@
     "$date": "2021-10-23T07:57:47.620Z"
   },
   "__v": 0
-},{
-  "_id": {
-    "$oid": "61816087f349d770f9abe1aa"
-  },
-  "divTag": "tas",
-  "divName": "tasf",
-  "createdAt": {
-    "$date": "2021-11-02T16:00:07.896Z"
-  },
-  "updatedAt": {
-    "$date": "2021-11-02T16:00:07.896Z"
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "6181608df349d770f9abe1ae"
-  },
-  "divTag": "tabz",
-  "divName": "tabf",
-  "createdAt": {
-    "$date": "2021-11-02T16:00:13.447Z"
-  },
-  "updatedAt": {
-    "$date": "2021-11-02T16:18:39.077Z"
-  },
-  "__v": 0
 }]
