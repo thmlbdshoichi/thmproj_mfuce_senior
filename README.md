@@ -1,5 +1,5 @@
 # thmproj_mfuce_senior
-Web application platform for service evaluation of the divisions in MFU
+Web Application Platform for Service Evaluation of The Divisions in MFU (WPSEMFU)
 
 ##### สำหรับทุกคน (FRONT-END & BACK-END DEVELOPER)
 ###### หา Directory ที่เหมาะสมสำหรับการ Clone git repository จากนั้นใส่คำสั่ง "git clone https://github.com/thmlbdshoichi/thmproj_mfuce_senior.git"
