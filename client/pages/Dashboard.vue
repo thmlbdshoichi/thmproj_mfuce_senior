@@ -675,7 +675,7 @@ export default {
         let comments = dataScore.map(data => data.comment);
         let sumAllavgQuestionScore = 0;
         let avgAllQuestionScore = 0;
-        this.resultsDivComments = comments
+        this.resultsDivComments = comments.filter(comment => comment != '');
         dataScore = dataScore.map(data => data.evalScore);
         this.specificResultsLength = dataScore.length;
         dataScore = dataScore[0].map((col, i) => dataScore.map(row => row[i])); //Transposing Array from one result to each question
