@@ -9,7 +9,6 @@ const resultSchema = mongoose.Schema(
     },
     {
         timestamps: true,
-        strict: false,
     }
 );
 

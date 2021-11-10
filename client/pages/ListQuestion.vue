@@ -55,7 +55,7 @@
                             prepend-icon="mdi-numeric"
                             label="ลำดับคำถาม"
                             type="number"
-                            :rules="[v => (!(specificQuestion.some(e => e.qSequence == v)) || (v == editedqSequence)) || 'ลำดับคำถามซ้ำ', v => !!v || 'ไม่สามารถเว้นว่างลำดับคำถามได้', v => (v && v > 0) || 'ลำดับต้องเป็นจำนวนนับเท่านั้น']"
+                            :rules="[v => (!(specificQuestion.some(e => e.qSequence == v)) || (v == editedqSequence)) || 'ลำดับคำถามซ้ำ', v => !!v || 'ไม่สามารถเว้นว่างลำดับคำถามได้', v => (v && v > 0) || 'ลำดับต้องเป็นจำนวนนับเท่านั้น', v => (v <= (specificQuestion.length + 1)) || 'ลำดับคำถามต้องไม่ข้ามกัน']"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12" md="12">
@@ -187,6 +187,7 @@ export default {
     dialog: false,
     dialogClearResults: false,
     dialogDelete: false,
+    disabled: false,
     search: "",
     headers: [
       { text: "Key", value: "_id" },
