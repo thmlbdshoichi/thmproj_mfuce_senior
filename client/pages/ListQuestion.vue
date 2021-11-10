@@ -105,7 +105,7 @@
           <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
             <h3>
               <v-icon medium color="primary">mdi-information</v-icon>
-              โปรดทราบว่าการแก้ไข "คำถาม" หรือ "ลำดับของคำถาม" จะมีผลต่อคำถามที่ปรากฎในแบบประเมินและในกราฟสถิติ จึงขอแนะนำให้ลบข้อมูลสถิติการประเมินก่อนทุกครั้งก่อนการแก้ไข
+              โปรดทราบว่าการแก้ไข "คำถาม" หรือ "ลำดับของคำถาม" จะมีผลต่อคำถามที่ปรากฎในแบบประเมินและในกราฟสถิติ จึงขอแนะนำให้ล้างข้อมูลสถิติการประเมินทุกครั้งที่มีการแก้ไข
             </h3>
           </v-col>
           <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
@@ -115,7 +115,7 @@
             max-width="600px"
             >
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" color="error">
+                <v-btn :disabled="selectedDiv ? disabled : ''" v-bind="attrs" v-on="on" color="error">
                   <v-icon left>mdi-delete-empty</v-icon>ล้างข้อมูลสถิติการประเมินของหน่วยงานนี้
                 </v-btn>
               </template>

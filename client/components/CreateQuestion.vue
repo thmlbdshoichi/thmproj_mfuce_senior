@@ -6,7 +6,7 @@
         justify="end" 
         class="white--text" 
         color="success" 
-        rounded dark 
+        rounded 
         v-bind="attrs" 
         v-on="on"
         :disabled="newQuestion.divTag ? disabled : '' ">เพิ่มคำถาม</v-btn>
