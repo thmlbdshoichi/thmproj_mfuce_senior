@@ -1,23 +1,23 @@
 {
-  "name": "thmproj_mfuce_senior",
-  "version": "1.0.0",
-  "description": "MAIN PACKAGES WITH NO SEPERATED FRONT-BACKEND",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thmlbdshoichi/thmproj_mfuce_senior.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "mevn-cli": "^1.8.3"
-  },
-  "bugs": {
-    "url": "https://github.com/thmlbdshoichi/thmproj_mfuce_senior/issues"
-  },
-  "homepage": "https://github.com/thmlbdshoichi/thmproj_mfuce_senior#readme",
-  "devDependencies": {}
+    "name": "thmproj_mfuce_senior",
+    "version": "1.0.0",
+    "description": "MAIN PACKAGES WITH NO SEPERATED FRONT-BACKEND",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/thmlbdshoichi/thmproj_mfuce_senior.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "mevn-cli": "^1.8.3"
+    },
+    "bugs": {
+      "url": "https://github.com/thmlbdshoichi/thmproj_mfuce_senior/issues"
+    },
+    "homepage": "https://github.com/thmlbdshoichi/thmproj_mfuce_senior#readme",
+    "devDependencies": {}
 }

@@ -60,6 +60,9 @@ export default {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Kanit&display=swap"
       },
+      { rel: "preconnect",
+        href: "https://fonts.googleapis.com"
+      }
     ]
   },
 
@@ -78,7 +81,6 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
-    '@nuxtjs/google-fonts',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -125,16 +127,8 @@ export default {
     }
   },
 
-  googleFonts: {
-    families: {
-      Kanit: true,
-    },
-    download: true,
-  },
-
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }
-
 
 }

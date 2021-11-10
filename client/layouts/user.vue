@@ -116,10 +116,6 @@ export default {
 
 <style scoped>
 
-#app {
-  font-family: 'Kanit', sans-serif;
-}
-
 .icon{
   color:#BC8E5D;
 }
