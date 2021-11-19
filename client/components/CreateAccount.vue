@@ -45,7 +45,7 @@
                   prepend-icon="mdi-chart-pie" 
                   v-model="newUser.resDiv" 
                   label="รหัสหน่วยงานที่รับผิดชอบ" 
-                  :rules="[v => (v && v.length > 0) || 'โปรดระบุหน่วยงานที่รับผิดชอบ อย่างน้อย 1 หน่วยงาน']"
+                  :rules="[v => ((v && v.length > 0) || newUser.role == 'Admin') || 'โปรดระบุหน่วยงานที่รับผิดชอบ อย่างน้อย 1 หน่วยงาน']"
                   readonly required></v-text-field>
                   <v-select 
                   v-model="newUser.resDiv"
@@ -54,7 +54,7 @@
                   item-text="divName"
                   item-value="divTag"
                   label="เลือกหน่วยงานที่รับผิดชอบ"
-                  :rules="[v => (v && v.length > 0) || 'โปรดระบุหน่วยงานที่รับผิดชอบ อย่างน้อย 1 หน่วยงาน']"
+                  :rules="[v => ((v && v.length > 0) || newUser.role == 'Admin') || 'โปรดระบุหน่วยงานที่รับผิดชอบ อย่างน้อย 1 หน่วยงาน']"
                   multiple required></v-select>
                 </v-col>
                 <v-col cols="12" sm="6" md="6">

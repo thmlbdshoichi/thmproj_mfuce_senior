@@ -332,15 +332,16 @@ export default {
           this.$router.go()
       },
       submit() {
-          if (!this.evalResult.evalScore.includes(undefined)) {const apiURLevalResultCreate = `${process.env.AXIOS_BASEURL}/api/evalresults`
-              this.$axios.post(apiURLevalResultCreate, this.evalResult).then((res) => {
-                this.dialog = true 
-                this.timerCount = 5 }).catch((err) => {
-                      this.createAlert(
-                          `เกิดข้อผิดพลาดขึ้นในการส่งผลการประเมิน - ${err}`,
-                          'error'
-                      )
-                  })
+          if (!this.evalResult.evalScore.includes(undefined)) {
+            const apiURLevalResultCreate = `${process.env.AXIOS_BASEURL}/api/evalresults`
+            this.$axios.post(apiURLevalResultCreate, this.evalResult).then((res) => {
+              this.dialog = true 
+              this.timerCount = 5 }).catch((err) => {
+                    this.createAlert(
+                        `เกิดข้อผิดพลาดขึ้นในการส่งผลการประเมิน - ${err}`,
+                        'error'
+                    )
+                })
           } else { this.dialog2 = true}
       },
   },

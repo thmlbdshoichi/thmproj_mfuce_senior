@@ -62,16 +62,16 @@
                             v-model="editedItem.resDiv" 
                             prepend-icon="mdi-chart-pie"
                             label="รหัสหน่วยงานที่รับผิดชอบ"
-                            :rules="[v => (v && v.length > 0) || 'โปรดระบุหน่วยงานที่รับผิดชอบ อย่างน้อย 1 หน่วยงาน']" 
+                            :rules="[v => ((v && v.length > 0) || editedItem.role == 'Admin') || 'โปรดระบุหน่วยงานที่รับผิดชอบ อย่างน้อย 1 หน่วยงาน']"
                             ></v-text-field>
-                            <v-select multiple required
+                            <v-select multiple
                             v-model="editedItem.resDiv"
                             prepend-icon="mdi-chart-pie-notused"
                             :items="divisionLists"
                             item-text="divName"
                             item-value="divTag"
                             label="เลือกหน่วยงานที่รับผิดชอบ"
-                            :rules="[v => (v && v.length > 0) || 'โปรดระบุหน่วยงานที่รับผิดชอบ อย่างน้อย 1 หน่วยงาน']"
+                            :rules="[v => ((v && v.length > 0) || editedItem.role == 'Admin') || 'โปรดระบุหน่วยงานที่รับผิดชอบ อย่างน้อย 1 หน่วยงาน']"
                             ></v-select>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
