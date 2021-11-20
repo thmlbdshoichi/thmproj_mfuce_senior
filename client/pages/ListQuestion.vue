@@ -6,6 +6,7 @@
     <v-card>
     <v-card-title>
         <v-col cols="12" sm="6" md="6" lg="4">
+          <v-icon medium color="#bc8e5d" class="mr-1"> mdi-numeric-1-circle </v-icon>
           เลือกหน่วยงานที่ต้องการ
           <v-select 
           v-model="divTagIndex" 

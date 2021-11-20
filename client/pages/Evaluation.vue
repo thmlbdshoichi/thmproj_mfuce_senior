@@ -123,13 +123,15 @@
                                       <h2>ข้อเสนอแนะ<v-icon right>mdi-pencil</v-icon></h2>
                                       <br/>
                                       <template>
-                                        <v-textarea
-                                        v-model="evalResult.comment"
-                                        name="input-7-4" 
-                                        rows="15"
-                                        label="ช่วยให้หน่วยงานของเราให้บริการได้ดีขึ้น ด้วยการให้ข้อเสนอแนะที่นี่ :)"
-                                        :rules="[v => (v && v.length <= 120) || 'ให้ข้อเสนอแนะได้ไม่เกิน 120 ตัวอักษร']"
-                                        solo :counter="120"></v-textarea>
+                                        <v-form ref="formAddComment" lazy-validation>
+                                          <v-textarea
+                                          v-model="evalResult.comment"
+                                          name="input-7-4" 
+                                          rows="15"
+                                          label="ช่วยให้หน่วยงานของเราให้บริการได้ดีขึ้น ด้วยการให้ข้อเสนอแนะที่นี่ :)"
+                                          :rules="[v => (v.length <= 120) || 'ให้ข้อเสนอแนะได้ไม่เกิน 120 ตัวอักษร']"
+                                          solo :counter="120"></v-textarea>
+                                        </v-form>
                                       </template>
                                     </div>
                                   </v-card-text>
@@ -333,17 +335,22 @@ export default {
           this.$router.go()
       },
       submit() {
-          if (!this.evalResult.evalScore.includes(undefined)) {
-            const apiURLevalResultCreate = `${process.env.AXIOS_BASEURL}/api/evalresults`
-            this.$axios.post(apiURLevalResultCreate, this.evalResult).then((res) => {
-              this.dialog = true 
-              this.timerCount = 5 }).catch((err) => {
-                    this.createAlert(
-                        `เกิดข้อผิดพลาดขึ้นในการส่งผลการประเมิน - ${err}`,
-                        'error'
-                    )
-                })
-          } else { this.dialog2 = true}
+        this.$refs.formAddComment[0].validate()
+        if (!this.evalResult.evalScore.includes(undefined) && this.$refs.formAddComment[0].validate()) {
+          const apiURLevalResultCreate = `${process.env.AXIOS_BASEURL}/api/evalresults`
+          this.$axios.post(apiURLevalResultCreate, this.evalResult).then((res) => {
+            this.dialog = true 
+            this.timerCount = 5 }).catch((err) => {
+                  this.createAlert(
+                      `เกิดข้อผิดพลาดขึ้นในการส่งผลการประเมิน - ${err}`,
+                      'error'
+                  )
+              })
+        } 
+        else { 
+          this.$refs.formAddComment[0].validate()
+          this.evalResult.evalScore.includes(undefined) ? this.dialog2 = true : '';
+        }
       },
   },
   created() {

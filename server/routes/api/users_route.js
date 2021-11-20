@@ -122,18 +122,4 @@ router.patch('/:userId', userAuth, roleAuth(['Admin']), (req, res, next) => {
     .catch(err => res.status(500).json({message: 'An error occurred while updating User.',errorDetails: err}));
 });
 
-/*router.patch('/resDivPush/:userId', (req, res, next) => {
-    const userId = req.params.userId;
-    Users.findByIdAndUpdate(userId, { $addToSet: { resDiv: req.body.resDiv }}, { new: true }).exec()
-    .then(data => data ? res.status(200).json(data) : res.status(400).json({message: `Can't Add responsible division to, ${userId} doesn't exist`, errorDetails: data}))
-    .catch(err => res.status(500).json({message: 'An error occurred while updating responsible division to User.',errorDetails: err}));
-});
-
-router.patch('/resDivPull/:userId', (req, res, next) => {
-    const userId = req.params.userId;
-    Users.findByIdAndUpdate(userId, { $pull: { resDiv: req.body.resDiv }}, { new: true }).exec()
-    .then(data => data ? res.status(200).json(data) : res.status(400).json({message: `Can't remove responsible division to, ${userId} doesn't exist`, errorDetails: data}))
-    .catch(err => res.status(500).json({message: 'An error occurred while updating responsible division to User.',errorDetails: err}));
-});*/
-
 module.exports = router;

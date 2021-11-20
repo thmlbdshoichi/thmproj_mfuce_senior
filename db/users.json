@@ -1,48 +1,5 @@
 [{
   "_id": {
-    "$oid": "6173c24324e03b5a77cd48cc"
-  },
-  "username": "thmlbdshoichi",
-  "password": "$2a$04$007CjbGauo5TMztgIgTrTeOPVNfIdpBrpmIOs5fVSu48g5Bsj1mFq",
-  "name": "Shoichi Yamamoto",
-  "role": "Admin",
-  "resDiv": [
-    "C0",
-    "D1",
-    "R3"
-  ],
-  "tel": "0877892840",
-  "createdAt": {
-    "$date": "2021-10-23T08:05:23.390Z"
-  },
-  "updatedAt": {
-    "$date": "2021-11-01T13:29:12.517Z"
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "6173c28324e03b5a77cd48d0"
-  },
-  "username": "kaiserin",
-  "password": "$2a$04$hi.XrH8tkeBodlACqk9kj.s6rJspAznsYzCUDXsQtbORBGX9mFjPG",
-  "name": "Johanna Bauer",
-  "role": "Observer",
-  "resDiv": [
-    "R4",
-    "D3",
-    "C0",
-    "D1"
-  ],
-  "tel": "+4915739336994",
-  "createdAt": {
-    "$date": "2021-10-23T08:06:27.817Z"
-  },
-  "updatedAt": {
-    "$date": "2021-11-01T23:52:51.284Z"
-  },
-  "__v": 0
-},{
-  "_id": {
     "$oid": "6180feb17e00a11be5f5de48"
   },
   "username": "6131501016",
