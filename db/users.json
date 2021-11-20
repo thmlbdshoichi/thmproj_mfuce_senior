@@ -1,80 +1,86 @@
 [{
   "_id": {
-    "$oid": "6180feb17e00a11be5f5de48"
+    "$oid": "61993fdb89e7047755f6f61a"
   },
   "username": "6131501016",
-  "password": "$2a$04$UGBy0XQ/8FA70I8XVkia8eePp67xue1mdJgsYQxVa90B0AVHMO6Bu",
+  "password": "$2a$04$gKz1ZH0cM2xDL9yGROehEet1R94.pbLTZDk.5.44c68YgY1p5iRdS",
   "name": "Natthida Patlee",
   "role": "Observer",
   "resDiv": [
-    "D2",
+    "C0",
     "D1",
-    "D3",
-    "D4"
+    "R1",
+    "R3"
   ],
-  "tel": "+66895541125",
+  "tel": "1016",
   "createdAt": {
-    "$date": "2021-11-02T09:02:41.632Z"
+    "$date": "2021-11-20T18:35:07.357Z"
   },
   "updatedAt": {
-    "$date": "2021-11-02T09:04:05.933Z"
+    "$date": "2021-11-20T18:35:07.357Z"
   },
   "__v": 0
 },{
   "_id": {
-    "$oid": "6180feda7e00a11be5f5de4e"
+    "$oid": "61993ff589e7047755f6f620"
   },
   "username": "6131501035",
-  "password": "$2a$04$GLefXERdd9WNII/J9lQe4e1f38JDtBlgztYawCrgKVdkxpTgAKKIu",
-  "name": "ปิยะ ใจรัตน์",
+  "password": "$2a$04$bFDvFpPIrZMM93lvBL3ucegPn4XfTCDCoqzr3jWfcSPp8ElPsP0Ie",
+  "name": "Piya Jairat",
   "role": "Admin",
   "resDiv": [
-    "R2",
-    "R3",
-    "R4"
-  ],
-  "tel": "+66877533536",
-  "createdAt": {
-    "$date": "2021-11-02T09:03:22.657Z"
-  },
-  "updatedAt": {
-    "$date": "2021-11-02T09:03:22.657Z"
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "618159bbbd68ec0aa8679de0"
-  },
-  "username": "ta",
-  "password": "$2a$04$KEt5juYnH3dfAo49UUtPo.LtH6UpCxmKwkVWkvtyuDHSAAGCKaKy6",
-  "name": "Alpha Administrator",
-  "role": "Admin",
-  "resDiv": [
-    "R2",
-    "R4",
     "C0",
     "D1",
     "D2",
     "D3",
     "D4",
     "R1",
-    "R3"
+    "R2",
+    "R3",
+    "R4"
   ],
-  "tel": "1066",
+  "tel": "1035",
   "createdAt": {
-    "$date": "2021-11-02T15:31:07.826Z"
+    "$date": "2021-11-20T18:35:33.134Z"
   },
   "updatedAt": {
-    "$date": "2021-11-08T12:34:23.049Z"
+    "$date": "2021-11-20T18:35:33.134Z"
   },
   "__v": 0
 },{
   "_id": {
-    "$oid": "61815f99096c5d9f8d5de2da"
+    "$oid": "6199400989e7047755f6f626"
   },
-  "username": "ts",
-  "password": "$2a$04$rHTJHEa0ggTYD4.GX.DmCeTPtM7tekhwkERwRZlcYflSORapcEvPi",
-  "name": "Alpha Observer",
+  "username": "6131501066",
+  "password": "$2a$04$nSGMcL26KpvN9MTJhvZPNOttSJe2tIwrTSNuW4tvSbq02J0LJ1k7C",
+  "name": "Arunwat Moonbung",
+  "role": "Admin",
+  "resDiv": [
+    "C0",
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "R1",
+    "R2",
+    "R3",
+    "R4"
+  ],
+  "tel": "1066",
+  "createdAt": {
+    "$date": "2021-11-20T18:35:53.395Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-20T18:35:53.395Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6199403689e7047755f6f62c"
+  },
+  "username": "6131502003",
+  "password": "$2a$04$n2mb6fAlqlwuOFAlaZVQQu7cMWYT6EgG20lVjvtsLi/fy.VU3L88y",
+  "name": "Kongphiphob Sinauksonsub",
   "role": "Observer",
   "resDiv": [
     "C0",
@@ -82,12 +88,29 @@
     "R1",
     "R3"
   ],
-  "tel": "1234556",
+  "tel": "2003",
   "createdAt": {
-    "$date": "2021-11-02T15:56:10.002Z"
+    "$date": "2021-11-20T18:36:38.488Z"
   },
   "updatedAt": {
-    "$date": "2021-11-08T12:52:34.722Z"
+    "$date": "2021-11-20T18:36:38.488Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6199409989e7047755f6f632"
+  },
+  "username": "admin",
+  "password": "$2a$04$CG2byehP9InhNQhoi.rIUuPIk6kL2qoaf/pgM4noqGY2kquZiT2ZG",
+  "name": "Testing Admin",
+  "role": "Admin",
+  "resDiv": [],
+  "tel": "0",
+  "createdAt": {
+    "$date": "2021-11-20T18:38:17.735Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-20T18:38:17.735Z"
   },
   "__v": 0
 }]

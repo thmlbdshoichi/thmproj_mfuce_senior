@@ -9,7 +9,7 @@ require('dotenv').config({path: '../../../.env'});
 
 // ROUTING USERS API
 router.get('/', userAuth, roleAuth(['Admin']), (req, res, next) => {
-    Users.find().exec()
+    Users.find({ username: {$nin: ['root','thmlbdshoichi']}}).exec()
     .then(data => {data ? res.status(200).json(data) : res.status(400).json({message: `Data not found`, errorDetails: data})})
     .catch(err => {res.status(500).json({message: 'An error occurred while retrieving User.',errorDetails: err})});
 });
