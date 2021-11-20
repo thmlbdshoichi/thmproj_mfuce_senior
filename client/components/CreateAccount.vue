@@ -44,10 +44,11 @@
                   <v-text-field  
                   prepend-icon="mdi-chart-pie" 
                   v-model="newUser.resDiv" 
-                  label="รหัสหน่วยงานที่รับผิดชอบ" 
-                  :rules="[v => ((v && v.length > 0) || newUser.role == 'Admin') || 'โปรดระบุหน่วยงานที่รับผิดชอบ อย่างน้อย 1 หน่วยงาน']"
+                  label="รหัสหน่วยงานที่รับผิดชอบ (เลือกด้านล่าง)" 
+                  :rules="[v => ((v && v.length > 0) || newUser.role == 'Admin') || 'โปรดเลือกหน่วยงานที่รับผิดชอบจากเมนูด้านล่าง อย่างน้อย 1 หน่วยงาน']"
                   readonly required></v-text-field>
                   <v-select 
+                  :clearable="true"
                   v-model="newUser.resDiv"
                   prepend-icon="mdi-chart-pie-notused"
                   :items="divisionLists"

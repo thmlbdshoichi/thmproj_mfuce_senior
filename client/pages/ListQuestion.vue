@@ -91,8 +91,8 @@
           </v-toolbar>
         </template>
         <template v-slot:[`item.actions`]="{ item }">
-          <v-icon @click="editItem(item)" small class="mr-2" color="yellow darken-2">mdi-pencil</v-icon>
-          <v-icon @click="deleteItem(item)" small color="error darken-2">mdi-delete</v-icon>
+          <v-icon @click="editItem(item)" :disabled="selectedDiv ? disabled : ''" small class="mr-2" color="yellow darken-2">mdi-pencil</v-icon>
+          <v-icon @click="deleteItem(item)" :disabled="selectedDiv ? disabled : ''" small color="error darken-2">mdi-delete</v-icon>
         </template>
         <template v-slot:no-data>
           <v-btn color="primary" @click="fetchItems()" dark disabled>Reset</v-btn>
@@ -213,7 +213,7 @@ export default {
   }),
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "เพิ่มคำถามใหม่" : `แก้ไขคำถาม ${this.editedItem.divTag}`;
+      return this.editedIndex === -1 ? "เพิ่มคำถามใหม่" : `แก้ไขคำถาม ${this.editedItem.divTag} - ${this.editedItem.qSequence}`;
     },
     selectedDiv() {
       if(this.divTagIndex){

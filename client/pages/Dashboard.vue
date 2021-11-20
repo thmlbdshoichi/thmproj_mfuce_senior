@@ -260,6 +260,12 @@
                     </v-list>
                   </v-card>
                 </v-col>
+                <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
+                      <h3>
+                        <v-icon medium color="primary">mdi-information</v-icon>
+                        ข้อเสนอแนะ (Comments) จะเรียงจาก ข้อเสนอแนะล่าสุด ไปยัง ข้อเสนอแนะที่เก่าที่สุด
+                      </h3>
+                </v-col>
                 <v-col cols="1" sm="1" md="1" lg="1"></v-col>
               </v-row>
             </v-container>
@@ -675,7 +681,7 @@ export default {
         let comments = dataScore.map(data => data.comment);
         let sumAllavgQuestionScore = 0;
         let avgAllQuestionScore = 0;
-        this.resultsDivComments = comments.filter(comment => comment != '');
+        this.resultsDivComments = comments.filter(comment => comment != '').reverse();
         dataScore = dataScore.map(data => data.evalScore);
         this.specificResultsLength = dataScore.length;
         dataScore = dataScore[0].map((col, i) => dataScore.map(row => row[i])); //Transposing Array from one result to each question

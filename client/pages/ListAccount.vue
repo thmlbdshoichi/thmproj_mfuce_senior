@@ -61,10 +61,11 @@
                             <v-text-field readonly required
                             v-model="editedItem.resDiv" 
                             prepend-icon="mdi-chart-pie"
-                            label="รหัสหน่วยงานที่รับผิดชอบ"
-                            :rules="[v => ((v && v.length > 0) || editedItem.role == 'Admin') || 'โปรดระบุหน่วยงานที่รับผิดชอบ อย่างน้อย 1 หน่วยงาน']"
+                            label="รหัสหน่วยงานที่รับผิดชอบ (เลือกด้านล่าง)"
+                            :rules="[v => ((v && v.length > 0) || editedItem.role == 'Admin') || 'โปรดเลือกหน่วยงานที่รับผิดชอบจากเมนูด้านล่าง อย่างน้อย 1 หน่วยงาน']"
                             ></v-text-field>
                             <v-select multiple
+                            :clearable="true"
                             v-model="editedItem.resDiv"
                             prepend-icon="mdi-chart-pie-notused"
                             :items="divisionLists"

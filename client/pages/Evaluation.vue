@@ -128,7 +128,8 @@
                                         name="input-7-4" 
                                         rows="15"
                                         label="ช่วยให้หน่วยงานของเราให้บริการได้ดีขึ้น ด้วยการให้ข้อเสนอแนะที่นี่ :)"
-                                        solo counter></v-textarea>
+                                        :rules="[v => (v && v.length <= 120) || 'ให้ข้อเสนอแนะได้ไม่เกิน 120 ตัวอักษร']"
+                                        solo :counter="120"></v-textarea>
                                       </template>
                                     </div>
                                   </v-card-text>
