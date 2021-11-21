@@ -534,6 +534,7 @@ export default {
       return `${this.endDateTime.date} - ${this.endDateTime.time}`
     },
     rangeDateTimeSelected(){
+      //return `${this.startDateTime.date}T00:00:00&${this.endDateTime.date}T23:59:59`
       return `${this.startDateTime.date}T${this.startDateTime.time}&${this.endDateTime.date}T${this.endDateTime.time}`
     },
     divSelected(){

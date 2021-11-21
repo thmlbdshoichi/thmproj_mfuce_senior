@@ -44,7 +44,7 @@
                                 color="gold" 
                                 background-color="#F8F5FD"
                                 outlined></v-select>
-                              <v-btn rounded block x-large class="btn_st_color" elevation="8" color="#881518" @click.prevent="startQuiz()">เริ่มทำการประเมิน<v-icon small>mdi-arrow-right-circle</v-icon></v-btn>
+                              <v-btn rounded block x-large class="btn_st_color" elevation="8" color="#881518" @click.prevent="startQuiz()">เริ่มทำการประเมิน<v-icon class="ml-2" small>mdi-arrow-right-circle</v-icon></v-btn>
                             </v-col>
                           </v-container>
                         </div>

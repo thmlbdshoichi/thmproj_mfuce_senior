@@ -1,0 +1,130 @@
+[{
+  "_id": {
+    "$oid": "61993fdb89e7047755f6f61a"
+  },
+  "username": "6131501016",
+  "password": "$2a$04$gKz1ZH0cM2xDL9yGROehEet1R94.pbLTZDk.5.44c68YgY1p5iRdS",
+  "name": "Natthida Patlee",
+  "role": "Observer",
+  "resDiv": [
+    "C0",
+    "D1",
+    "R1",
+    "R3"
+  ],
+  "tel": "1016",
+  "createdAt": {
+    "$date": "2021-11-20T18:35:07.357Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-20T18:35:07.357Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61993ff589e7047755f6f620"
+  },
+  "username": "6131501035",
+  "password": "$2a$04$bFDvFpPIrZMM93lvBL3ucegPn4XfTCDCoqzr3jWfcSPp8ElPsP0Ie",
+  "name": "Piya Jairat",
+  "role": "Admin",
+  "resDiv": [],
+  "tel": "1035",
+  "createdAt": {
+    "$date": "2021-11-20T18:35:33.134Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-21T05:15:53.182Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6199400989e7047755f6f626"
+  },
+  "username": "6131501066",
+  "password": "$2a$04$nSGMcL26KpvN9MTJhvZPNOttSJe2tIwrTSNuW4tvSbq02J0LJ1k7C",
+  "name": "Arunwat Moonbung",
+  "role": "Admin",
+  "resDiv": [],
+  "tel": "1066",
+  "createdAt": {
+    "$date": "2021-11-20T18:35:53.395Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-21T05:09:28.527Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6199403689e7047755f6f62c"
+  },
+  "username": "6131502003",
+  "password": "$2a$04$n2mb6fAlqlwuOFAlaZVQQu7cMWYT6EgG20lVjvtsLi/fy.VU3L88y",
+  "name": "Kongphiphob Sinauksonsub",
+  "role": "Observer",
+  "resDiv": [
+    "C0",
+    "D1",
+    "R1",
+    "R3"
+  ],
+  "tel": "2003",
+  "createdAt": {
+    "$date": "2021-11-20T18:36:38.488Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-20T18:36:38.488Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6199409989e7047755f6f632"
+  },
+  "username": "admin",
+  "password": "$2a$04$CG2byehP9InhNQhoi.rIUuPIk6kL2qoaf/pgM4noqGY2kquZiT2ZG",
+  "name": "Testing Admin",
+  "role": "Admin",
+  "resDiv": [],
+  "tel": "0",
+  "createdAt": {
+    "$date": "2021-11-20T18:38:17.735Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-20T18:38:17.735Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6173c24324e03b5a77cd48cc"
+  },
+  "username": "root",
+  "password": "$2a$04$HOutgHQDSBJf97Y46Gh3guzfNc4UpBsmQ3KSRoKjMmctDJ7V1f6jq",
+  "name": "Hello World",
+  "role": "Admin",
+  "resDiv": [],
+  "tel": "",
+  "createdAt": {
+    "$date": "2021-10-23T08:05:23.390Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-01T13:29:12.517Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "619945996a696ce94e99a884"
+  },
+  "username": "thmlbdshoichi",
+  "password": "$2a$04$8VyT3U/WhN7YtCXSgNjuWeT7XpLqR2s3RFaUTW6FxoJK3RjJy1eHi",
+  "name": "Shoichi Yamamoto",
+  "role": "Admin",
+  "resDiv": [],
+  "tel": "6131501066",
+  "createdAt": {
+    "$date": "2021-11-20T18:59:37.074Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-20T19:00:33.311Z"
+  },
+  "__v": 0
+}]
