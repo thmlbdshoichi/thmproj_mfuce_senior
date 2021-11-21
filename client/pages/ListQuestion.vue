@@ -52,11 +52,12 @@
                       <v-row>
                         <v-col cols="12" sm="12" md="12">
                           <v-text-field
+                            :readonly="!selectedDiv"
                             v-model="editedItem.qSequence"
                             prepend-icon="mdi-numeric"
                             label="ลำดับคำถาม"
                             type="number"
-                            :rules="[v => (!(specificQuestion.some(e => e.qSequence == v)) || (v == editedqSequence)) || 'ลำดับคำถามซ้ำ', v => !!v || 'ไม่สามารถเว้นว่างลำดับคำถามได้', v => (v && v > 0) || 'ลำดับต้องเป็นจำนวนนับเท่านั้น', v => (v <= (specificQuestion.length + 1)) || 'ลำดับคำถามต้องไม่ข้ามกัน']"
+                            :rules="[v => (!(specificQuestion.some(e => e.qSequence == v && e.divTag == editedItem.divTag)) || (v == editedqSequence)) || 'ลำดับคำถามซ้ำ', v => !!v || 'ไม่สามารถเว้นว่างลำดับคำถามได้', v => (v && v > 0) || 'ลำดับต้องเป็นจำนวนนับเท่านั้น', v => (v <= (specificQuestion.filter(e => e.divTag == editedItem.divTag).length + 1)) || 'ลำดับคำถามต้องต่อเนื่องกัน']"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12" md="12">
@@ -222,8 +223,7 @@ export default {
       } else {
         return "";
       }
-      
-    }
+    },
   },
   watch: {
     dialog(val) {
@@ -258,6 +258,9 @@ export default {
       if(this.$auth.loggedIn){
         this.userDetails = this.$auth.user;
         this.userResDiv = this.divisionLists.filter((div) => this.userDetails.resDiv.includes(div.divTag));
+        if(this.$auth.user.role == 'Admin'){
+          this.userResDiv = this.divisionLists;
+        }
       }
     },
     editItem(item) {

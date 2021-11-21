@@ -548,7 +548,10 @@ export default {
       }
     },
     userResDiv(){
-      if(this.$auth.loggedIn){
+      if(this.$auth.loggedIn && this.$auth.user.role == "Admin"){
+        return this.divisionLists
+      } 
+      else if (this.$auth.loggedIn && this.$auth.user.role == "Observer") {
         return this.divisionLists.filter((div) => this.$auth.user.resDiv.includes(div.divTag))
       } else {
         return []
