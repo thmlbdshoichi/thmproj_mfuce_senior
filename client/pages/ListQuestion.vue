@@ -9,8 +9,9 @@
           <v-icon medium color="#bc8e5d" class="mr-1"> mdi-numeric-1-circle </v-icon>
           เลือกหน่วยงานที่ต้องการ
           <v-select 
-          v-model="divTagIndex" 
+          :clearable="true"
           @input="fetchItems()"
+          v-model="divTagIndex"
           :items="userResDiv" 
           item-text="divName" 
           item-value="divTag" 
