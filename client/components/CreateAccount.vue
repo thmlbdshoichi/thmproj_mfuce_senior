@@ -41,16 +41,16 @@
                   required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="12" md="12">
-                  <v-text-field  
+                  <!-- <v-text-field  
                   prepend-icon="mdi-chart-pie" 
                   v-model="newUser.resDiv" 
                   label="รหัสหน่วยงานที่รับผิดชอบ (เลือกด้านล่าง)" 
                   :rules="[v => ((v && v.length > 0) || newUser.role == 'Admin') || 'โปรดเลือกหน่วยงานที่รับผิดชอบจากเมนูด้านล่าง อย่างน้อย 1 หน่วยงาน']"
-                  readonly required></v-text-field>
+                  readonly required></v-text-field> -->
                   <v-select 
                   :clearable="true"
                   v-model="newUser.resDiv"
-                  prepend-icon="mdi-chart-pie-notused"
+                  prepend-icon="mdi-chart-pie"
                   :items="divisionLists"
                   item-text="divName"
                   item-value="divTag"

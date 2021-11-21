@@ -21,6 +21,7 @@
     "@mdi/js": "^6.3.95",
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/vuetify": "^1.12.1",
-    "bcryptjs": "^2.4.3"
+    "bcryptjs": "^2.4.3",
+    "json2csv": "^5.0.6"
   }
 }

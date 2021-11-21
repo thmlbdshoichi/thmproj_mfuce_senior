@@ -6,8 +6,9 @@
         <v-col cols="12" sm="6" md="6" lg="6">
           <v-icon medium color="#bc8e5d"> mdi-numeric-1-circle </v-icon>
           เลือกหน่วยงานที่ต้องการ
-          <v-select 
-          @change="changeSelect1" 
+          <v-select
+          :clearable="true"
+          @change="changeSelect1"
           v-model="divTagIndex" 
           @input="fetchQuestion()"
           :items="userResDiv" 
@@ -22,6 +23,7 @@
           <v-icon medium color="#bc8e5d"> mdi-numeric-2-circle </v-icon>
           เลือกคำถามที่ต้องการ
           <v-select 
+          :clearable="true"
           @change="changeSelect2" 
           v-model="qSequenceIndex"
           @input="statOneQuestionScore()"
@@ -30,6 +32,11 @@
           item-value="qSequence" 
           prepend-icon="mdi-magnify" 
           single-line hide-details></v-select>
+        </v-col>
+        <v-col cols="12" sm="12" md="12" lg="12" v-if="select1">
+          <v-btn block color="success" @click="jsonToCSV()">
+            <v-icon left>mdi-cloud-download</v-icon>ดาวน์โหลดข้อมูลสถิติ
+          </v-btn>
         </v-col>
       </v-card-title>
     </v-card>
@@ -306,7 +313,7 @@
 
 <script>
 import BarChart from "../components/BarChart.js";
-
+const { Parser } = require('json2csv');
 export default {
   layout: "user",
   middleware: ['auth'],
@@ -494,8 +501,8 @@ export default {
     select1: false,
     // script of date
     startDateTime: {
-      date: "",
-      time: ""
+      date: "2021-01-01",
+      time: "00:00:00"
     },
     endDateTime: {
       date: "",
@@ -546,6 +553,8 @@ export default {
     qSelected(){
       if(this.qSequenceIndex){
         return this.specificQuestion.filter(q => q.qSequence == this.qSequenceIndex);
+      } else {
+        return []
       }
     },
     userResDiv(){
@@ -602,6 +611,33 @@ export default {
     
   },
   methods: {
+    // SAVETOCSV
+    async jsonToCSV(){
+      let resultToCSV = this.resDivResults.filter(results => results.divTag == this.divTagIndex);
+      let fieldValues = ['_id','createdAt','divTag','comment'];
+      let fieldLabel = ['_id','createdAt','รหัสหน่วยงาน','ข้อเสนอแนะ']
+      await fieldValues.push(...this.specificQuestion.map(q => `evalScore.${q.qSequence-1}`));
+      await fieldLabel.push(...this.specificQuestion.map(q => q.qName));
+      let fields = [];
+      for(let i in fieldLabel){
+        fields.push({"label": fieldLabel[i], "value": fieldValues[i]});
+      }
+      //const withBOM = true;
+      const json2csvParser = new Parser({ fields, withBOM:true });
+      const csv = json2csvParser.parse(resultToCSV);
+      await this.exportCSV(csv);
+    },
+    async exportCSV(data){
+      const blob = new Blob([data], { type: 'text/csv; charset=utf-8' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('hidden','');
+      a.setAttribute('href', url);
+      a.setAttribute('download','result.csv');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    },
     // BELOW IS BACK-END FETCH USER - RELATED FIELD DO NOT ADD ANY FUNCTION!!
     async fetchItems(){
       const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
@@ -712,39 +748,41 @@ export default {
       }
     },
     async statOneQuestionScore(){
-      this.barchartScoreEachQData.datasets[0].data = [];
-      const divTag = this.divTagIndex;
-      const qSequence = this.qSequenceIndex;
-      const qArrayidx = qSequence - 1
-      const resDivResults = this.resDivResults;
-      let dataScore = resDivResults.filter((div) => div.divTag === divTag);
-      let countScore1 = 0;
-      let countScore2 = 0;
-      let countScore3 = 0;
-      let countScore4 = 0;
-      if (!dataScore.length == 0){
-        dataScore = dataScore.map(data => data.evalScore);
-        dataScore = dataScore[0].map((col, i) => dataScore.map(row => row[i])); //Transposing Array from one result to each question
-        for(const scoreArray of dataScore[qArrayidx]){
-          if(scoreArray == 1){
-            countScore1 += 1;
-          } 
-          else if(scoreArray == 2){
-            countScore2 += 1;
-          }
-          else if(scoreArray == 3){
-            countScore3 += 1;
-          }
-          else if(scoreArray == 4){
-            countScore4 += 1;
-          }
-          else{
+      if(this.qSequenceIndex){
+        this.barchartScoreEachQData.datasets[0].data = [];
+        const divTag = this.divTagIndex;
+        const qSequence = this.qSequenceIndex;
+        const qArrayidx = qSequence - 1
+        const resDivResults = this.resDivResults;
+        let dataScore = resDivResults.filter((div) => div.divTag === divTag);
+        let countScore1 = 0;
+        let countScore2 = 0;
+        let countScore3 = 0;
+        let countScore4 = 0;
+        if (!dataScore.length == 0){
+          dataScore = dataScore.map(data => data.evalScore);
+          dataScore = dataScore[0].map((col, i) => dataScore.map(row => row[i])); //Transposing Array from one result to each question
+          for(const scoreArray of dataScore[qArrayidx]){
+            if(scoreArray == 1){
+              countScore1 += 1;
+            } 
+            else if(scoreArray == 2){
+              countScore2 += 1;
+            }
+            else if(scoreArray == 3){
+              countScore3 += 1;
+            }
+            else if(scoreArray == 4){
+              countScore4 += 1;
+            }
+            else{
 
-          } 
+            } 
+          }
+          let arrayCountScore = [countScore1, countScore2, countScore3,countScore4];
+          this.barchartScoreEachQData.datasets[0].data.push(...arrayCountScore);
+          this.updateCharts()
         }
-        let arrayCountScore = [countScore1, countScore2, countScore3,countScore4];
-        this.barchartScoreEachQData.datasets[0].data.push(...arrayCountScore);
-        this.updateCharts()
       }
     },
     // ABOVE IS BACK-END FETCH USER - PLEASE ADD OTHER FUNCTION BELOW !
@@ -765,21 +803,42 @@ export default {
         this.alertbox.msg = "";
       }, delay)
     },
+    changeSelect0(selectObj){
+      this.select1 = false;
+      this.select2 = false;
+      this.overview = true;
+      this.anyquesion = false;
+      this.onequesion = false;
+      this.qSequenceIndex = '';
+    },
     changeSelect1(selectObj) {
+      if(this.divTagIndex){
         this.select1 = true;
         this.overview = false;
         this.anyquesion = true;
         this.onequesion = false;
         this.qSequenceIndex = '';
+      } else {
+        this.changeSelect0()
+      }
      },
      changeSelect2(selectObj) {
+       if(this.qSequenceIndex){
         this.select2 = true;
         this.anyquesion = false;
         this.onequesion = true;
+       } else {
+         this.changeSelect1()
+       }
      },
   },
   async created() {
     await this.fetchItems();
+    let today = new Date();
+    let currentDate = today.getFullYear()+'-'+((today.getMonth()+1)<10?'0':'')+(today.getMonth()+1)+'-'+(today.getDate()<10?'0':'')+today.getDate();
+    let currentTime = (today.getHours()<10?'0':'')+today.getHours() + ":" + (today.getMinutes()<10?'0':'')+today.getMinutes() + ":" + (today.getSeconds()<10?'0':'')+today.getSeconds();
+    this.endDateTime.date = currentDate;
+    this.endDateTime.time = currentTime;
   },
 };
 </script>

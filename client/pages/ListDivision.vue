@@ -98,7 +98,7 @@ export default {
     dialogDelete: false,
     search: "",
     headers: [
-        { text: "Key", value: "_id"},
+        /*{ text: "Key", value: "_id"},*/
         { text: "แท็กหน่วยงาน", value: "divTag" },
         { text: "ชื่อหน่วยงาน", value: "divName" },
         { text: "แก้ไข/ลบ", value: "actions", sortable: false },

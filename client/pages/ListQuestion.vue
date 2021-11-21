@@ -192,9 +192,9 @@ export default {
     disabled: false,
     search: "",
     headers: [
-      { text: "Key", value: "_id" },
+      /*{ text: "Key", value: "_id" },*/
       { text: "หน่วยงาน", value: "divTag" },
-      { text: "ลำดับคำถาม.", value: "qSequence" },
+      { text: "ลำดับคำถาม", value: "qSequence" },
       { text: "คำถาม", value: "qName" },
       { text: "แก้ไข/ลบ", value: "actions", sortable: false },
     ],
