@@ -33,11 +33,11 @@
           prepend-icon="mdi-magnify" 
           single-line hide-details></v-select>
         </v-col>
-        <v-col cols="12" sm="12" md="12" lg="12" v-if="select1">
-          <v-btn block color="success" @click="jsonToCSV()">
+        <!--<v-col cols="12" sm="12" md="12" lg="12" v-if="select1">
+          <v-btn block color="info" @click="jsonToCSV()">
             <v-icon left>mdi-cloud-download</v-icon>ดาวน์โหลดข้อมูลสถิติ
           </v-btn>
-        </v-col>
+        </v-col>-->
       </v-card-title>
     </v-card>
     <br>
@@ -78,7 +78,7 @@
         <v-col cols="12" sm="12" md="12" lg="12" >
           <v-icon medium color="#bc8e5d">mdi-clock-time-three-outline </v-icon> เลือกระยะเวลาที่ต้องการดู
           <v-row>
-            <v-col cols="12" sm="6" md="6" lg="6" >
+            <v-col cols="12" sm="6" md="6" lg="6">
               <v-menu
                 ref="menu1"
                 v-model="menu1"
@@ -102,6 +102,7 @@
                     v-model="startDateTime.date"
                     color="#bc8e5d"
                     scrollable
+                    width="330"
                   >
                   </v-date-picker>
                   <v-time-picker
@@ -109,6 +110,8 @@
                     format="24hr"
                     use-seconds
                     color="#bc8e5d"
+                    width="330"
+                    full-width
                   >
                     <v-spacer></v-spacer>
                     <v-btn text color="#bc8e5d" @click="clearStartDate">ล้างข้อมูล</v-btn>
@@ -141,6 +144,7 @@
                     v-model="endDateTime.date"
                     color="#bc8e5d"
                     scrollable
+                    width="330"
                   >
                   </v-date-picker>
                   <v-time-picker
@@ -148,6 +152,8 @@
                     format="24hr"
                     use-seconds
                     color="#bc8e5d"
+                    width="330"
+                    full-width
                   >
                     <v-spacer></v-spacer>
                     <v-btn text color="#bc8e5d" @click="clearEndDate">ล้างข้อมูล</v-btn>
@@ -199,7 +205,7 @@
                 <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
                   <h3>
                     <v-icon medium color="primary">mdi-information</v-icon>
-                    คะแนน: 1.00-1.99 ไม่พึงพอใจ(แย่), 2.00-2.99 เฉยๆ(ปานกลาง), 3.00-3.50 พึงพอใจ(ดี), 3.51-4.00 พึงพอใจมาก(ดีมาก)
+                    คะแนน: 1.00-1.99 ไม่พึงพอใจ, 2.00-2.99 รู้สึกเฉยๆ, 3.00-3.50 พึงพอใจ, 3.51-4.00 พึงพอใจมาก
                   </h3>
                 </v-col>
               </v-row>
@@ -218,6 +224,13 @@
               <br>
               <v-row>
                 <v-col cols="1" sm="1" md="1" lg="1"></v-col>
+                <v-col cols="10" sm="10" md="10" lg="10" v-if="select1">
+                  <v-btn style="float: right;" color="info" @click="jsonToCSV()">
+                    <v-icon left>mdi-cloud-download</v-icon>ดาวน์โหลดข้อมูลสถิติ
+                  </v-btn>
+                </v-col>
+                <v-col cols="1" sm="1" md="1" lg="1"></v-col>
+                <v-col cols="1" sm="1" md="1" lg="1"></v-col>
                 <v-col cols="10" sm="10" md="10" lg="10">
                   <v-card class="g-quesion d-flex align-center">
                     <v-card-text>
@@ -231,7 +244,7 @@
                     <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
                       <h3>
                         <v-icon medium color="primary">mdi-information</v-icon>
-                        คะแนน: 1.00-1.99 ไม่พึงพอใจ(แย่), 2.00-2.99 เฉยๆ(ปานกลาง), 3.00-3.50 พึงพอใจ(ดี), 3.51-4.00 พึงพอใจมาก(ดีมาก)
+                        คะแนน: 1.00-1.99 ไม่พึงพอใจ, 2.00-2.99 รู้สึกเฉยๆ, 3.00-3.50 พึงพอใจ, 3.51-4.00 พึงพอใจมาก
                       </h3>
                     </v-col>
                   </v-row>
@@ -287,6 +300,13 @@
           <br>
           <v-row>
             <v-col cols="1" sm="1" md="1" lg="1"></v-col>
+            <v-col cols="10" sm="10" md="10" lg="10" v-if="select1">
+              <v-btn style="float: right;" color="info" @click="jsonToCSV()">
+                <v-icon left>mdi-cloud-download</v-icon>ดาวน์โหลดข้อมูลสถิติ
+              </v-btn>
+            </v-col>
+            <v-col cols="1" sm="1" md="1" lg="1"></v-col>
+            <v-col cols="1" sm="1" md="1" lg="1"></v-col>
             <v-col cols="10" sm="10" md="10" lg="10">
               <v-card>
                 <bar-chart
@@ -298,7 +318,7 @@
                 <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
                   <h3>
                     <v-icon medium color="primary">mdi-information</v-icon>
-                    คำอธิบาย: Y-axis จำนวนคนที่โหวตให้กับคำถามนี้, X-axis ระดับความพึงพอใจ (แย่, ปานกลาง, ดี, ดีมาก)
+                    คำอธิบาย: Y-axis จำนวนคนที่โหวตให้กับคำถามนี้, X-axis ระดับความพึงพอใจ (ไม่พึงพอใจ, เฉยๆ, พึงพอใจ, พึงพอใจมาก)
                   </h3>
                 </v-col>
               </v-row>
@@ -403,7 +423,7 @@ export default {
     },
     // BARCHART OF COUNT EACH SCORE FOR SPECIFIC QUESTION
     barchartScoreEachQData: {
-      labels: ['1. ไม่พึงพอใจ(แย่)','2. ค่อนข้างพึงพอใจ(ปานกลาง)','3. พึงพอใจ(ดี)','4. พึงพอใจมาก(ดีมาก)'],
+      labels: ['1. ไม่พึงพอใจ(˘︹˘)','2. รู้สึกเฉยๆ(ㆆ_ㆆ)','3. พึงพอใจ(•◡•)','4. พึงพอใจมาก(^◡^)'],
       datasets: [
         {
           label: "จำนวนคนให้คะแนน",

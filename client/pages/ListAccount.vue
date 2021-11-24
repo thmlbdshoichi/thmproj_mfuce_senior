@@ -209,6 +209,7 @@ export default {
       const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
       await this.$axios.get(apiURLusers).then(res => {this.users = res.data})
       .catch(err => { this.createAlert(`เกิดข้อผิดพลาดขึ้นในการดึงข้อมูลบัญชีผู้ใช้งาน - ${err}`, "error") });
+      //await this.users['resDiv'].sort();
       await this.$axios.get(apiURLdivs).then(res => {this.divisionLists = res.data}).catch(err => { console.log(err) });
     },
 
