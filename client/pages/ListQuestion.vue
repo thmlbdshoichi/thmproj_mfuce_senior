@@ -249,6 +249,7 @@ export default {
     },
     async fetchItems(){
       //const apiURLAllQuestion = `${process.env.AXIOS_BASEURL}/api/questions/`;
+      this.divTagIndex == null ? this.divTagIndex='' : {};
       const apiURLSpecificQuestion = `${process.env.AXIOS_BASEURL}/api/questions/${this.divTagIndex}`
       const apiURLdivs = `${process.env.AXIOS_BASEURL}/api/divs`;
       /*await this.$axios.get(apiURLAllQuestion).then(res => {this.allQuestion = res.data})

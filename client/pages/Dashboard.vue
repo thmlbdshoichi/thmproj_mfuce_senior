@@ -470,7 +470,10 @@ export default {
               autoSkip: false,
               minRotation: 0,
               maxRotation: 90,
-              fontSize: 12,
+              fontSize: 10,
+              callback: function(label) {
+                return label.length>20 ? label.substring(0, 20)+'...' : label;
+              },
             },
             gridLines: {
               display: false,

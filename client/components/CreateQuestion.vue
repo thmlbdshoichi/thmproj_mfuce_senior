@@ -36,6 +36,12 @@
                   :rules="[v => !!v || 'ไม่สามารถเว้นว่างคำถามได้']"
                   required></v-text-field>
                 </v-col>
+                <v-col class="text-center" cols="12" sm="12" md="12" lg="12">
+                  <h4>
+                    <v-icon small color="primary">mdi-information</v-icon>
+                    คำแนะนำ: ไม่ควรสร้างเกิน 5 คำถาม / หน่วยงาน
+                  </h4>
+                </v-col>
                 <v-col cols="12" sm="12" md="12">
                   <v-card-actions>
                     <v-spacer></v-spacer>
